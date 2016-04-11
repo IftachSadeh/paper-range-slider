@@ -4,6 +4,14 @@
 (possibly wider) range, by moving the position of two knobs, or by moving the
 position of the distance spanned between the two knobs.
 
+## Bower installation
+Add the following to your `bower.json`:
+```
+"dependencies": {
+  "paper-range-slider": "git://github.com/IftachSadeh/paper-range-slider"
+},
+```
+
 ## Examples:
 
 Basic use:
@@ -29,7 +37,6 @@ Basic use:
    console.log(' - current min/max values: ',this.valueMin,this.valueMax)
    });
 </script>
-});
 ```
 
 ## Styling
