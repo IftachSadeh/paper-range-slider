@@ -1,8 +1,6 @@
 # paper-range-slider
 
-`paper-range-slider` allows user to select a range of values within a given
-(possibly wider) range, by moving the position of two knobs, or by moving the
-position of the distance spanned between the two knobs. [The demo is provided here.](http://IftachSadeh.github.io/paper-range-slider/components/paper-range-slider/demo/)
+`paper-range-slider` allows user to select a range of values within a given (possibly wider) range, by moving the position of two knobs, or by dragging the selected range of values within the allowed limits. [The demo is provided here.](http://IftachSadeh.github.io/paper-range-slider/components/paper-range-slider/demo/)
 
 ## Bower installation
 Either do
