@@ -1,9 +1,9 @@
 # paper-range-slider (v0.0.3)
 
-`paper-range-slider` allows user to select a range of values within a given (possibly wider) range, by moving the position of two knobs, or by dragging the selected range of values within the allowed limits. [The demo is provided here.](http://IftachSadeh.github.io/paper-range-slider/components/paper-range-slider/demo/)
+`paper-range-slider` allows the user to select a range of values within a given (possibly wider) range. values are selected by moving the position of two knobs, or by dragging the selected range of values within the allowed limits. [A demo is provided here.](http://IftachSadeh.github.io/paper-range-slider/components/paper-range-slider/demo/)
 
 ## Bower installation
-Either do
+Do either
 ```bash
 bower install IftachSadeh/paper-range-slider
 ```
@@ -16,22 +16,24 @@ or add the following to your `bower.json`:
 
 ## Examples:
 
-Basic use:
+### Basic use:
 ```html
 <paper-range-slider></paper-range-slider>
 ```
 
-- Use `min` and `max` to specify the slider range.
-- Use `value-min` and `value-max` to set the initial position of the two knobs.
-- Use `value-diff-min` and `value-diff-max` to optionally set the minimal and maximal allowed value for the difference between the lower and upper values.
-- Use `always-show-pin` to never hide the pins
-- Some of the interface of paper-slider also apply (`snaps`, `pin`, `step`).
-- The slider width must explicitly be set, using `slider-width` (Default is "200px").
+### Additional options
+
+- Use `min` and `max` to specify the limits of values for the slider.
+- Use `value-min` and `value-max` to set the initial position of the two knobs (the selected range of values).
+- Use `value-diff-min` and `value-diff-max` to set the minimal and maximal allowed difference between the lower and upper selected values.
+- Use `always-show-pin` to never hide the pins.
+- The following options apply, as for paper-slider: `snaps`, `pin`, `step`.
+- The slider width must explicitly be set, using `slider-width` (the default is "200px").
 ```html
 <paper-range-slider snaps pin step='1' min='0' max='100' value-diff-min="10" value-diff-max="50" value-min='30' value-max='60'></paper-range-slider>
 ```
 
-- The position of the knobs may be accessed by setting up a listener to the "updateValues" event:
+- The current position of the knobs (selected range of values) may be accessed by setting up a listener to the `updateValues` event:
 ```html
 <paper-range-slider id='myPaperRangeSliderId'></paper-range-slider>
 <script>
