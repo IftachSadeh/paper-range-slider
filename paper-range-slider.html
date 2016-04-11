@@ -463,7 +463,9 @@ See README.md for further details.
          * @method updateValues
          */
         updateValues: function() {
-            this.fire('updateValues');
+            this.async(function() {
+              this.fire('updateValues');
+            });
         },
 
       });
