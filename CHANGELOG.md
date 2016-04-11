@@ -3,7 +3,7 @@
 <!-- ## Master version (11/04/2016) -->
 ## paper-range-slider 0.0.4 (12/04/2016)
 
-- Fixed gitter problem when moving knobs by keyboard
+- Fixed jitter problem when moving knobs by keyboard
 
 ## paper-range-slider 0.0.2/0.0.3 (11/04/2016)
 
