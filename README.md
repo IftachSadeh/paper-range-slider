@@ -28,7 +28,7 @@ Basic use:
 - Use `value-diff-min` and `value-diff-max` to optionally set the minimal and maximal allowed value for the difference between the lower and upper values.
 - Use `always-show-pin` to never hide the pins
 - Some of the interface of paper-slider also apply (`snaps`, `pin`, `step`).
-- The slider width must explicitly be set, using slider-width (Default is "200px").
+- The slider width must explicitly be set, using `slider-width` (Default is "200px").
 ```html
 <paper-range-slider snaps pin step='1' min='0' max='100' value-diff-min="10" value-diff-max="50" value-min='30' value-max='60'></paper-range-slider>
 ```
