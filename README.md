@@ -5,7 +5,11 @@
 position of the distance spanned between the two knobs.
 
 ## Bower installation
-Add the following to your `bower.json`:
+Either do
+```bash
+bower install IftachSadeh/paper-range-slider
+```
+or add the following to your `bower.json`:
 ```
 "dependencies": {
   "paper-range-slider": "git://github.com/IftachSadeh/paper-range-slider"
