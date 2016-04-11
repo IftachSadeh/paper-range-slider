@@ -272,18 +272,29 @@ See README.md for further details.
         //      the lower knob is not allowed to pass over the higher knob, and vice versa
         //      the invisible div which spans the distance between the knobs is updated as well
         _updateValueMin: function(valueNow) {
+            var diffNow  = this.valueMax - this.valueMin;
             var mostMin  = this.valueMax - this._valueDiffMax;
             var mostMax  = valueNow      + this._valueDiffMax;
             var leastMin = this.valueMax - this._valueDiffMin;
             var leastMax = valueNow      + this._valueDiffMin;
 
             if(valueNow >= leastMin) {
-                this.valueMin = leastMin;
-                this.valueMax = leastMax;
+                if(diffNow == this._valueDiffMin) {
+                    this.valueMin = valueNow;
+                    this.valueMax = valueNow + this._valueDiffMin;
+                } else {
+                  this.valueMin = leastMin;
+                  this.valueMax = leastMax;
+              }
             }
             else if(valueNow <= mostMin && this._valueDiffMax > 0) {
-                this.valueMin = mostMin;
-                this.valueMax = mostMax;
+                if(diffNow == this._valueDiffMax) {
+                    this.valueMin = valueNow;
+                    this.valueMax = valueNow + this._valueDiffMax;
+                } else {
+                    this.valueMin = mostMin;
+                    this.valueMax = mostMax;
+                }
             }
             else {
                 this.valueMin = valueNow;
@@ -301,18 +312,29 @@ See README.md for further details.
         },
 
         _updateValueMax: function(valueNow) {
+            var diffNow  = this.valueMax - this.valueMin;
             var leastMax = this.valueMin + this._valueDiffMin;
             var leastMin = valueNow      - this._valueDiffMin;
             var mostMax  = this.valueMin + this._valueDiffMax;
             var mostMin  = valueNow      - this._valueDiffMax;
 
             if(valueNow <= leastMax) {
-                this.valueMax = leastMax;
-                this.valueMin = leastMin;
+                if(diffNow == this._valueDiffMin) {
+                    this.valueMax = valueNow;
+                    this.valueMin = valueNow - this._valueDiffMin;
+                } else {
+                    this.valueMax = leastMax;
+                    this.valueMin = leastMin;
+                }
             }
             else if(valueNow >= mostMax && this._valueDiffMax > 0) {
-                this.valueMax = mostMax;
-                this.valueMin = mostMin;
+                if(diffNow == this._valueDiffMax) {
+                    this.valueMax = valueNow;
+                    this.valueMin = valueNow - this._valueDiffMax;
+                } else {
+                    this.valueMax = mostMax;
+                    this.valueMin = mostMin;
+                }
             }
             else {
                 this.valueMax = valueNow;
