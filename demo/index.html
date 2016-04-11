@@ -1,0 +1,33 @@
+<!doctype html>
+<!--
+@license
+Copyright (C) 2016, Iftach Sadeh <iftach.sadeh@desy.de>
+The MIT License (MIT)
+See the file LICENSE.txt for further details.
+-->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <title>paper-range-slider Demo</title>
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="../paper-range-slider.html">
+
+    <link rel="import" href="app-theme.html">
+    <style is="custom-style" include="shared-styles"></style>
+
+  </head>
+  <body>
+
+    <p>A couple of examples of <code>&lt;paper-range-slider&gt;</code> :</p>
+
+    <paper-range-slider></paper-range-slider>
+
+    <br>
+    <paper-range-slider class="slider1" slider-width='400px' pin min='0' max='100' value-diff-min="10" value-diff-max="50" value-min='30' value-max='60'></paper-range-slider>
+
+    <br>
+    <paper-range-slider slider-width='600px' always-show-pin step='1' min='0' max='100' value-min='80' value-max='100'></paper-range-slider>
+
+  </body>
+</html>
