@@ -260,15 +260,17 @@ Custom property | Description | Default
 
             // setup listeners for updating everything whenever a knob is affected 
             var this_ = this;
-            this.$.sliderMax.addEventListener('immediate-value-change', function(customEvent) {
-                this_._updateValueMax(this.immediateValue)
-            });
+
             this.$.sliderMin.addEventListener('immediate-value-change', function(customEvent) {
                 this_._updateValueMin(this.immediateValue)
 
                 this_.$.sliderMin._expandKnob();
                 this_.$.sliderMax._expandKnob();
             });
+            
+            this.$.sliderMax.addEventListener('immediate-value-change', function(customEvent) {
+                this_._updateValueMax(this.immediateValue)
+            });            
             
             // activate the pins, and never hide (check the variable in the listener as well, so that this may
             // be changed on the fly to a `false`)
@@ -277,10 +279,19 @@ Custom property | Description | Default
                 this.$.sliderMax._expandKnob();
 
                 this.$.sliderMin.addEventListener('change', function(customEvent) {
-                    if(this_.alwaysShowPin) this_.$.sliderMin._expandKnob();
+                    this_._updateValueMin(this.immediateValue);
+
+                    if(this_.alwaysShowPin) {
+                        this_.$.sliderMin._expandKnob();
+                    }
                 });
+            
                 this.$.sliderMax.addEventListener('change', function(customEvent) {
-                    if(this_.alwaysShowPin) this_.$.sliderMax._expandKnob();
+                    this_._updateValueMax(this.immediateValue);
+                    
+                    if(this_.alwaysShowPin) {
+                        this_.$.sliderMax._expandKnob();
+                    }
                 });
             }
 
