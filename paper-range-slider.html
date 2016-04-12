@@ -223,6 +223,9 @@ See README.md for further details.
             // set internal variables to control the minimal and maximal difference between selected values
             this._setValueDiff();
 
+            // initial setting after verifying this._valueDiffMin, this._valueDiffMax
+            this._setValueMinMax(this._getValuesMinMax(this.valueMin, this.valueMax));
+
             // setting of the div which spans the space between the two knobs
             this._updateDiffDiv();
 
@@ -271,8 +274,10 @@ See README.md for further details.
         // each one is between zero and the maximal difference available in the range, and
         // the this._valueDiffMin can not be larger than this._valueDiffMax
         _setValueDiff: function() {
-            this._valueDiffMin = Math.min((this.max-this.min), Math.max(0,this.valueDiffMin));
-            this._valueDiffMax = Math.min((this.max-this.min), Math.max(0,this.valueDiffMax));
+
+            this._valueDiffMax = (this.valueDiffMax <= 0) ? (this.max-this.min) : this.valueDiffMax;
+
+            this._valueDiffMin = Math.max(0,this.valueDiffMin);
             this._valueDiffMin = Math.min(this._valueDiffMin, this._valueDiffMax);
             
             return;

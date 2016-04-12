@@ -1,5 +1,9 @@
 # Changelog
 
+## paper-range-slider 0.0.6 (12/04/2016)
+
+- Bug fix from range-difference settings
+
 ## paper-range-slider 0.0.5 (12/04/2016)
 
 - Added the function `setValues()`, which can be used to programmatically set the selected range.
