@@ -1,9 +1,13 @@
 # Changelog
 
-<!-- ## Master version (11/04/2016) -->
+## paper-range-slider 0.0.5 (12/04/2016)
+
+- Added the function `setValues()`, which can be used to programmatically set the selected range.
+- Several bug fixes.
+
 ## paper-range-slider 0.0.4 (12/04/2016)
 
-- Fixed jitter problem when moving knobs by keyboard
+- Fixed jitter problem when moving knobs by keyboard.
 
 ## paper-range-slider 0.0.2/0.0.3 (11/04/2016)
 

@@ -1,4 +1,4 @@
-# paper-range-slider (v0.0.4)
+# paper-range-slider - v0.0.5
 
 `paper-range-slider` allows the user to select a range of values within a given (possibly wider) range. values are selected by moving the position of two knobs, or by dragging the selected range of values within the allowed limits. [A demo is provided here.](http://IftachSadeh.github.io/paper-range-slider/components/paper-range-slider/demo/)
 
@@ -37,11 +37,20 @@ or add the following to your `bower.json`:
 ```html
 <paper-range-slider id='myPaperRangeSliderId'></paper-range-slider>
 <script>
-   document.querySelector("#myPaperRangeSliderId").addEventListener('updateValues', function (customEvent) {
-   console.log(' - current min/max values: ',this.valueMin,this.valueMax)
-   });
+    document.querySelector("#myPaperRangeSliderId").addEventListener('updateValues', function (customEvent) {
+    console.log(' - current min/max values: ',this.valueMin,this.valueMax)
+    });
 </script>
 ```
+
+- One can programmatically set the selected range by e.g., 
+```javascript
+window.addEventListener('WebComponentsReady', function(e) {
+    var myMin = 10, myMax = 90;
+    document.querySelector("#myPaperRangeSliderId").setValues(myMin,myMax);
+});
+```
+It is allowed to set `myMin` and/or `myMax` to `null` or to a value outside of the allowed range, in order to ignore them.
 
 ## Styling
 

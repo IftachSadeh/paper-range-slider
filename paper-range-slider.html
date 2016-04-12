@@ -194,7 +194,7 @@ See README.md for further details.
             },
         },
 
-
+        // initial settings
         ready: function() {
             if(this.alwaysShowPin) { this.pin = true; }
 
@@ -215,14 +215,13 @@ See README.md for further details.
             this.$.sliderMin.querySelector('#sliderKnobInner').style.pointerEvents = "auto"
 
             // since the two single-sliders are overlaid, we need to remove forground color
-            this.$.sliderMin.querySelector('#sliderBar').querySelector('#progressContainer').style.background = "transparent"
+            this.$.sliderMin.querySelector('#sliderBar').querySelector('#progressContainer').style.background = "transparent";
 
-            // internal variables for minimal/maximal difference between this.valueMin, this.valueMax
-            // each one is between zero and the maximal difference available in the range, and
-            // the this._valueDiffMin can not be larger than this._valueDiffMax
-            this._valueDiffMin = Math.min((this.max-this.min), Math.max(0,this.valueDiffMin));
-            this._valueDiffMax = Math.min((this.max-this.min), Math.max(0,this.valueDiffMax));
-            this._valueDiffMin = Math.min(this._valueDiffMin, this._valueDiffMax)
+            // internal variable to prevent unneeded fire on updates
+            this._prevUpdateValues = [this.min, this.max]
+
+            // set internal variables to control the minimal and maximal difference between selected values
+            this._setValueDiff();
 
             // setting of the div which spans the space between the two knobs
             this._updateDiffDiv();
@@ -231,14 +230,15 @@ See README.md for further details.
             var this_ = this;
 
             this.$.sliderMin.addEventListener('immediate-value-change', function(customEvent) {
-                this_._updateValueMin(this.immediateValue)
+                this_._setValueMinMax(this_._getValuesMinMax(this.immediateValue,null));
 
                 this_.$.sliderMin._expandKnob();
                 this_.$.sliderMax._expandKnob();
             });
             
             this.$.sliderMax.addEventListener('immediate-value-change', function(customEvent) {
-                this_._updateValueMax(this.immediateValue)
+                // console.log('immed-change..',this.immediateValue,this_.valueMax)
+                this_._setValueMinMax(this_._getValuesMinMax(null,this.immediateValue));
             });            
             
             // activate the pins, and never hide
@@ -248,7 +248,7 @@ See README.md for further details.
             }
 
             this.$.sliderMin.addEventListener('change', function(customEvent) {
-                this_._updateValueMin(this.immediateValue);
+                this_._setValueMinMax(this_._getValuesMinMax(this.immediateValue,null));
 
                 if(this_.alwaysShowPin) {
                     this_.$.sliderMin._expandKnob();
@@ -256,51 +256,93 @@ See README.md for further details.
             });
         
             this.$.sliderMax.addEventListener('change', function(customEvent) {
-                this_._updateValueMax(this.immediateValue);
-                
+                // console.log('final-change..',this.immediateValue,this_.valueMax)
+                this_._setValueMinMax(this_._getValuesMinMax(null,this.immediateValue));
+
                 if(this_.alwaysShowPin) {
                     this_.$.sliderMax._expandKnob();
                 }
             });
 
+            return;
+        },
+
+        // internal variables for minimal/maximal difference between this.valueMin, this.valueMax
+        // each one is between zero and the maximal difference available in the range, and
+        // the this._valueDiffMin can not be larger than this._valueDiffMax
+        _setValueDiff: function() {
+            this._valueDiffMin = Math.min((this.max-this.min), Math.max(0,this.valueDiffMin));
+            this._valueDiffMax = Math.min((this.max-this.min), Math.max(0,this.valueDiffMax));
+            this._valueDiffMin = Math.min(this._valueDiffMin, this._valueDiffMax);
+            
+            return;
+        },
+
+        // get a new set of min/max values, following predefined rules for overlap of the two
+        _getValuesMinMax: function(valueMin,valueMax) {
+            var hasMin = (valueMin != null && valueMin >= this.min && valueMin <= this.max);
+            var hasMax = (valueMax != null && valueMax >= this.min && valueMax <= this.max);
+
+            if(!hasMin && !hasMax) { return [this.valueMin,this.valueMax]; }
+
+            var valueNowMin = hasMin ? valueMin : this.valueMin;
+            var valueNowMax = hasMax ? valueMax : this.valueMax;
+
+            valueNowMin = Math.min(Math.max(valueNowMin, this.min), this.max)
+            valueNowMax = Math.min(Math.max(valueNowMax, this.min), this.max)
+
+            var diffNow  = valueNowMax - valueNowMin;
+
+            // the anchor is the valueMin if it is explicitly provided
+            if(hasMin) {
+                if(diffNow < this._valueDiffMin) {
+                    valueNowMax = Math.min(this.max, valueNowMin + this._valueDiffMin);
+                    diffNow  = valueNowMax - valueNowMin;
+                    if(diffNow < this._valueDiffMin) {
+                        valueNowMin = valueNowMax - this._valueDiffMin;
+                    }
+                }
+                else if(diffNow > this._valueDiffMax) {
+                    valueNowMax = valueNowMin + this._valueDiffMax;
+                }
+            }
+            // if no valueMin given, decide the anchor is valueMax
+            else {
+                if(diffNow < this._valueDiffMin) {
+                    valueNowMin = Math.max(this.min, valueNowMax - this._valueDiffMin);
+                    diffNow  = valueNowMax - valueNowMin;
+                    if(diffNow < this._valueDiffMin) {
+                        valueNowMax = valueNowMin + this._valueDiffMin;
+                    }
+                }
+                else if(diffNow > this._valueDiffMax) {
+                    valueNowMin = valueNowMax - this._valueDiffMax;
+                }
+            }
+
+            return [valueNowMin, valueNowMax];
+        },
+
+        // set the value of the low edge of the selected range
+        _setValueMin: function(value) {
+            this.$.sliderMin.value = value;
+            this.valueMin          = value;
+            
+            return;
+        },
+
+        // set the value of the high edge of the selected range
+        _setValueMax: function(value) {
+            this.$.sliderMax.value = value;
+            this.valueMax          = value;
 
             return;
         },
 
-        // _updateValueMin, _updateValueMax -
-        //      update this.valueMin and this.valueMax based on the two knobs.
-        //      the lower knob is not allowed to pass over the higher knob, and vice versa
-        //      the invisible div which spans the distance between the knobs is updated as well
-        _updateValueMin: function(valueNow) {
-            var diffNow  = this.valueMax - this.valueMin;
-            var mostMin  = this.valueMax - this._valueDiffMax;
-            var mostMax  = valueNow      + this._valueDiffMax;
-            var leastMin = this.valueMax - this._valueDiffMin;
-            var leastMax = valueNow      + this._valueDiffMin;
-
-            if(valueNow >= leastMin) {
-                if(diffNow == this._valueDiffMin) {
-                    this.valueMin = valueNow;
-                    this.valueMax = valueNow + this._valueDiffMin;
-                } else {
-                  this.valueMin = leastMin;
-                  this.valueMax = leastMax;
-              }
-            }
-            else if(valueNow <= mostMin && this._valueDiffMax > 0) {
-                if(diffNow == this._valueDiffMax) {
-                    this.valueMin = valueNow;
-                    this.valueMax = valueNow + this._valueDiffMax;
-                } else {
-                    this.valueMin = mostMin;
-                    this.valueMax = mostMax;
-                }
-            }
-            else {
-                this.valueMin = valueNow;
-            }
-
-            this.valueMin = Math.min(this.valueMin, this.max - this._valueDiffMin)
+        // set the values of the low/high edges of the selected range and broadcast the change
+        _setValueMinMax: function(valuesMinMax) {
+            this._setValueMin(valuesMinMax[0]);
+            this._setValueMax(valuesMinMax[1]);
 
             // setting of the div which spans the space between the two knobs
             this._updateDiffDiv();
@@ -308,46 +350,6 @@ See README.md for further details.
             // fire to indicate an update of this.valueMin and/or this.valueMax
             this.updateValues();
 
-            return;
-        },
-
-        _updateValueMax: function(valueNow) {
-            var diffNow  = this.valueMax - this.valueMin;
-            var leastMax = this.valueMin + this._valueDiffMin;
-            var leastMin = valueNow      - this._valueDiffMin;
-            var mostMax  = this.valueMin + this._valueDiffMax;
-            var mostMin  = valueNow      - this._valueDiffMax;
-
-            if(valueNow <= leastMax) {
-                if(diffNow == this._valueDiffMin) {
-                    this.valueMax = valueNow;
-                    this.valueMin = valueNow - this._valueDiffMin;
-                } else {
-                    this.valueMax = leastMax;
-                    this.valueMin = leastMin;
-                }
-            }
-            else if(valueNow >= mostMax && this._valueDiffMax > 0) {
-                if(diffNow == this._valueDiffMax) {
-                    this.valueMax = valueNow;
-                    this.valueMin = valueNow - this._valueDiffMax;
-                } else {
-                    this.valueMax = mostMax;
-                    this.valueMin = mostMin;
-                }
-            }
-            else {
-                this.valueMax = valueNow;
-            }
-
-            this.valueMax = Math.max(this.valueMax, this.min + this._valueDiffMin)
-
-            // setting of the div which spans the space between the two knobs
-            this._updateDiffDiv();
-
-            // fire to indicate an update of this.valueMin and/or this.valueMax
-            this.updateValues();
-        
             return;
         },
 
@@ -355,6 +357,7 @@ See README.md for further details.
         // spans the distance between the knobs
         _diffDivOnTrack: function(event) {
           event.stopPropagation();
+          
           switch (event.detail.state) {
             case 'start':
               this._trackStart(event);
@@ -366,6 +369,8 @@ See README.md for further details.
               this._trackEnd();
               break;
           }
+
+          return;
         },
 
         // placeholder function for possible later implementation
@@ -386,7 +391,7 @@ See README.md for further details.
 
                 // setting of the div which spans the space between the two knobs
                 this._updateDiffDiv();
-
+                
                 // fire to indicate an update of this.valueMin and/or this.valueMax
                 this.updateValues();
             }
@@ -401,20 +406,24 @@ See README.md for further details.
         //      show/hide pins (if defined) for one knob, when the other knob is pressed
         _sliderMinDown: function() {
             this.$.sliderMax._expandKnob();
+            
             return;
         },
         _sliderMaxDown: function() {
             this.$.sliderMin._expandKnob();
+
             return;
         },
         _sliderMinUp: function() {
             if(this.alwaysShowPin) this.$.sliderMin._expandKnob();
             else                   this.$.sliderMax._resetKnob();
+            
             return;
         },
         _sliderMaxUp: function() {
             if(this.alwaysShowPin) this.$.sliderMax._expandKnob();
             else                   this.$.sliderMin._resetKnob();
+            
             return;
         },
 
@@ -449,6 +458,7 @@ See README.md for further details.
         // setting of the div which spans the space between the two knobs
         _updateDiffDiv: function() {
             var dragAnywhere = true;
+            
             // the dragg area is the entire width of the slider
             if(dragAnywhere) {
                 var width  = Number((this.sliderWidth).replace('px',''));
@@ -480,15 +490,43 @@ See README.md for further details.
             return (this_.max - this_.min) * ratio + this_.min;
         },
 
+
         /**
-         * fire whenever this.valueMin or this.valueMax are updated
+         * set this.valueMin and/or this.valueMax (can input null values or out-of-range
+         * values in order to set only one of the two)
+         * @method setValues
+         */
+        setValues: function(valueMin,valueMax) {
+            // some sanity checks/changes
+            if(valueMin != null) {
+                if(valueMin < this.min || valueMin > this.max) valueMin = null;
+            }
+            if(valueMax != null) {
+                if(valueMax < this.min || valueMax > this.max) valueMax = null;
+            }
+            if(valueMin != null && valueMax != null) {
+                valueMin = Math.min(valueMin,valueMax);
+            }
+
+            // now update the values
+            this._setValueMinMax(this._getValuesMinMax(valueMin,valueMax));
+
+            return;
+        },
+
+        /**
+         * fire whenever this.valueMin or this.valueMax are changed
          * @method updateValues
          */
         updateValues: function() {
-            this.async(function() {
-              this.fire('updateValues');
-            });
-        },
+            if(this._prevUpdateValues[0] != this.valueMin || this._prevUpdateValues[1] != this.valueMax) {
+                this._prevUpdateValues = [this.valueMin, this.valueMax];
+
+                // fire the event
+                this.async(function() { this.fire('updateValues'); });
+            }
+            return;
+        },        
 
       });
     </script>
