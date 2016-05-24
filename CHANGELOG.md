@@ -1,5 +1,13 @@
 # Changelog
 
+## paper-range-slider 0.0.7 (24/05/2016)
+
+- Added methods `setMin()`, `setMax()`, `setStep()`, `setValueDiffMin()`, and `setValueDiffMax()`.
+
+- Added styling properties (matching the corresponding ones of `paper-slider`): `paper-range-slider-pin-start-color`, `paper-range-slider-knob-start-color` and `paper-range-slider-knob-start-border-color`.
+
+- Fixed bug with the color of the slider for negative values of `valueMin`.
+
 ## paper-range-slider 0.0.6 (12/04/2016)
 
 - Bug fix from range-difference settings

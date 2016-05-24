@@ -38,27 +38,37 @@ See README.md for further details.
               @apply(--layout-justified);
               @apply(--layout-center);
 
-              --paper-range-slider-lower-color:  var(--paper-grey-400);
-              --paper-range-slider-active-color: var(--google-blue-700);
-              --paper-range-slider-higher-color: var(--paper-grey-400);
-              --paper-range-slider-knob-color:   var(--google-blue-700);
-              --paper-range-slider-pin-color:    var(--google-blue-700);
+              --paper-range-slider-lower-color:             var(--paper-grey-400);
+              --paper-range-slider-active-color:            var(--google-blue-700);
+              --paper-range-slider-higher-color:            var(--paper-grey-400);
+              --paper-range-slider-knob-color:              var(--google-blue-700);
+              --paper-range-slider-pin-color:               var(--google-blue-700);
+              --paper-range-slider-pin-start-color:         var(--paper-grey-400);
+              --paper-range-slider-knob-start-color:        transparent;
+              --paper-range-slider-knob-start-border-color: var(--paper-grey-400);
             }
 
             #sliderOuterDiv {
                 @apply(--layout-horizontal);
             }
             #sliderMax {
-                --paper-slider-bar-color:       transparent;
-                --paper-slider-knob-color:      var(--paper-range-slider-knob-color);
-                --paper-slider-pin-color:       var(--paper-range-slider-pin-color);
-                --paper-slider-active-color:    var(--paper-range-slider-active-color);
-                --paper-slider-secondary-color: var(--paper-range-slider-higher-color);
+                --paper-slider-bar-color:               transparent;
+                --paper-slider-knob-color:              var(--paper-range-slider-knob-color);
+                --paper-slider-pin-color:               var(--paper-range-slider-pin-color);
+                --paper-slider-active-color:            var(--paper-range-slider-active-color);
+                --paper-slider-secondary-color:         var(--paper-range-slider-higher-color);
+                --paper-slider-pin-start-color:         var(--paper-range-slider-pin-start-color);
+                --paper-slider-knob-start-color:        var(--paper-range-slider-knob-start-color);
+                --paper-slider-knob-start-border-color: var(--paper-range-slider-knob-start-border-color);
             }
             #sliderMin {
-                --paper-slider-active-color:    var(--paper-range-slider-lower-color);
-                --paper-slider-knob-color:      var(--paper-range-slider-knob-color);
-                --paper-slider-pin-color:       var(--paper-range-slider-pin-color);
+                --paper-slider-active-color:            var(--paper-range-slider-lower-color);
+                --paper-slider-secondary-color:         transparent;
+                --paper-slider-knob-color:              var(--paper-range-slider-knob-color);
+                --paper-slider-pin-color:               var(--paper-range-slider-pin-color);
+                --paper-slider-pin-start-color:         var(--paper-range-slider-pin-start-color);
+                --paper-slider-knob-start-color:        var(--paper-range-slider-knob-start-color);
+                --paper-slider-knob-start-border-color: var(--paper-range-slider-knob-start-border-color);
             }
         </style>
 
@@ -330,6 +340,7 @@ See README.md for further details.
 
         // set the value of the low edge of the selected range
         _setValueMin: function(value) {
+            value = Math.max(value, this.min);
             this.$.sliderMin.value = value;
             this.valueMin          = value;
             
@@ -338,6 +349,7 @@ See README.md for further details.
 
         // set the value of the high edge of the selected range
         _setValueMax: function(value) {
+            value = Math.min(value, this.max);
             this.$.sliderMax.value = value;
             this.valueMax          = value;
 
@@ -532,6 +544,49 @@ See README.md for further details.
             }
             return;
         },        
+
+        /**
+         * set the minimal value (lower range) of the slider
+         * @method setMin
+         */
+        setMin: function(minIn) {
+            this.min = minIn;
+            this._prevUpdateValues = [this.min, this.max]
+            return;
+        },
+        /**
+         * set the maximal value (upper range) of the slider
+         * @method setMax
+         */
+        setMax: function(maxIn) {
+            this.max = maxIn;
+            this._prevUpdateValues = [this.min, this.max]
+            return;
+        },
+        /**
+         * set the minimal step-change of a knob on the slider
+         * @method setMax
+         */
+        setStep: function(stepIn) {
+            this.step = stepIn;
+            return;
+        },
+        /**
+         * set the minimal difference between selected values
+         * @method setValueDiffMin
+         */
+        setValueDiffMin: function(valueDiffMin) {
+            this._valueDiffMin = valueDiffMin;
+            return;
+        },
+        /**
+         * set the maximal difference between selected values
+         * @method setValueDiffMax
+         */
+        setValueDiffMax: function(valueDiffMax) {
+            this._valueDiffMax = valueDiffMax;
+            return;
+        },
 
       });
     </script>

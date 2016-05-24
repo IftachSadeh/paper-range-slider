@@ -1,6 +1,6 @@
-# paper-range-slider v0.0.6
+# paper-range-slider - v0.0.7
 
-`paper-range-slider` allows the user to select a range of values within a given (possibly wider) range. values are selected by moving the position of two knobs, or by dragging the selected range of values within the allowed limits. [A demo is provided here.](http://IftachSadeh.github.io/paper-range-slider/components/paper-range-slider/demo/)
+`paper-range-slider` allows the user to select a range of values within a given (possibly wider) range. values are selected by moving the position of two knobs, or by dragging the selected range of values within the allowed limits. [A demo is provided here](http://IftachSadeh.github.io/paper-range-slider/components/paper-range-slider/demo/). The code was developed using Polymer v1.4.0.
 
 ## Bower installation
 Do either
@@ -23,7 +23,7 @@ or add the following to your `bower.json`:
 
 ### Additional options
 
-- Use `min` and `max` to specify the limits of values for the slider.
+- Use `min` and `max` to specify the limits of values for the slider (the lower and upper bounds).
 - Use `value-min` and `value-max` to set the initial position of the two knobs (the selected range of values).
 - Use `value-diff-min` and `value-diff-max` to set the minimal and maximal allowed difference between the lower and upper selected values.
 - Use `always-show-pin` to never hide the pins.
@@ -38,7 +38,7 @@ or add the following to your `bower.json`:
 <paper-range-slider id='myPaperRangeSliderId'></paper-range-slider>
 <script>
     document.querySelector("#myPaperRangeSliderId").addEventListener('updateValues', function (customEvent) {
-        console.log(' - current min/max values: ',this.valueMin,this.valueMax)
+    console.log(' - current min/max values: ',this.valueMin,this.valueMax)
     });
 </script>
 ```
@@ -50,7 +50,20 @@ window.addEventListener('WebComponentsReady', function(e) {
     document.querySelector("#myPaperRangeSliderId").setValues(myMin,myMax);
 });
 ```
-It is allowed to set `myMin` and/or `myMax` to `null` or to a value outside of the allowed range, in order to ignore them.
+It is allowed to set `myMin` and/or `myMax` to `null` or to a value outside of the allowed range, in order to ignore them, e.g., use the following to only change the lower value:
+```javascript
+document.querySelector("#myPaperRangeSliderId").setValues(10,null);
+```
+
+- Likewise, one can set the minimal and maximal values of the slider (the lower and upper bounds), the step-size, and the minimal and maximal difference between selected values. These correspond respectively to the following:
+```javascript
+document.querySelector("#myPaperRangeSliderId").setMin(myMin);
+document.querySelector("#myPaperRangeSliderId").setMax(myMax);
+document.querySelector("#myPaperRangeSliderId").setStep(myStep);
+document.querySelector("#myPaperRangeSliderId").setValueDiffMin(myValueDiffMin);
+document.querySelector("#myPaperRangeSliderId").setValueDiffMax(myValueDiffMax);
+```
+
 
 ## Styling
 
@@ -58,11 +71,15 @@ The following custom properties are available for styling:
 
 Custom property | Description | Default
 ----------------|-------------|----------
-`--paper-range-slider-lower-color` | color for range below selected range | var(--paper-grey-400);
-`--paper-range-slider-active-color` | color of selected range | var(--google-blue-700);
-`--paper-range-slider-higher-color` | color for range above selected range | var(--paper-grey-400);
-`--paper-range-slider-knob-color` | color of knobs | var(--google-blue-700);
-`--paper-range-slider-pin-color` | color of pins | var(--google-blue-700);
+`--paper-range-slider-lower-color` | color for range below selected range | `--paper-grey-400`
+`--paper-range-slider-active-color` | color of selected range | `--google-blue-700`
+`--paper-range-slider-higher-color` | color for range above selected range | `--paper-grey-400`
+`--paper-range-slider-knob-color` | color of knobs | `--google-blue-700`
+`--paper-range-slider-pin-color` | color of pins | `--google-blue-700`
+`--paper-range-slider-pin-start-color` | The color of the pin at the far left | `--paper-grey-400`
+`--paper-range-slider-knob-start-color` | The fill color of the knob at the far left | `transparent`
+`--paper-range-slider-knob-start-border-color` | The border color of the knob at the far left | `--paper-grey-400`
+
 
 
 ---
