@@ -1,5 +1,9 @@
 # Changelog
 
+## paper-range-slider 0.0.8 (28/05/2016)
+
+- Fixed bug with for cases where a user sets a min value for the slider, where the max value is already set lower (or when a max value is set which is smaller than the pre-set min value).
+
 ## paper-range-slider 0.0.7 (24/05/2016)
 
 - Added methods `setMin()`, `setMax()`, `setStep()`, `setValueDiffMin()`, and `setValueDiffMax()`.

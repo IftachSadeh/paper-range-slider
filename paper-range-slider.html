@@ -550,6 +550,10 @@ See README.md for further details.
          * @method setMin
          */
         setMin: function(minIn) {
+            // paper-slider needs a safety chek that the min value we are going to set is
+            // not larger than the max value whic is already sey
+            if(this.max < minIn) this.max = minIn;
+
             this.min = minIn;
             this._prevUpdateValues = [this.min, this.max]
             return;
@@ -559,6 +563,10 @@ See README.md for further details.
          * @method setMax
          */
         setMax: function(maxIn) {
+            // paper-slider needs a safety chek that the min value we are going to set is
+            // not larger than the max value whic is already sey
+            if(this.min > maxIn) this.min = maxIn;
+
             this.max = maxIn;
             this._prevUpdateValues = [this.min, this.max]
             return;
