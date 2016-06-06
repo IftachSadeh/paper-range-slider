@@ -1,4 +1,4 @@
-# paper-range-slider - v0.0.8
+# paper-range-slider - v0.0.9
 
 `paper-range-slider` allows the user to select a range of values within a given (possibly wider) range. values are selected by moving the position of two knobs, or by dragging the selected range of values within the allowed limits. [A demo is provided here](http://IftachSadeh.github.io/paper-range-slider/components/paper-range-slider/demo/). The code was developed using Polymer v1.4.0.
 
@@ -62,6 +62,12 @@ document.querySelector("#myPaperRangeSliderId").setMax(myMax);
 document.querySelector("#myPaperRangeSliderId").setStep(myStep);
 document.querySelector("#myPaperRangeSliderId").setValueDiffMin(myValueDiffMin);
 document.querySelector("#myPaperRangeSliderId").setValueDiffMax(myValueDiffMax);
+```
+
+- The above properties which do not have an explicit method, may be reset directly. In order for the changes to take effect properly, use the `init()` method. For instance, to change the width of an already-defined slider, do:
+```javascript
+document.querySelector("#myPaperRangeSliderId").sliderWidth = "300px";
+document.querySelector("#myPaperRangeSliderId").init();
 ```
 
 

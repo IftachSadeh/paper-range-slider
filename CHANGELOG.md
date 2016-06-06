@@ -1,5 +1,9 @@
 # Changelog
 
+## paper-range-slider 0.0.9 (6/05/2016)
+
+- added `init()` function, which may be used to re-initialize properties, such as the slider-width, after these are dynamically changed.
+
 ## paper-range-slider 0.0.8 (28/05/2016)
 
 - Fixed bug with for cases where a user sets a min value for the slider, where the max value is already set lower (or when a max value is set which is smaller than the pre-set min value).
