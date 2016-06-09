@@ -1,4 +1,4 @@
-# paper-range-slider - v0.0.9
+# paper-range-slider - v0.0.10
 
 `paper-range-slider` allows the user to select a range of values within a given (possibly wider) range. values are selected by moving the position of two knobs, or by dragging the selected range of values within the allowed limits. [A demo is provided here](http://IftachSadeh.github.io/paper-range-slider/components/paper-range-slider/demo/). The code was developed using Polymer v1.4.0.
 

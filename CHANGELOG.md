@@ -1,5 +1,9 @@
 # Changelog
 
+## paper-range-slider 0.0.10 (9/05/2016)
+
+- Switched from using `let` to using `var` for JavaScript variables, for Safari browser compatibility.
+
 ## paper-range-slider 0.0.9 (6/05/2016)
 
 - added `init()` function, which may be used to re-initialize properties, such as the slider-width, after these are dynamically changed.
