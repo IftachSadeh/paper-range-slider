@@ -264,6 +264,28 @@ See README.md for further details.
             return;
         },
 
+        attached: function() {
+             this.setPadding();
+        },
+
+        // set padding for the element
+        setPadding: function() {
+            // the creation of the element can never be trusted to derive the offsetHeight
+            // (if e.g., it is in a collapsed container). We therefore add a fake element to the
+            // DOM to get the basic text-heigh, then we remove this element.
+            var beforeEle = document.createElement("div");
+            beforeEle.setAttribute("style","position:absolute; top:0px; opacity:0.9;");
+            beforeEle.innerHTML = "invisibleText"; // must have some content
+            document.body.insertBefore(beforeEle, document.body.children[0]);
+            var height = beforeEle.offsetHeight / 2;  //console.log( 'qqq',beforeEle.offsetHeight)
+
+            this.style.paddingTop    = height+"px"
+            this.style.paddingBottom = height+"px"
+
+            beforeEle.remove();
+            return;
+        },
+
         // internal variables for minimal/maximal difference between this.valueMin, this.valueMax
         // each one is between zero and the maximal difference available in the range, and
         // the this._valueDiffMin can not be larger than this._valueDiffMax
@@ -455,29 +477,6 @@ See README.md for further details.
 
         // placeholder function for possible later implementation
         _diffDivTransEnd: function(event) { return; },
-
-        attached: function() {
-             this.setPadding();
-        },
-
-        // set padding for the element
-        setPadding: function() {
-            // the creation of the element can never be trusted to derive the offsetHeight
-            // (if e.g., it is in a collapsed container). We therefore add a fake element to the
-            // DOM to get the basic text-heigh, then we remove this element.
-            var beforeEle = document.createElement("div");
-            beforeEle.setAttribute("style","position:absolute; top:0px; opacity:0.9;");
-            beforeEle.innerHTML = "invisibleText"; // must have some content
-            document.body.insertBefore(beforeEle, document.body.children[0]);
-            var height = beforeEle.offsetHeight / 2;  //console.log( 'qqq',beforeEle.offsetHeight)
-
-            this.style.paddingTop    = height+"px"
-            this.style.paddingBottom = height+"px"
-
-            beforeEle.remove();
-            return;
-           },
-
 
         // setting of the div which spans the space between the two knobs
         _updateDiffDiv: function() {
