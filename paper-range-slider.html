@@ -33,7 +33,9 @@ See README.md for further details.
         <style>
             /* local styles go here */
             :host {
+              min-width: 100px;
               display: inline-block;
+
               @apply(--layout);
               @apply(--layout-justified);
               @apply(--layout-center);
@@ -72,10 +74,28 @@ See README.md for further details.
             }
         </style>
 
-        <div id="sliderOuterDiv">
+        <!-- <div id="sliderOuterDiv">
             <paper-slider id='sliderMax' on-down="_sliderMaxDown" on-up="_sliderMaxUp" step="[[step]]" min="[[min]]" max="[[max]]" value="[[valueMax]]" secondary-progress='[[max]]'></paper-slider>
             <paper-slider id='sliderMin' on-down="_sliderMinDown" on-up="_sliderMinUp" noink step="[[step]]" min="[[min]]" max="[[max]]" value="[[valueMin]]"> </paper-slider>
-            <div id='diffDiv' on-down="_diffDivDown" on-up="_diffDivUp" on-track="_diffDivOnTrack" on-transitionend="_diffDivTransEnd"></div> <!-- for debugging, add: style="border: 1px solid red" -->
+            <div id='diffDiv' on-down="_diffDivDown" on-up="_diffDivUp" on-track="_diffDivOnTrack" on-transitionend="_diffDivTransEnd"></div>
+        </div> -->
+
+        <div style="position:relative; width:100%;" id="sliderOuterDiv">
+            <!-- for debugging, add: to style the following: "border: 1px solid red" -->
+            <div id='diffDiv' on-down="_diffDivDown" on-up="_diffDivUp" on-track="_diffDivOnTrack" on-transitionend="_diffDivTransEnd" style="position:absolute; width:100%; display:block; top:0px;">
+              <!-- must have this in order to force width/height -->
+              <div id='diffDivInner' style="line-height:200%;"><br></div>
+          </div>
+
+          <div style="position:absolute; width:100%; display:block; top:0px; pointer-events: none;">
+            <paper-slider id='sliderMax' on-down="_sliderMaxDown" on-up="_sliderMaxUp" step="[[step]]" min="[[min]]" max="[[max]]" value="[[valueMax]]" secondary-progress='[[max]]' style="width:100%;"></paper-slider>
+          </div>
+
+          <div style="position:absolute; width:100%; display:block; top:0px; pointer-events: none;">
+            <paper-slider id='sliderMin' on-down="_sliderMinDown" on-up="_sliderMinUp" noink step="[[step]]" min="[[min]]" max="[[max]]" value="[[valueMin]]" style="width:100%;"> </paper-slider>
+          </div>
+          <!-- now add one real line -->
+          <div id='diffDivInner' style="line-height:100%;"><br></div>
         </div>
 
     </template>
@@ -94,7 +114,7 @@ See README.md for further details.
              */
             sliderWidth: {
                 type: String,
-                value: "200px",
+                value: "",
                 notify: true,
                 reflectToAttribute: true
             },
@@ -436,29 +456,52 @@ See README.md for further details.
         // placeholder function for possible later implementation
         _diffDivTransEnd: function(event) { return; },
 
+        attached: function() {
+             this.setPadding();
+        },
+
+        // set padding for the element
+        setPadding: function() {
+            // the creation of the element can never be trusted to derive the offsetHeight
+            // (if e.g., it is in a collapsed container). We therefore add a fake element to the
+            // DOM to get the basic text-heigh, then we remove this element.
+            var beforeEle = document.createElement("div");
+            beforeEle.setAttribute("style","position:absolute; top:0px; opacity:0.9;");
+            beforeEle.innerHTML = "invisibleText"; // must have some content
+            document.body.insertBefore(beforeEle, document.body.children[0]);
+            var height = beforeEle.offsetHeight / 2;  //console.log( 'qqq',beforeEle.offsetHeight)
+
+            this.style.paddingTop    = height+"px"
+            this.style.paddingBottom = height+"px"
+
+            beforeEle.remove();
+            return;
+           },
+
+
         // setting of the div which spans the space between the two knobs
         _updateDiffDiv: function() {
-            var dragAnywhere = true;
-            
-            // the dragg area is the entire width of the slider
-            if(dragAnywhere) {
-                var width  = Number((this.sliderWidth).replace('px',''));
-                this.$.diffDiv.style.width      = width+'px'//((1 + 2*extra) * diff)+'px'
-                this.$.diffDiv.style.marginLeft = (-width)+'px'//(posMin - width - extra * diff)+'px'
-            }
-            // the dragg area is only between the two knobs
-            else {
-                var posMin = this._getPos(this.$.sliderMin);
-                var posMax = this._getPos(this.$.sliderMax);
-                var width  = Number((this.sliderWidth).replace('px',''));
-                var diff   = Math.min(width, Math.max(0,(posMax - posMin)));
-                var extra  = 0.05;
-
-                this.$.diffDiv.style.width      = ((1 + 2*extra) * diff)+'px'
-                this.$.diffDiv.style.marginLeft = (posMin - width - extra * diff)+'px'
-            }
-
             return;
+            // var dragAnywhere = true;
+            
+            // // the dragg area is the entire width of the slider
+            // if(dragAnywhere) {
+            //     var width  = Number((this.sliderWidth).replace('px',''));
+            //     this.$.diffDiv.style.width      = width+'px'//((1 + 2*extra) * diff)+'px'
+            //     this.$.diffDiv.style.marginLeft = (-width)+'px'//(posMin - width - extra * diff)+'px'
+            // }
+            // // the dragg area is only between the two knobs
+            // else {
+            //     var posMin = this._getPos(this.$.sliderMin);
+            //     var posMax = this._getPos(this.$.sliderMax);
+            //     var width  = Number((this.sliderWidth).replace('px',''));
+            //     var diff   = Math.min(width, Math.max(0,(posMax - posMin)));
+            //     var extra  = 0.05;
+
+            //     this.$.diffDiv.style.width      = ((1 + 2*extra) * diff)+'px'
+            //     this.$.diffDiv.style.marginLeft = (posMin - width - extra * diff)+'px'
+            // }
+            // return;
         },
 
         // the current position of the knob for a given single-slider
@@ -483,9 +526,13 @@ See README.md for further details.
             this.$.sliderMax.pin              = this.pin
             this.$.sliderMin.snaps            = this.snaps
             this.$.sliderMax.snaps            = this.snaps
-            this.$.sliderMin.style.width      = this.sliderWidth
-            this.$.sliderMax.style.width      = this.sliderWidth
-            this.$.sliderMin.style.marginLeft = ("-"+this.sliderWidth)
+            
+            // this.$.sliderMin.style.width      = this.sliderWidth
+            // this.$.sliderMax.style.width      = this.sliderWidth
+            // this.$.sliderMin.style.marginLeft = ("-"+this.sliderWidth)
+            if(this.sliderWidth != "") {
+                this.$.sliderOuterDiv.style.width = this.sliderWidth;
+            }
 
             // disable some of the interface of the two single-sliders, but keep the knobs active
             this.$.sliderMax.querySelector('#sliderContainer').style.pointerEvents = "none"
@@ -514,7 +561,7 @@ See README.md for further details.
                 this.$.sliderMin._expandKnob();
                 this.$.sliderMax._expandKnob();
             }
-            
+
             return;
         },
 

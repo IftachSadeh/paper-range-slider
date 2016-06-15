@@ -1,5 +1,12 @@
 # Changelog
 
+## paper-range-slider 0.1.0 (15/06/2016)
+
+- Revamped the way in which the two contained paper-slider elements are mad to overlap. There is now no need to explicitly define the `slider-width` property, though this is kept for backward compatibility. One can now define the width of the `paper-range-slider` by setting either `slider-width` or the regular `css` property, e.g,
+```html
+<paper-range-slider style="width:60%;"></paper-range-slider>
+```
+
 ## paper-range-slider 0.0.10 (9/05/2016)
 
 - Switched from using `let` to using `var` for JavaScript variables, for Safari browser compatibility.

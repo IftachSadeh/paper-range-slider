@@ -1,4 +1,4 @@
-# paper-range-slider - v0.0.10
+# paper-range-slider - v0.1.0
 
 `paper-range-slider` allows the user to select a range of values within a given (possibly wider) range. values are selected by moving the position of two knobs, or by dragging the selected range of values within the allowed limits. [A demo is provided here](http://IftachSadeh.github.io/paper-range-slider/components/paper-range-slider/demo/). The code was developed using Polymer v1.4.0.
 
@@ -28,7 +28,6 @@ or add the following to your `bower.json`:
 - Use `value-diff-min` and `value-diff-max` to set the minimal and maximal allowed difference between the lower and upper selected values.
 - Use `always-show-pin` to never hide the pins.
 - The following options apply, as for paper-slider: `snaps`, `pin`, `step`.
-- The slider width must explicitly be set, using `slider-width` (the default is "200px").
 ```html
 <paper-range-slider snaps pin step='1' min='0' max='100' value-diff-min="10" value-diff-max="50" value-min='30' value-max='60'></paper-range-slider>
 ```
@@ -64,9 +63,9 @@ document.querySelector("#myPaperRangeSliderId").setValueDiffMin(myValueDiffMin);
 document.querySelector("#myPaperRangeSliderId").setValueDiffMax(myValueDiffMax);
 ```
 
-- The above properties which do not have an explicit method, may be reset directly. In order for the changes to take effect properly, use the `init()` method. For instance, to change the width of an already-defined slider, do:
+- The above properties which do not have an explicit method, may be reset directly. In order for the changes to take effect properly, use the `init()` method. For instance, to change the `alwaysShowPin` option of an already-defined slider, do:
 ```javascript
-document.querySelector("#myPaperRangeSliderId").sliderWidth = "300px";
+document.querySelector("#myPaperRangeSliderId").alwaysShowPin = true;
 document.querySelector("#myPaperRangeSliderId").init();
 ```
 
