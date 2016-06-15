@@ -2,7 +2,7 @@
 
 ## paper-range-slider 0.1.0 (15/06/2016)
 
-- Revamped the way in which the two contained paper-slider elements are mad to overlap. There is now no need to explicitly define the `slider-width` property, though this is kept for backward compatibility. One can now define the width of the `paper-range-slider` by setting either `slider-width` or the regular `css` property, e.g,
+- Revamped the way in which the two contained paper-slider elements are made to overlap. There is now no need to explicitly define the `slider-width` property, though this is kept for backward compatibility. One can now define the width of the `paper-range-slider` by setting either `slider-width` or the regular `css` property, e.g,
 ```html
 <paper-range-slider style="width:60%;"></paper-range-slider>
 ```
