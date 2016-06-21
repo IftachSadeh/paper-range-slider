@@ -276,7 +276,7 @@ See README.md for further details.
             // (if e.g., it is in a collapsed container). We therefore add a fake element to the
             // DOM to get the basic text-heigh, then we remove this element.
             var beforeEle = document.createElement("div");
-            beforeEle.setAttribute("style","position:absolute; top:0px; opacity:0.9;");
+            beforeEle.setAttribute("style","position:absolute; top:0px; opacity:0;");
             beforeEle.innerHTML = "invisibleText"; // must have some content
             document.body.insertBefore(beforeEle, document.body.children[0]);
             var height = beforeEle.offsetHeight / 2;  //console.log( 'qqq',beforeEle.offsetHeight)
@@ -293,10 +293,8 @@ See README.md for further details.
         // the this._valueDiffMin can not be larger than this._valueDiffMax
         _setValueDiff: function() {
 
-            this._valueDiffMax = (this.valueDiffMax <= 0) ? (this.max-this.min) : this.valueDiffMax;
-
-            this._valueDiffMin = Math.max(0,this.valueDiffMin);
-            this._valueDiffMin = Math.min(this._valueDiffMin, this._valueDiffMax);
+            this._valueDiffMax = (this.valueDiffMax > 0) ? this.valueDiffMax : -1;
+            this._valueDiffMin = (this.valueDiffMin > 0) ? this.valueDiffMin : -1;
             
             return;
         },
@@ -325,7 +323,7 @@ See README.md for further details.
                         valueNowMin = valueNowMax - this._valueDiffMin;
                     }
                 }
-                else if(diffNow > this._valueDiffMax) {
+                else if(diffNow > this._valueDiffMax && this._valueDiffMax > 0) {
                     valueNowMax = valueNowMin + this._valueDiffMax;
                 }
             }
@@ -338,7 +336,7 @@ See README.md for further details.
                         valueNowMax = valueNowMin + this._valueDiffMin;
                     }
                 }
-                else if(diffNow > this._valueDiffMax) {
+                else if(diffNow > this._valueDiffMax && this._valueDiffMax > 0) {
                     valueNowMin = valueNowMax - this._valueDiffMax;
                 }
             }
