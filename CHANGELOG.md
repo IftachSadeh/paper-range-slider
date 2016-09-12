@@ -1,5 +1,15 @@
 # Changelog
 
+## paper-range-slider 0.1.2 (12/09/2016)
+
+- Added a `setDisabled()` function.
+
+- Changed default colors from `--google-blue-700` to `--primary-color`, and fixed general styling to match that of `paper-slider`.
+
+- Added the `single-slider` option, to "revert" the `paper-range-slider` into a `paper-slider`.
+
+- Various small modifications.
+
 ## paper-range-slider 0.1.1 (21/06/2016)
 
 - Modified the `_setValueDiff()` function. The `valueDiffMin` and `valueDiffMax` values are now not set by default (which is equivalent to setting either to a negative value). If they remain unset, they are ignored.
@@ -8,7 +18,12 @@
 
 - Revamped the way in which the two contained paper-slider elements are made to overlap. There is now no need to explicitly define the `slider-width` property, though this is kept for backward compatibility. One can now define the width of the `paper-range-slider` by setting either `slider-width` or the regular `css` property, e.g,
 ```html
+// recommended method
 <paper-range-slider style="width:60%;"></paper-range-slider>
+```
+or (kept for backward compatibility),
+```html
+<paper-range-slider slider-width="300px"></paper-range-slider>
 ```
 
 ## paper-range-slider 0.0.10 (9/05/2016)

@@ -33,26 +33,38 @@ See README.md for further details.
         <style>
             /* local styles go here */
             :host {
-              min-width: 100px;
-              display: inline-block;
+              --paper-range-slider-width: 200px;
+              /*width: var(--paper-range-slider-width);*/
+              /*display: inline-block;*/
 
               @apply(--layout);
               @apply(--layout-justified);
               @apply(--layout-center);
 
               --paper-range-slider-lower-color:             var(--paper-grey-400);
-              --paper-range-slider-active-color:            var(--google-blue-700);
+              --paper-range-slider-active-color:            var(--primary-color);
               --paper-range-slider-higher-color:            var(--paper-grey-400);
-              --paper-range-slider-knob-color:              var(--google-blue-700);
-              --paper-range-slider-pin-color:               var(--google-blue-700);
+              --paper-range-slider-knob-color:              var(--primary-color);
+              --paper-range-slider-pin-color:               var(--primary-color);
               --paper-range-slider-pin-start-color:         var(--paper-grey-400);
               --paper-range-slider-knob-start-color:        transparent;
               --paper-range-slider-knob-start-border-color: var(--paper-grey-400);
             }
 
-            #sliderOuterDiv {
-                @apply(--layout-horizontal);
+            #sliderOuterDiv_0 {
+              display: inline-block;
+              width: var(--paper-range-slider-width);
             }
+
+            #sliderOuterDiv_1 {
+              position: relative;
+              height: calc(30px + var(--paper-slider-height, 2px));
+              margin-left: 0;
+              margin-right: 0;
+              margin-top: 0;
+              margin-bottom: 0;
+            }
+
             #sliderMax {
                 --paper-slider-bar-color:               transparent;
                 --paper-slider-knob-color:              var(--paper-range-slider-knob-color);
@@ -74,30 +86,25 @@ See README.md for further details.
             }
         </style>
 
-        <!-- <div id="sliderOuterDiv">
-            <paper-slider id='sliderMax' on-down="_sliderMaxDown" on-up="_sliderMaxUp" step="[[step]]" min="[[min]]" max="[[max]]" value="[[valueMax]]" secondary-progress='[[max]]'></paper-slider>
-            <paper-slider id='sliderMin' on-down="_sliderMinDown" on-up="_sliderMinUp" noink step="[[step]]" min="[[min]]" max="[[max]]" value="[[valueMin]]"> </paper-slider>
-            <div id='diffDiv' on-down="_diffDivDown" on-up="_diffDivUp" on-track="_diffDivOnTrack" on-transitionend="_diffDivTransEnd"></div>
-        </div> -->
+        <div id="sliderOuterDiv_0" style="[[style]]">
+            <div id="sliderOuterDiv_1">
+                <!-- for debugging, add: to style the following: "border: 1px solid red" -->
+              <div id='diffDiv' on-down="_diffDivDown" on-up="_diffDivUp" on-track="_diffDivOnTrack" on-transitionend="_diffDivTransEnd" style="position:absolute; width:100%; display:block; top:0px;">
+                  <!-- must have this in order to force width/height -->
+                  <div id='diffDivInner_0' style="line-height:200%;"><br></div>
+              </div>
 
-        <div style="position:relative; width:100%;" id="sliderOuterDiv">
-            <!-- for debugging, add: to style the following: "border: 1px solid red" -->
-            <div id='diffDiv' on-down="_diffDivDown" on-up="_diffDivUp" on-track="_diffDivOnTrack" on-transitionend="_diffDivTransEnd" style="position:absolute; width:100%; display:block; top:0px;">
-              <!-- must have this in order to force width/height -->
-              <div id='diffDivInner' style="line-height:200%;"><br></div>
-          </div>
+              <div style="position:absolute; width:100%; display:block; top:0px; pointer-events: none;">
+                <paper-slider id='sliderMax' disabled$="[[disabled]]" on-down="_sliderMaxDown" on-up="_sliderMaxUp" step="[[step]]" min="[[min]]" max="[[max]]" value="[[valueMax]]" secondary-progress='[[max]]' style="width:100%;"></paper-slider>
+              </div>
 
-          <div style="position:absolute; width:100%; display:block; top:0px; pointer-events: none;">
-            <paper-slider id='sliderMax' on-down="_sliderMaxDown" on-up="_sliderMaxUp" step="[[step]]" min="[[min]]" max="[[max]]" value="[[valueMax]]" secondary-progress='[[max]]' style="width:100%;"></paper-slider>
-          </div>
-
-          <div style="position:absolute; width:100%; display:block; top:0px; pointer-events: none;">
-            <paper-slider id='sliderMin' on-down="_sliderMinDown" on-up="_sliderMinUp" noink step="[[step]]" min="[[min]]" max="[[max]]" value="[[valueMin]]" style="width:100%;"> </paper-slider>
-          </div>
-          <!-- now add one real line -->
-          <div id='diffDivInner' style="line-height:100%;"><br></div>
+              <div style="position:absolute; width:100%; display:block; top:0px; pointer-events: none;">
+                <paper-slider id='sliderMin' disabled$="[[disabled]]" on-down="_sliderMinDown" on-up="_sliderMinUp" noink step="[[step]]" min="[[min]]" max="[[max]]" value="[[valueMin]]" style="width:100%;"> </paper-slider>
+              </div>
+              <!-- now add one real line -->
+              <div id='diffDivInner_1' style="line-height:100%;"><br></div>
+            </div>
         </div>
-
     </template>
 
     <script>
@@ -113,6 +120,16 @@ See README.md for further details.
              * the width of the element in pixels.
              */
             sliderWidth: {
+                type: String,
+                value: "",
+                notify: true,
+                reflectToAttribute: true
+            },
+
+            /**
+             * the style attribute of the element.
+             */
+            style: {
                 type: String,
                 value: "",
                 notify: true,
@@ -175,7 +192,7 @@ See README.md for further details.
              */
             valueDiffMin: {
                 type: Number,
-                value: -1,
+                value: 0,
                 notify: true,
                 reflectToAttribute: true
             },
@@ -186,7 +203,7 @@ See README.md for further details.
              */
             valueDiffMax: {
                 type: Number,
-                value: -1,
+                value: 0,
                 notify: true,
                 reflectToAttribute: true
             },
@@ -221,6 +238,24 @@ See README.md for further details.
               type: Boolean,
               value: false,
               notify: true
+            },
+
+            /**
+             * if true, the slider is disabled.
+             */
+            disabled: {
+              type: Boolean,
+              value: false,
+              notify: true
+            },
+
+            /**
+             * an option to "revert" from the paper-range-slider to a single paper-slider.
+             */
+            singleSlider: {
+                type: Boolean,
+                value: false,
+                notify: true
             },
         },
 
@@ -267,8 +302,8 @@ See README.md for further details.
             return;
         },
 
-        attached: function() {
-        },
+        // attached: function() {
+        // },
 
         // set padding for the element
         setPadding: function() {
@@ -292,9 +327,8 @@ See README.md for further details.
         // each one is between zero and the maximal difference available in the range, and
         // the this._valueDiffMin can not be larger than this._valueDiffMax
         _setValueDiff: function() {
-
-            this._valueDiffMax = (this.valueDiffMax > 0) ? this.valueDiffMax : -1;
-            this._valueDiffMin = (this.valueDiffMin > 0) ? this.valueDiffMin : -1;
+            this._valueDiffMax = Math.max(this.valueDiffMax, 0);
+            this._valueDiffMin = Math.max(this.valueDiffMin, 0);
             
             return;
         },
@@ -432,8 +466,18 @@ See README.md for further details.
             
             return;
         },
-        _sliderMaxDown: function() {
-            this.$.sliderMin._expandKnob();
+        _sliderMaxDown: function(event) {
+            if(!this.singleSlider) {
+                this.$.sliderMin._expandKnob();
+            }
+            else {
+                var width     = this.$.sliderMax.querySelector('#sliderContainer').offsetWidth;
+                var rect      = this.$.sliderMax.querySelector('#sliderContainer').getBoundingClientRect();
+                var ratio     = (event.detail.x - rect.left) / width;
+                var value     = this.min + ratio * (this.max - this.min);
+
+                this.setValues(null,value);
+            }
 
             return;
         },
@@ -445,7 +489,10 @@ See README.md for further details.
         },
         _sliderMaxUp: function() {
             if(this.alwaysShowPin) this.$.sliderMax._expandKnob();
-            else                   this.$.sliderMin._resetKnob();
+            else {
+                this.$.sliderMin._resetKnob();
+                if(this.singleSlider) this.$.sliderMax._resetKnob();
+            }
             
             return;
         },
@@ -503,12 +550,12 @@ See README.md for further details.
             // return;
         },
 
-        // the current position of the knob for a given single-slider
+        // the current position of the knob for a given single slider
         _getPos: function(sliderIn) {
             return (sliderIn.ratio) * Number(sliderIn.style.width.replace('px',''));
         },
 
-        // the position of the knob for a given single-slider, for a given ratio
+        // the position of the knob for a given single slider, for a given ratio
         _getRatioPos: function(this_,ratio) {
             return (this_.max - this_.min) * ratio + this_.min;
         },
@@ -518,29 +565,28 @@ See README.md for further details.
          * @method init
          */
         init: function() {
-            if(this.alwaysShowPin) { this.pin = true; }
+            // 
+            this.setSingleSlider(this.singleSlider);
+            this.setDisabled(this.disabled);
 
             // some basic properties
-            this.$.sliderMin.pin              = this.pin
-            this.$.sliderMax.pin              = this.pin
-            this.$.sliderMin.snaps            = this.snaps
-            this.$.sliderMax.snaps            = this.snaps
-            
+            if(this.alwaysShowPin) { this.pin = true; }
+
+            this.$.sliderMin.pin   = this.pin;
+            this.$.sliderMax.pin   = this.pin;
+            this.$.sliderMin.snaps = this.snaps;
+            this.$.sliderMax.snaps = this.snaps;
+
             // this.$.sliderMin.style.width      = this.sliderWidth
             // this.$.sliderMax.style.width      = this.sliderWidth
             // this.$.sliderMin.style.marginLeft = ("-"+this.sliderWidth)
             if(this.sliderWidth != "") {
-                this.$.sliderOuterDiv.style.width = this.sliderWidth;
+                this.customStyle['--paper-range-slider-width'] = this.sliderWidth;
+                // this.$.sliderOuterDiv_0.style.width = this.sliderWidth;
+                this.updateStyles();
             }
 
-            // disable some of the interface of the two single-sliders, but keep the knobs active
-            this.$.sliderMax.querySelector('#sliderContainer').style.pointerEvents = "none"
-            this.$.sliderMin.querySelector('#sliderContainer').style.pointerEvents = "none"
-
-            this.$.sliderMax.querySelector('#sliderKnobInner').style.pointerEvents = "auto"
-            this.$.sliderMin.querySelector('#sliderKnobInner').style.pointerEvents = "auto"
-
-            // since the two single-sliders are overlaid, we need to remove forground color
+            // since the two single sliders are overlaid, we need to remove forground color
             this.$.sliderMin.querySelector('#sliderBar').querySelector('#progressContainer').style.background = "transparent";
 
             // internal variable to prevent unneeded fire on updates
@@ -651,6 +697,48 @@ See README.md for further details.
             this._valueDiffMax = valueDiffMax;
             return;
         },
+        /**
+         * set the disabled parameter
+         * @method setValueDiffMax
+         */
+        setDisabled: function(isDisabled) {
+          this.disabled = isDisabled;
+
+          var pointEvt = this.disabled ? "none" : "auto";
+          this.$.sliderMax.querySelector('#sliderKnobInner').style.pointerEvents = pointEvt;
+          this.$.sliderMin.querySelector('#sliderKnobInner').style.pointerEvents = pointEvt;
+          this.$.sliderOuterDiv_1.style.pointerEvents                            = pointEvt;
+
+          return;
+        },
+        /**
+         * change the slider between the defaulr paper-range-slider and a paper-slider
+         * @method setValueDiffMax
+         */
+        setSingleSlider: function(isSingle) {
+            this.singleSlider = isSingle;
+
+            if(this.singleSlider) {
+                this.$.diffDiv.style.display         = 'none';
+                this.$.sliderMax.style.display       = '';
+                this.$.sliderMax.style.pointerEvents = 'auto';
+                this.$.sliderMin.style.display       = 'none';
+            }
+            else {
+                this.$.diffDiv.style.display         = 'block';
+                this.$.sliderMax.style.display       = '';
+                this.$.sliderMax.style.pointerEvents = 'none';
+                this.$.sliderMin.style.display       = '';
+            }
+
+            // disable some of the interface of the two single sliders,
+            // but keep the knobs active if not disabled
+            this.$.sliderMax.querySelector('#sliderContainer').style.pointerEvents = this.singleSlider ? "auto" : "none";
+            this.$.sliderMin.querySelector('#sliderContainer').style.pointerEvents = "none";
+
+            return;
+        }
+
 
       });
     </script>

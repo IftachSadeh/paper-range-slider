@@ -6,28 +6,52 @@ The MIT License (MIT)
 See the file LICENSE.txt for further details.
 -->
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-    <title>paper-range-slider Demo</title>
-    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-    <link rel="import" href="../paper-range-slider.html">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+        <title>paper-range-slider Demo</title>
+        <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+        <link rel="import" href="../paper-range-slider.html">
 
-    <link rel="import" href="app-theme.html">
-    <style is="custom-style" include="shared-styles"></style>
-
-  </head>
-  <body>
+        <link rel="import" href="app-theme.html">
+        <style is="custom-style" include="shared-styles"></style>
+    </head>
+    <body>
     
-    <p>A couple of examples of <a href="https://github.com/IftachSadeh/paper-range-slider">https://github.com/IftachSadeh/paper-range-slider</a> </p>
+    <div class="horizEle">
+        <p>A couple of examples of <a href="https://github.com/IftachSadeh/paper-range-slider">https://github.com/IftachSadeh/paper-range-slider</a> :</p>
+    </div>
 
-    <paper-range-slider></paper-range-slider>
+    <div class="horizEle">
+        Default paper-range-slider:
+        <div class="flexEle"></div>
+        <paper-range-slider style="width:300px"></paper-range-slider>
+    </div>
 
-    <br>
-    <paper-range-slider class="slider1" slider-width='400px' pin min='0' max='100' value-diff-min="10" value-diff-max="50" value-min='30' value-max='60'></paper-range-slider>
+    <div class="horizEle">
+        Minimal and maximal value-difference:
+        <div class="flexEle"></div>
+        <paper-range-slider pin style="width:300px" value-diff-min="4" value-diff-max="28" value-max='40' max='60' min='-10'></paper-range-slider>
+    </div>
 
-    <br>
-    <paper-range-slider slider-width='600px' always-show-pin step='1' min='0' max='100' value-min='80' value-max='100'></paper-range-slider>
+    <div class="horizEle">
+        Styling:
+        <div class="flexEle"></div>
+        <paper-range-slider class="slider1" style="width:300px"  value-max='0' max='33' min='-10'></paper-range-slider>
+    </div>
     
-  </body>
+    <br>
+    <div class="horizEle">
+        Always show pins:
+        <div class="flexEle"></div>
+        <paper-range-slider style="width:300px" always-show-pin step='1' value-diff-min="11" value-max='40' max='60' min='-10'></paper-range-slider>
+    </div>
+
+    <div class="horizEle">
+        Single slider:
+        <div class="flexEle"></div>
+        <paper-range-slider single-slider slider-width="300px"  value-max='40' max='60' min='-10'></paper-range-slider>
+    </div>
+    
+    </body>
 </html>

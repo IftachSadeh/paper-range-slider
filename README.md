@@ -1,6 +1,6 @@
-# paper-range-slider - v0.1.1
+# paper-range-slider - v0.1.2
 
-`paper-range-slider` allows the user to select a range of values within a given (possibly wider) range. values are selected by moving the position of two knobs, or by dragging the selected range of values within the allowed limits. [A demo is provided here](http://IftachSadeh.github.io/paper-range-slider/components/paper-range-slider/demo/). The code was developed using Polymer v1.4.0.
+`paper-range-slider` allows the user to select a range of values within a given (possibly wider) range. values are selected by moving the position of two knobs, or by dragging the selected range of values within the allowed limits. [A demo is provided here](http://IftachSadeh.github.io/paper-range-slider/components/paper-range-slider/demo/). The code was developed using Polymer v1.6.x.
 
 ## Bower installation
 Do either
@@ -27,7 +27,7 @@ or add the following to your `bower.json`:
 - Use `value-min` and `value-max` to set the initial position of the two knobs (the selected range of values).
 - Use `value-diff-min` and `value-diff-max` to set the minimal and maximal allowed difference between the lower and upper selected values.
 - Use `always-show-pin` to never hide the pins.
-- The following options apply, as for paper-slider: `snaps`, `pin`, `step`.
+- The following options apply, as for paper-slider: `snaps`, `pin`, `step`, `disabled`.
 ```html
 <paper-range-slider snaps pin step='1' min='0' max='100' value-diff-min="10" value-diff-max="50" value-min='30' value-max='60'></paper-range-slider>
 ```
@@ -54,19 +54,37 @@ It is allowed to set `myMin` and/or `myMax` to `null` or to a value outside of t
 document.querySelector("#myPaperRangeSliderId").setValues(10,null);
 ```
 
-- Likewise, one can set the minimal and maximal values of the slider (the lower and upper bounds), the step-size, and the minimal and maximal difference between selected values. These correspond respectively to the following:
+- Likewise, one can set the minimal and maximal values of the slider (the lower and upper bounds), the step-size, the minimal and maximal difference between selected values, and the disabled state. These correspond respectively to the following:
 ```javascript
 document.querySelector("#myPaperRangeSliderId").setMin(myMin);
 document.querySelector("#myPaperRangeSliderId").setMax(myMax);
 document.querySelector("#myPaperRangeSliderId").setStep(myStep);
 document.querySelector("#myPaperRangeSliderId").setValueDiffMin(myValueDiffMin);
 document.querySelector("#myPaperRangeSliderId").setValueDiffMax(myValueDiffMax);
+document.querySelector("#myPaperRangeSliderId").setDisabled(isDisabled);
 ```
 
 - The above properties which do not have an explicit method, may be reset directly. In order for the changes to take effect properly, use the `init()` method. For instance, to change the `alwaysShowPin` option of an already-defined slider, do:
 ```javascript
 document.querySelector("#myPaperRangeSliderId").alwaysShowPin = true;
 document.querySelector("#myPaperRangeSliderId").init();
+```
+
+- It is possible to "revert" the `paper-range-slider` into a `paper-slider` (and back again) by
+```html
+<paper-range-slider single-slider></paper-range-slider>
+```
+or programatically with
+```javascript
+document.querySelector("#myPaperRangeSliderId").setSingleSlider(isSingleSlider);
+```
+In this case, the minimal value of the range is effectively ignored. The value of the single slider may now be manipulated with e.g.,
+```javascript
+// set a new value for the single slider
+var setVal = 90;
+document.querySelector("#myPaperRangeSliderId").setValues(null,setVal);
+// get the current value of the single slider
+var valNow = document.querySelector("#myPaperRangeSliderId").valueMax;
 ```
 
 
@@ -77,10 +95,10 @@ The following custom properties are available for styling:
 Custom property | Description | Default
 ----------------|-------------|----------
 `--paper-range-slider-lower-color` | color for range below selected range | `--paper-grey-400`
-`--paper-range-slider-active-color` | color of selected range | `--google-blue-700`
+`--paper-range-slider-active-color` | color of selected range | `--primary-color`
 `--paper-range-slider-higher-color` | color for range above selected range | `--paper-grey-400`
-`--paper-range-slider-knob-color` | color of knobs | `--google-blue-700`
-`--paper-range-slider-pin-color` | color of pins | `--google-blue-700`
+`--paper-range-slider-knob-color` | color of knobs | `--primary-color`
+`--paper-range-slider-pin-color` | color of pins | `--primary-color`
 `--paper-range-slider-pin-start-color` | The color of the pin at the far left | `--paper-grey-400`
 `--paper-range-slider-knob-start-color` | The fill color of the knob at the far left | `transparent`
 `--paper-range-slider-knob-start-border-color` | The border color of the knob at the far left | `--paper-grey-400`
