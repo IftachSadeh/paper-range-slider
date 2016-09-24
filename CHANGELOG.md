@@ -1,5 +1,9 @@
 # Changelog
 
+## Master (24/09/2016)
+
+- Fixed issue #3 (IE11 crash Node.remove() method).
+
 ## paper-range-slider 0.1.2 (12/09/2016)
 
 - Added a `setDisabled()` function.
