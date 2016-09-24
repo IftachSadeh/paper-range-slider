@@ -319,7 +319,7 @@ See README.md for further details.
             this.style.paddingTop    = height+"px"
             this.style.paddingBottom = height+"px"
 
-            beforeEle.remove();
+            beforeEle.parentNode.removeChild(beforeEle);
             return;
         },
 
