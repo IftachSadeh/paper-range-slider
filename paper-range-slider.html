@@ -76,6 +76,14 @@ See README.md for further details.
               /*background: #2196F3; opacity: 0.3;*/
             }
 
+            .paperSliderOuter {
+                position:absolute;
+                width:100%;
+                display:block;
+                top:0px;
+                pointer-events: none;
+            }
+
             #sliderMax {
                 --paper-slider-bar-color:               transparent;
                 --paper-slider-knob-color:              var(--paper-range-slider-knob-color);
@@ -111,14 +119,14 @@ See README.md for further details.
               <div id='sliderKnobMax' class="sliderKnobMinMax" on-down="_diffDivDown"
                    on-up="_diffDivUp" on-track="_sliderKnobMaxOnTrack"></div>
 
-              <div style="position:absolute; width:100%; display:block; top:0px; pointer-events: none;">
+              <div class="paperSliderOuter">
                 <paper-slider id='sliderMax' disabled$="[[disabled]]" on-down="_sliderMaxDown"
                               on-up="_sliderMaxUp" step="[[step]]" min="[[min]]" max="[[max]]"
                               value="[[valueMax]]" secondary-progress='[[max]]' style="width:100%;">
                 </paper-slider>
               </div>
 
-              <div style="position:absolute; width:100%; display:block; top:0px; pointer-events: none;">
+              <div class="paperSliderOuter">
                 <paper-slider id='sliderMin' disabled$="[[disabled]]" on-down="_sliderMinDown"
                               on-up="_sliderMinUp" noink step="[[step]]" min="[[min]]" max="[[max]]"
                               value="[[valueMin]]" style="width:100%;">
@@ -528,6 +536,7 @@ See README.md for further details.
             var immediateValueMax = this._calcStep(this._getRatioPos(this.$.sliderMax, this._x1_Max/this._xWidth));
 
             if(immediateValueMin >= this.min && immediateValueMax <= this.max) {
+                // console.log(immediateValueMin,immediateValueMax)
                 this.valueMin = immediateValueMin;
                 this.valueMax = immediateValueMax;
                 
@@ -540,8 +549,9 @@ See README.md for further details.
         
         // at the end of the dragging event, so the following
         _trackEnd: function() {
-            // update the position of the overlay divs for the min/max knobs
-            this._updateSliderKnobMinMax();
+            // make sure that the valueDiffMin,valueDiffMax are respected,
+            // and update the position of the overlay divs for the min/max knobs
+            this.setValues(this.valueMin, this.valueMax);
 
             return;
         },
@@ -663,7 +673,7 @@ See README.md for further details.
 
         // the position of the knob for a given single slider, for a given ratio
         _getRatioPos: function(this_,ratio) {
-            return (this_.max - this_.min) * ratio + this_.min;
+            return Math.max(this_.min, Math.min(this_.max, (this_.max - this_.min) * ratio + this_.min));
         },
 
         /**
@@ -835,7 +845,7 @@ See README.md for further details.
         },
 
         /**
-         * change the slider between the defaulr paper-range-slider and a paper-slider
+         * change the slider between the default paper-range-slider and a paper-slider
          * @method setValueDiffMax
          */
         setSingleSlider: function(isSingle) {

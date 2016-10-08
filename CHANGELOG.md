@@ -1,6 +1,9 @@
 # Changelog
 
-<!-- ## Master (08/10/2016) -->
+## Master (08/10/2016)
+
+- Fixed minor bug for cases where dragging the slider to the very low edge was difficult.
+
 ## paper-range-slider 0.2.0 (08/10/2016)
 
 - Added the `tapValueExtend` and `tapValueReduce` properties. The former (`true` by default) allows to modify the selected range of values, by tapping on the slider below or above the selected range. On the other hand, `tapValueReduce` (`false` by default) allows to modify the selected range of values, by tapping on the slider within the selected range. These two behaviours only apply to tapping events, and are not e.g., relevant for when the user drags the selected range.
