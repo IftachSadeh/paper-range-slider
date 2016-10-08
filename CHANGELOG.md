@@ -1,10 +1,15 @@
 # Changelog
 
-## Master (24/09/2016)
+<!-- ## Master (08/10/2016) -->
+## paper-range-slider 0.2.0 (08/10/2016)
 
 - Added the `tapValueExtend` and `tapValueReduce` properties. The former (`true` by default) allows to modify the selected range of values, by tapping on the slider below or above the selected range. On the other hand, `tapValueReduce` (`false` by default) allows to modify the selected range of values, by tapping on the slider within the selected range. These two behaviours only apply to tapping events, and are not e.g., relevant for when the user drags the selected range.
 
+- Improved behaviour for touch (increased active area for toggle around knobs).
+
 - Fixed issue #3 (IE11 crash Node.remove() method).
+
+- Fixed issue #5 (Not read property 'style').
 
 - Updated demo page.
 

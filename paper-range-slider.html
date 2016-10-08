@@ -65,6 +65,17 @@ See README.md for further details.
               margin-bottom: 0;
             }
 
+            /* mimic the size of the #sliderKnob of paper-slider */
+            .sliderKnobMinMax {
+              position: absolute;
+              left: 0;
+              top: 0;
+              margin-left: calc(-15px - var(--paper-slider-height, 2px)/2);
+              width: calc(30px + var(--paper-slider-height, 2px));
+              height: calc(30px + var(--paper-slider-height, 2px));
+              /*background: #2196F3; opacity: 0.3;*/
+            }
+
             #sliderMax {
                 --paper-slider-bar-color:               transparent;
                 --paper-slider-knob-color:              var(--paper-range-slider-knob-color);
@@ -94,13 +105,26 @@ See README.md for further details.
                   <div id='diffDivInner_0' style="line-height:200%;"><br></div>
               </div>
 
+              <!-- add a couple of invisible overlay divs, to improve the the toggle of slider knobs -->
+              <div id='sliderKnobMin' class="sliderKnobMinMax" on-down="_diffDivDown"
+                   on-up="_diffDivUp" on-track="_sliderKnobMinOnTrack"></div>
+              <div id='sliderKnobMax' class="sliderKnobMinMax" on-down="_diffDivDown"
+                   on-up="_diffDivUp" on-track="_sliderKnobMaxOnTrack"></div>
+
               <div style="position:absolute; width:100%; display:block; top:0px; pointer-events: none;">
-                <paper-slider id='sliderMax' disabled$="[[disabled]]" on-down="_sliderMaxDown" on-up="_sliderMaxUp" step="[[step]]" min="[[min]]" max="[[max]]" value="[[valueMax]]" secondary-progress='[[max]]' style="width:100%;"></paper-slider>
+                <paper-slider id='sliderMax' disabled$="[[disabled]]" on-down="_sliderMaxDown"
+                              on-up="_sliderMaxUp" step="[[step]]" min="[[min]]" max="[[max]]"
+                              value="[[valueMax]]" secondary-progress='[[max]]' style="width:100%;">
+                </paper-slider>
               </div>
 
               <div style="position:absolute; width:100%; display:block; top:0px; pointer-events: none;">
-                <paper-slider id='sliderMin' disabled$="[[disabled]]" on-down="_sliderMinDown" on-up="_sliderMinUp" noink step="[[step]]" min="[[min]]" max="[[max]]" value="[[valueMin]]" style="width:100%;"> </paper-slider>
+                <paper-slider id='sliderMin' disabled$="[[disabled]]" on-down="_sliderMinDown"
+                              on-up="_sliderMinUp" noink step="[[step]]" min="[[min]]" max="[[max]]"
+                              value="[[valueMin]]" style="width:100%;">
+                </paper-slider>
               </div>
+
               <!-- now add one real line -->
               <div id='diffDivInner_1' style="line-height:100%;"><br></div>
             </div>
@@ -277,16 +301,44 @@ See README.md for further details.
                 value: false,
                 notify: true
             },
-
         },
 
-        // initial settings
+        // initialization
         ready: function() {
+            var this_ = this;
+            if(!this.nInitTries) this.nInitTries = 0;
+
+            // it may take a little time for polymer to decide to render the paper-slider elements,
+            // we therefore wait until they're ready before we proceed with the initialization
+            var sliderContainer = this.$.sliderMax.querySelector('#sliderContainer');
+            if(sliderContainer) sliderContainer = (sliderContainer.offsetWidth > 0);
+            if(sliderContainer) sliderContainer = this.$.sliderMin.querySelector('#sliderContainer');
+            if(sliderContainer) sliderContainer = (sliderContainer.offsetWidth > 0);
+            
+            if(!sliderContainer) {
+                if(this_.nInitTries < 1000) {
+                    setTimeout(function() { this_.ready(); }, 10);
+                }
+                else {
+                    console.error("could not properly initialize the underlying paper-slider elements ...");
+                }
+                this_.nInitTries++;
+                return;
+            }
+
+            // now go through with the initialization
+            this._renderedReady();
+
+            return;
+        },
+
+        // initialization once the paper-slider elements have been rendered
+        _renderedReady: function() {
             // some initializations
             this.init();
 
             // set the padding for the parent container
-            this.setPadding();
+            this._setPadding();
 
             // setup listeners for updating everything whenever a knob is affected 
             var this_ = this;
@@ -323,11 +375,8 @@ See README.md for further details.
             return;
         },
 
-        // attached: function() {
-        // },
-
         // set padding for the element
-        setPadding: function() {
+        _setPadding: function() {
             // the creation of the element can never be trusted to derive the offsetHeight
             // (if e.g., it is in a collapsed container). We therefore add a fake element to the
             // DOM to get the basic text-heigh, then we remove this element.
@@ -417,13 +466,28 @@ See README.md for further details.
             return;
         },
 
+        // update the position of the overlay divs for the min/max knobs
+        _updateSliderKnobMinMax: function() {
+            var width    = this.$.sliderMax.querySelector('#sliderContainer').offsetWidth;
+            var leftMin  = width*(this.valueMin - this.min)/(this.max - this.min)
+                         + 0.5 * this.$.sliderKnobMin.offsetWidth;
+            var leftMax  = width*(this.valueMax - this.min)/(this.max - this.min)
+                         + 0.5 * this.$.sliderKnobMax.offsetWidth;
+
+            this.$.sliderKnobMin.style.left = leftMin+'px';
+            this.$.sliderKnobMax.style.left = leftMax+'px';
+            // console.log('_updateSliderKnobMinMax',leftMin,leftMax)
+
+            return;
+        },
+
         // set the values of the low/high edges of the selected range and broadcast the change
         _setValueMinMax: function(valuesMinMax) {
             this._setValueMin(valuesMinMax[0]);
             this._setValueMax(valuesMinMax[1]);
 
-            // setting of the div which spans the space between the two knobs
-            this._updateDiffDiv();
+            // update the position of the overlay divs for the min/max knobs
+            this._updateSliderKnobMinMax();
 
             // fire to indicate an update of this.valueMin and/or this.valueMax
             this.updateValues();
@@ -466,9 +530,6 @@ See README.md for further details.
             if(immediateValueMin >= this.min && immediateValueMax <= this.max) {
                 this.valueMin = immediateValueMin;
                 this.valueMax = immediateValueMax;
-
-                // setting of the div which spans the space between the two knobs
-                this._updateDiffDiv();
                 
                 // fire to indicate an update of this.valueMin and/or this.valueMax
                 this.updateValues();
@@ -477,8 +538,30 @@ See README.md for further details.
             return;
         },
         
-        // placeholder function for possible later implementation
-        _trackEnd: function() { return; },
+        // at the end of the dragging event, so the following
+        _trackEnd: function() {
+            // update the position of the overlay divs for the min/max knobs
+            this._updateSliderKnobMinMax();
+
+            return;
+        },
+
+        // functions to enable dragging each knob by using the invisible
+        // div which are overlaid on the respective knobs
+        _sliderKnobMinOnTrack: function(e) {
+            this._x1_Min = this._x0_Min + e.detail.dx;
+
+            var value = this._calcStep(this._getRatioPos(this.$.sliderMin, this._x1_Min/this._xWidth));
+            this.setValues(value,null);
+            return;
+        },
+        _sliderKnobMaxOnTrack: function(e) {
+            this._x1_Max = this._x0_Max + e.detail.dx;
+
+            var value = this._calcStep(this._getRatioPos(this.$.sliderMax, this._x1_Max/this._xWidth));
+            this.setValues(null,value);
+            return;
+        },
 
         // _sliderMinDown, _sliderMaxDown, _sliderMinUp, _sliderMaxUp
         //      show/hide pins (if defined) for one knob, when the other knob is pressed
@@ -487,6 +570,7 @@ See README.md for further details.
             
             return;
         },
+
         _sliderMaxDown: function(event) {
             if(!this.singleSlider) {
                 this.$.sliderMin._expandKnob();
@@ -497,12 +581,14 @@ See README.md for further details.
 
             return;
         },
+
         _sliderMinUp: function() {
             if(this.alwaysShowPin) this.$.sliderMin._expandKnob();
             else                   this.$.sliderMax._resetKnob();
             
             return;
         },
+
         _sliderMaxUp: function() {
             if(this.alwaysShowPin) this.$.sliderMax._expandKnob();
             else {
@@ -570,31 +656,6 @@ See README.md for further details.
         // placeholder function for possible later implementation
         _diffDivTransEnd: function(event) { return; },
 
-        // setting of the div which spans the space between the two knobs
-        _updateDiffDiv: function() {
-            return;
-            // var dragAnywhere = true;
-            
-            // // the dragg area is the entire width of the slider
-            // if(dragAnywhere) {
-            //     var width  = Number((this.sliderWidth).replace('px',''));
-            //     this.$.diffDiv.style.width      = width+'px'//((1 + 2*extra) * diff)+'px'
-            //     this.$.diffDiv.style.marginLeft = (-width)+'px'//(posMin - width - extra * diff)+'px'
-            // }
-            // // the dragg area is only between the two knobs
-            // else {
-            //     var posMin = this._getPos(this.$.sliderMin);
-            //     var posMax = this._getPos(this.$.sliderMax);
-            //     var width  = Number((this.sliderWidth).replace('px',''));
-            //     var diff   = Math.min(width, Math.max(0,(posMax - posMin)));
-            //     var extra  = 0.05;
-
-            //     this.$.diffDiv.style.width      = ((1 + 2*extra) * diff)+'px'
-            //     this.$.diffDiv.style.marginLeft = (posMin - width - extra * diff)+'px'
-            // }
-            // return;
-        },
-
         // the current position of the knob for a given single slider
         _getPos: function(sliderIn) {
             return (sliderIn.ratio) * Number(sliderIn.style.width.replace('px',''));
@@ -642,9 +703,6 @@ See README.md for further details.
 
             // initial setting after verifying this._valueDiffMin, this._valueDiffMax
             this._setValueMinMax(this._getValuesMinMax(this.valueMin, this.valueMax));
-
-            // setting of the div which spans the space between the two knobs
-            this._updateDiffDiv();
 
             // activate the pins, and never hide
             if(this.alwaysShowPin) {
@@ -702,9 +760,17 @@ See README.md for further details.
             if(this.max < minIn) this.max = minIn;
 
             this.min = minIn;
-            this._prevUpdateValues = [this.min, this.max]
+            this._prevUpdateValues = [this.min, this.max];
+
+            // update the selected value if it is now outside of the lower bound
+            if(this.valueMin < this.min) this.setValues(this.min,null);
+
+            // update the position of the overlay divs for the min/max knobs
+            this._updateSliderKnobMinMax();
+
             return;
         },
+
         /**
          * set the maximal value (upper range) of the slider
          * @method setMax
@@ -715,9 +781,17 @@ See README.md for further details.
             if(this.min > maxIn) this.min = maxIn;
 
             this.max = maxIn;
-            this._prevUpdateValues = [this.min, this.max]
+            this._prevUpdateValues = [this.min, this.max];
+
+            // update the selected value if it is now outside of the lower bound
+            if(this.valueMax > this.max) this.setValues(null,this.max);
+
+            // update the position of the overlay divs for the min/max knobs
+            this._updateSliderKnobMinMax();
+
             return;
         },
+
         /**
          * set the minimal step-change of a knob on the slider
          * @method setMax
@@ -726,6 +800,7 @@ See README.md for further details.
             this.step = stepIn;
             return;
         },
+
         /**
          * set the minimal difference between selected values
          * @method setValueDiffMin
@@ -734,6 +809,7 @@ See README.md for further details.
             this._valueDiffMin = valueDiffMin;
             return;
         },
+
         /**
          * set the maximal difference between selected values
          * @method setValueDiffMax
@@ -742,6 +818,7 @@ See README.md for further details.
             this._valueDiffMax = valueDiffMax;
             return;
         },
+
         /**
          * set the disabled parameter
          * @method setValueDiffMax
@@ -756,6 +833,7 @@ See README.md for further details.
 
             return;
         },
+
         /**
          * change the slider between the defaulr paper-range-slider and a paper-slider
          * @method setValueDiffMax
@@ -783,7 +861,6 @@ See README.md for further details.
 
             return;
         }
-
 
       });
     </script>
