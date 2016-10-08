@@ -314,28 +314,27 @@ See README.md for further details.
         // initialization
         ready: function() {
             var this_ = this;
-            if(!this.nInitTries) this.nInitTries = 0;
+            if(!this._nInitTries) this._nInitTries = 0;
 
             // it may take a little time for polymer to decide to render the paper-slider elements,
             // we therefore wait until they're ready before we proceed with the initialization
             var sliderContainer = this.$.sliderMax.querySelector('#sliderContainer');
-            if(sliderContainer) sliderContainer = (sliderContainer.offsetWidth > 0);
-            if(sliderContainer) sliderContainer = this.$.sliderMin.querySelector('#sliderContainer');
-            if(sliderContainer) sliderContainer = (sliderContainer.offsetWidth > 0);
-            
-            if(!sliderContainer) {
-                if(this_.nInitTries < 1000) {
+            if(sliderContainer) { sliderContainer = (sliderContainer.offsetWidth > 0);                  }
+            if(sliderContainer) { sliderContainer = this.$.sliderMin.querySelector('#sliderContainer'); }
+            if(sliderContainer) { sliderContainer = (sliderContainer.offsetWidth > 0);                  }
+            // finally, may go through with the initialization
+            if(sliderContainer) {
+                this._renderedReady();
+            }
+            else {
+                if(this_._nInitTries < 1000) {
                     setTimeout(function() { this_.ready(); }, 10);
                 }
                 else {
                     console.error("could not properly initialize the underlying paper-slider elements ...");
                 }
-                this_.nInitTries++;
-                return;
+                this_._nInitTries++;
             }
-
-            // now go through with the initialization
-            this._renderedReady();
 
             return;
         },
@@ -523,7 +522,7 @@ See README.md for further details.
           return;
         },
 
-        // placeholder function for possible later implementation
+        // place-holder function for possible later implementation
         _trackStart: function(event) { return; },
 
         // function to enable dragging both knobs by using the invisible
@@ -537,24 +536,14 @@ See README.md for further details.
 
             if(immediateValueMin >= this.min && immediateValueMax <= this.max) {
                 // console.log(immediateValueMin,immediateValueMax)
-                this.valueMin = immediateValueMin;
-                this.valueMax = immediateValueMax;
-                
-                // fire to indicate an update of this.valueMin and/or this.valueMax
-                this.updateValues();
+                this.setValues(immediateValueMin, immediateValueMax);
             }
 
             return;
         },
         
-        // at the end of the dragging event, so the following
-        _trackEnd: function() {
-            // make sure that the valueDiffMin,valueDiffMax are respected,
-            // and update the position of the overlay divs for the min/max knobs
-            this.setValues(this.valueMin, this.valueMax);
-
-            return;
-        },
+        // place-holder function for at the end of the dragging event, so the following
+        _trackEnd: function() { return; },
 
         // functions to enable dragging each knob by using the invisible
         // div which are overlaid on the respective knobs
@@ -663,7 +652,7 @@ See README.md for further details.
             return;
         },
 
-        // placeholder function for possible later implementation
+        // place-holder function for possible later implementation
         _diffDivTransEnd: function(event) { return; },
 
         // the current position of the knob for a given single slider
