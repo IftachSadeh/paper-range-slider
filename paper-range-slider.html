@@ -457,18 +457,28 @@ See README.md for further details.
 
         // set the value of the low edge of the selected range
         _setValueMin: function(value) {
+            this.$.sliderMin._setTransiting(true);
+
             value = Math.max(value, this.min);
             this.$.sliderMin.value = value;
             this.valueMin          = value;
+
+            var this_ = this;
+            setTimeout(function() { this_.$.sliderMin._setTransiting(false);; }, 1000);
             
             return;
         },
 
         // set the value of the high edge of the selected range
         _setValueMax: function(value) {
+            this.$.sliderMax._setTransiting(true);
+
             value = Math.min(value, this.max);
             this.$.sliderMax.value = value;
             this.valueMax          = value;
+
+            var this_ = this;
+            setTimeout(function() { this_.$.sliderMax._setTransiting(false);; }, 1000);
 
             return;
         },
@@ -542,7 +552,7 @@ See README.md for further details.
             return;
         },
         
-        // place-holder function - at the end of the dragging event, do the following...
+        // place-holder function for at the end of the dragging event, so the following
         _trackEnd: function() { return; },
 
         // functions to enable dragging each knob by using the invisible
