@@ -64,6 +64,11 @@ document.querySelector("#myPaperRangeSliderId").setValueDiffMax(myValueDiffMax);
 document.querySelector("#myPaperRangeSliderId").setDisabled(isDisabled);
 ```
 
+- The `tapValueExtend` and `tapValueReduce` properties control what happens when a user taps the slider (not e.g., relevant for when the user drags the selected range). The `tapValueExtend` property (`true` by default) allows to modify the selected range of values, by tapping on the slider below or above the selected range. On the other hand, `tapValueReduce` (`false` by default) allows to modify the selected range of values, by tapping on the slider within the selected range. One may turn the latter behaviour on, by e.g.,
+```html
+<paper-range-slider tap-value-reduce></paper-range-slider>
+```
+
 - The above properties which do not have an explicit method, may be reset directly. In order for the changes to take effect properly, use the `init()` method. For instance, to change the `alwaysShowPin` option of an already-defined slider, do:
 ```javascript
 document.querySelector("#myPaperRangeSliderId").alwaysShowPin = true;

@@ -89,7 +89,7 @@ See README.md for further details.
         <div id="sliderOuterDiv_0" style="[[style]]">
             <div id="sliderOuterDiv_1">
                 <!-- for debugging, add: to style the following: "border: 1px solid red" -->
-              <div id='diffDiv' on-down="_diffDivDown" on-up="_diffDivUp" on-track="_diffDivOnTrack" on-transitionend="_diffDivTransEnd" style="position:absolute; width:100%; display:block; top:0px;">
+              <div id='diffDiv' on-down="_diffDivDown" on-tap="_diffDivTap" on-up="_diffDivUp" on-track="_diffDivOnTrack" on-transitionend="_diffDivTransEnd" style="position:absolute; width:100%; display:block; top:0px;"> <!-- background: #2196F3; opacity:0.2; -->
                   <!-- must have this in order to force width/height -->
                   <div id='diffDivInner_0' style="line-height:200%;"><br></div>
               </div>
@@ -257,6 +257,27 @@ See README.md for further details.
                 value: false,
                 notify: true
             },
+
+            /**
+             * if set to true, tapping the slider below or above the selected range
+             * will update the selected range.
+             */
+            tapValueExtend: {
+                type: Boolean,
+                value: true,
+                notify: true
+            },
+
+            /**
+             * if set to true, tapping the slider inside the selected range
+             * will update the selected range.
+             */
+            tapValueReduce: {
+                type: Boolean,
+                value: false,
+                notify: true
+            },
+
         },
 
         // initial settings
@@ -471,12 +492,7 @@ See README.md for further details.
                 this.$.sliderMin._expandKnob();
             }
             else {
-                var width     = this.$.sliderMax.querySelector('#sliderContainer').offsetWidth;
-                var rect      = this.$.sliderMax.querySelector('#sliderContainer').getBoundingClientRect();
-                var ratio     = (event.detail.x - rect.left) / width;
-                var value     = this.min + ratio * (this.max - this.min);
-
-                this.setValues(null,value);
+                this.setValues(null,this._getEventValue(event));
             }
 
             return;
@@ -494,6 +510,34 @@ See README.md for further details.
                 if(this.singleSlider) this.$.sliderMax._resetKnob();
             }
             
+            return;
+        },
+
+        // function to calculate the value from an event
+        _getEventValue: function(event) {
+            var width = this.$.sliderMax.querySelector('#sliderContainer').offsetWidth;
+            var rect  = this.$.sliderMax.querySelector('#sliderContainer').getBoundingClientRect();
+            var ratio = (event.detail.x - rect.left) / width;
+            var value = this.min + ratio * (this.max - this.min);
+
+            return value;
+        },
+
+        // set the value if tapping the slider below or above the selected range
+        _diffDivTap: function(event) {
+            var value = this._getEventValue(event);
+            
+            if(value > this.valueMin && value < this.valueMax) {
+                if(this.tapValueReduce) {
+                    if(value < (this.valueMax - this.valueMin)/2) this.setValues(value,null);
+                    else                                          this.setValues(null,value);
+                }
+            }
+            else if(this.tapValueExtend) {
+                if(value < this.valueMin) this.setValues(value,null);
+                if(value > this.valueMax) this.setValues(null,value);
+            }
+
             return;
         },
 
@@ -586,7 +630,7 @@ See README.md for further details.
                 this.updateStyles();
             }
 
-            // since the two single sliders are overlaid, we need to remove forground color
+            // since the two single sliders are overlaid, we need to remove foreground color
             this.$.sliderMin.querySelector('#sliderBar').querySelector('#progressContainer').style.background = "transparent";
 
             // internal variable to prevent unneeded fire on updates
@@ -702,14 +746,14 @@ See README.md for further details.
          * @method setValueDiffMax
          */
         setDisabled: function(isDisabled) {
-          this.disabled = isDisabled;
+            this.disabled = isDisabled;
 
-          var pointEvt = this.disabled ? "none" : "auto";
-          this.$.sliderMax.querySelector('#sliderKnobInner').style.pointerEvents = pointEvt;
-          this.$.sliderMin.querySelector('#sliderKnobInner').style.pointerEvents = pointEvt;
-          this.$.sliderOuterDiv_1.style.pointerEvents                            = pointEvt;
+            var pointEvt = this.disabled ? "none" : "auto";
+            this.$.sliderMax.querySelector('#sliderKnobInner').style.pointerEvents = pointEvt;
+            this.$.sliderMin.querySelector('#sliderKnobInner').style.pointerEvents = pointEvt;
+            this.$.sliderOuterDiv_1.style.pointerEvents                            = pointEvt;
 
-          return;
+            return;
         },
         /**
          * change the slider between the defaulr paper-range-slider and a paper-slider
