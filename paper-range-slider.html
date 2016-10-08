@@ -529,8 +529,9 @@ See README.md for further details.
             
             if(value > this.valueMin && value < this.valueMax) {
                 if(this.tapValueReduce) {
-                    if(value < (this.valueMax - this.valueMin)/2) this.setValues(value,null);
-                    else                                          this.setValues(null,value);
+                    var isLow = value < (this.valueMin + (this.valueMax - this.valueMin)/2);
+                    if(isLow) this.setValues(value,null);
+                    else      this.setValues(null,value);
                 }
             }
             else if(this.tapValueExtend) {
