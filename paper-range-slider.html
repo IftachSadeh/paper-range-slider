@@ -842,16 +842,20 @@ See README.md for further details.
             this.singleSlider = isSingle;
 
             if(this.singleSlider) {
-                this.$.diffDiv.style.display         = 'none';
-                this.$.sliderMax.style.display       = '';
-                this.$.sliderMax.style.pointerEvents = 'auto';
-                this.$.sliderMin.style.display       = 'none';
+                this.$.diffDiv.style.display             = 'none';
+                this.$.sliderMax.style.display           = '';
+                this.$.sliderMax.style.pointerEvents     = 'auto';
+                this.$.sliderMin.style.display           = 'none';
+                this.$.sliderKnobMin.style.pointerEvents = 'none';
+                this.$.sliderKnobMax.style.pointerEvents = 'none';
             }
             else {
-                this.$.diffDiv.style.display         = 'block';
-                this.$.sliderMax.style.display       = '';
-                this.$.sliderMax.style.pointerEvents = 'none';
-                this.$.sliderMin.style.display       = '';
+                this.$.diffDiv.style.display             = 'block';
+                this.$.sliderMax.style.display           = '';
+                this.$.sliderMax.style.pointerEvents     = 'none';
+                this.$.sliderMin.style.display           = '';
+                this.$.sliderKnobMin.style.pointerEvents = 'auto';
+                this.$.sliderKnobMax.style.pointerEvents = 'auto';
             }
 
             // disable some of the interface of the two single sliders,
