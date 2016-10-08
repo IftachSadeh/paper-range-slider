@@ -1,6 +1,7 @@
 # Changelog
 
-## Master (09/10/2016)
+<!-- ## Master (09/10/2016) -->
+## paper-range-slider 0.2.1 (09/10/2016)
 
 - Fixed minor bug for cases where dragging the slider to the very low edge was difficult.
 
