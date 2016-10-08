@@ -4,7 +4,7 @@
 
 - Fixed minor bug for cases where dragging the slider to the very low edge was difficult.
 
-- Fix minor bug with transition animation.
+- Fixed minor bug with transition animation.
 
 ## paper-range-slider 0.2.0 (08/10/2016)
 
