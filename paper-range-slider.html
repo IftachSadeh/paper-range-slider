@@ -457,28 +457,38 @@ See README.md for further details.
 
         // set the value of the low edge of the selected range
         _setValueMin: function(value) {
-            this.$.sliderMin._setTransiting(true);
-
             value = Math.max(value, this.min);
             this.$.sliderMin.value = value;
             this.valueMin          = value;
 
-            var this_ = this;
-            setTimeout(function() { this_.$.sliderMin._setTransiting(false);; }, 1000);
-            
             return;
         },
 
         // set the value of the high edge of the selected range
         _setValueMax: function(value) {
-            this.$.sliderMax._setTransiting(true);
-
             value = Math.min(value, this.max);
             this.$.sliderMax.value = value;
             this.valueMax          = value;
 
-            var this_ = this;
-            setTimeout(function() { this_.$.sliderMax._setTransiting(false);; }, 1000);
+            return;
+        },
+
+        // set this.valueMin and/or this.valueMax (can input null values or out-of-range
+        // values in order to set only one of the two)
+        _setValues: function(valueMin,valueMax) {
+            // some sanity checks/changes
+            if(valueMin != null) {
+                if(valueMin < this.min || valueMin > this.max) valueMin = null;
+            }
+            if(valueMax != null) {
+                if(valueMax < this.min || valueMax > this.max) valueMax = null;
+            }
+            if(valueMin != null && valueMax != null) {
+                valueMin = Math.min(valueMin,valueMax);
+            }
+
+            // now update the values
+            this._setValueMinMax(this._getValuesMinMax(valueMin,valueMax));
 
             return;
         },
@@ -546,7 +556,7 @@ See README.md for further details.
 
             if(immediateValueMin >= this.min && immediateValueMax <= this.max) {
                 // console.log(immediateValueMin,immediateValueMax)
-                this.setValues(immediateValueMin, immediateValueMax);
+                this._setValues(immediateValueMin, immediateValueMax);
             }
 
             return;
@@ -561,14 +571,14 @@ See README.md for further details.
             this._x1_Min = this._x0_Min + e.detail.dx;
 
             var value = this._calcStep(this._getRatioPos(this.$.sliderMin, this._x1_Min/this._xWidth));
-            this.setValues(value,null);
+            this._setValues(value,null);
             return;
         },
         _sliderKnobMaxOnTrack: function(e) {
             this._x1_Max = this._x0_Max + e.detail.dx;
 
             var value = this._calcStep(this._getRatioPos(this.$.sliderMax, this._x1_Max/this._xWidth));
-            this.setValues(null,value);
+            this._setValues(null,value);
             return;
         },
 
@@ -585,7 +595,7 @@ See README.md for further details.
                 this.$.sliderMin._expandKnob();
             }
             else {
-                this.setValues(null,this._getEventValue(event));
+                this._setValues(null,this._getEventValue(event));
             }
 
             return;
@@ -620,19 +630,28 @@ See README.md for further details.
 
         // set the value if tapping the slider below or above the selected range
         _diffDivTap: function(event) {
+            this.$.sliderMin._setTransiting(true);
+            this.$.sliderMax._setTransiting(true);
+
             var value = this._getEventValue(event);
             
             if(value > this.valueMin && value < this.valueMax) {
                 if(this.tapValueReduce) {
                     var isLow = value < (this.valueMin + (this.valueMax - this.valueMin)/2);
-                    if(isLow) this.setValues(value,null);
-                    else      this.setValues(null,value);
+                    if(isLow) this._setValues(value,null);
+                    else      this._setValues(null,value);
                 }
             }
             else if(this.tapValueExtend) {
-                if(value < this.valueMin) this.setValues(value,null);
-                if(value > this.valueMax) this.setValues(null,value);
+                if(value < this.valueMin) this._setValues(value,null);
+                if(value > this.valueMax) this._setValues(null,value);
             }
+
+            var this_ = this;
+            setTimeout(function() {
+                this_.$.sliderMin._setTransiting(false);
+                this_.$.sliderMax._setTransiting(false);
+            }, 1000);
 
             return;
         },
@@ -724,23 +743,20 @@ See README.md for further details.
 
         /**
          * set this.valueMin and/or this.valueMax (can input null values or out-of-range
-         * values in order to set only one of the two)
-         * @method setValues
+         * values in order to set only one of the two), including transition animation
+         * @method _setValues
          */
-        setValues: function(valueMin,valueMax) {
-            // some sanity checks/changes
-            if(valueMin != null) {
-                if(valueMin < this.min || valueMin > this.max) valueMin = null;
-            }
-            if(valueMax != null) {
-                if(valueMax < this.min || valueMax > this.max) valueMax = null;
-            }
-            if(valueMin != null && valueMax != null) {
-                valueMin = Math.min(valueMin,valueMax);
-            }
+         setValues: function(valueMin,valueMax) {
+            this.$.sliderMin._setTransiting(true);
+            this.$.sliderMax._setTransiting(true);
 
-            // now update the values
-            this._setValueMinMax(this._getValuesMinMax(valueMin,valueMax));
+            this._setValues(valueMin,valueMax);
+
+            var this_ = this;
+            setTimeout(function() {
+                this_.$.sliderMin._setTransiting(false);
+                this_.$.sliderMax._setTransiting(false);
+            }, 1000);
 
             return;
         },
@@ -772,7 +788,7 @@ See README.md for further details.
             this._prevUpdateValues = [this.min, this.max];
 
             // update the selected value if it is now outside of the lower bound
-            if(this.valueMin < this.min) this.setValues(this.min,null);
+            if(this.valueMin < this.min) this._setValues(this.min,null);
 
             // update the position of the overlay divs for the min/max knobs
             this._updateSliderKnobMinMax();
@@ -793,7 +809,7 @@ See README.md for further details.
             this._prevUpdateValues = [this.min, this.max];
 
             // update the selected value if it is now outside of the lower bound
-            if(this.valueMax > this.max) this.setValues(null,this.max);
+            if(this.valueMax > this.max) this._setValues(null,this.max);
 
             // update the position of the overlay divs for the min/max knobs
             this._updateSliderKnobMinMax();
