@@ -663,7 +663,7 @@ See README.md for further details.
 
             var value = this._getEventValue(event);
 
-            this._setValueNow = this.tapValueMove ? this._setValuesWithCurrentDiff : this._setValues;
+            this._setValueNow = this.tapValueMove ? this._setValuesWithCurrentDiff : this.setValues;
             
             if(value > this.valueMin && value < this.valueMax) {
                 if(this.tapValueReduce) {
