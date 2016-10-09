@@ -64,9 +64,15 @@ document.querySelector("#myPaperRangeSliderId").setValueDiffMax(myValueDiffMax);
 document.querySelector("#myPaperRangeSliderId").setDisabled(isDisabled);
 ```
 
-- The `tapValueExtend` and `tapValueReduce` properties control what happens when a user taps the slider (not e.g., relevant for when the user drags the selected range). The `tapValueExtend` property (`true` by default) allows to modify the selected range of values, by tapping on the slider below or above the selected range. On the other hand, `tapValueReduce` (`false` by default) allows to modify the selected range of values, by tapping on the slider within the selected range. One may turn the latter behaviour on, by e.g.,
+- The `tapValueExtend`, `tapValueReduce` and `tapValueMove` properties control what happens when a user taps the slider (not e.g., relevant for when the user drags the selected range). The `tapValueExtend` property (`true` by default) allows to modify the selected range of values, by tapping on the slider below or above the selected range. On the other hand, `tapValueReduce` (`false` by default) allows to modify the selected range of values, by tapping on the slider within the selected range. Finally `tapValueMove` supersedes the `tapValueExtend` and `tapValueReduce` properties if set (it is `true` by default). If `tapValueMove` is enabled, tapping the slider will update the selected range, while keeping the same difference between valueMin and valueMax. One may set these properties by e.g.,
 ```html
 <paper-range-slider tap-value-reduce></paper-range-slider>
+```
+or pragmatically with
+```javascript
+document.querySelector("#myPaperRangeSliderId").setTapValueExtend(isTapValueExtend);
+document.querySelector("#myPaperRangeSliderId").setTapValueReduce(isTapValueReduce);
+document.querySelector("#myPaperRangeSliderId").setTapValueMove(isTapValueMove);
 ```
 
 - The above properties which do not have an explicit method, may be reset directly. In order for the changes to take effect properly, use the `init()` method. For instance, to change the `alwaysShowPin` option of an already-defined slider, do:
