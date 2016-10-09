@@ -292,6 +292,17 @@ See README.md for further details.
             },
 
             /**
+             * time-window (in msec) to keep the slider._setTransiting(true) for the
+             * two paper-slider elements, when using the setValues() method to change the
+             * selected range. This should be slightly higher than the transition time defined for the
+             * paper-slider (which, as of paper-slider-v1.0.11, is .18s).
+             */
+            transDuration: {
+                type: Number,
+                value: 200,
+            },
+
+            /**
              * if set to true, tapping the slider below or above the selected range
              * will update the selected range.
              */
@@ -787,7 +798,7 @@ See README.md for further details.
             setTimeout(function() {
                 this_.$.sliderMin._setTransiting(false);
                 this_.$.sliderMax._setTransiting(false);
-            }, 1000);
+            }, this_.transDuration);
 
             return;
         },
@@ -899,8 +910,6 @@ See README.md for further details.
             this.tapValueMove = isTapValueMove;
             return;
         },
-
-
 
         /**
          * set the disabled parameter
