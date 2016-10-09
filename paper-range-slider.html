@@ -671,20 +671,22 @@ See README.md for further details.
         // set the value if tapping the slider below or above the selected range
         _backDivTap: function(event) {
             this._setValueNow = function(valueMin,valueMax) {
-                return this.tapValueMove ? this._setValuesWithCurrentDiff(valueMin,valueMax,true) : this.setValues(valueMin,valueMax);
+                if(this.tapValueMove) { this._setValuesWithCurrentDiff(valueMin,valueMax,true); }
+                else                  { this.setValues(valueMin,valueMax);                      }
+                return;
             }
             
             var value = this._getEventValue(event);
             if(value > this.valueMin && value < this.valueMax) {
                 if(this.tapValueReduce) {
                     var isLow = value < (this.valueMin + (this.valueMax - this.valueMin)/2);
-                    if(isLow) this._setValueNow(value,null);
-                    else      this._setValueNow(null,value);
+                    if(isLow) { this._setValueNow(value,null); }
+                    else      { this._setValueNow(null,value); }
                 }
             }
             else if(this.tapValueExtend || this.tapValueMove) {
-                if(value < this.valueMin) this._setValueNow(value,null);
-                if(value > this.valueMax) this._setValueNow(null,value);
+                if(value < this.valueMin) { this._setValueNow(value,null); }
+                if(value > this.valueMax) { this._setValueNow(null,value); }
             }
 
             return;
