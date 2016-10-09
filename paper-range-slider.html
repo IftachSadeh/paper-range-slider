@@ -295,11 +295,11 @@ See README.md for further details.
              * time-window (in msec) to keep the slider._setTransiting(true) for the
              * two paper-slider elements, when using the setValues() method to change the
              * selected range. This should be slightly higher than the transition time defined for the
-             * paper-slider (which, as of paper-slider-v1.0.11, is .18s).
+             * paper-slider (which, as of paper-slider-v1.0.11, is 0.08s).
              */
             transDuration: {
                 type: Number,
-                value: 200,
+                value: 100,
             },
 
             /**
@@ -579,20 +579,21 @@ See README.md for further details.
 
             if(immediateValueMin >= this.min && immediateValueMax <= this.max) {
                 // console.log(immediateValueMin,immediateValueMax)
-                this._setValuesWithCurrentDiff(immediateValueMin, immediateValueMax);
+                this._setValuesWithCurrentDiff(immediateValueMin, immediateValueMax, false);
             }
 
             return;
         },
 
-        _setValuesWithCurrentDiff: function(valueMin, valueMax) {
+        _setValuesWithCurrentDiff: function(valueMin, valueMax, useTrans) {
             var diffMin = this._valueDiffMin;
             var diffMax = this._valueDiffMax;
 
             this._valueDiffMin = this.valueMax - this.valueMin;
             this._valueDiffMax = this.valueMax - this.valueMin;
 
-            this._setValues(valueMin, valueMax);
+            if(useTrans) this.setValues(valueMin, valueMax);
+            else         this._setValues(valueMin, valueMax);
 
             this._valueDiffMin = diffMin;
             this._valueDiffMax = diffMax;
@@ -669,13 +670,11 @@ See README.md for further details.
 
         // set the value if tapping the slider below or above the selected range
         _backDivTap: function(event) {
-            this.$.sliderMin._setTransiting(true);
-            this.$.sliderMax._setTransiting(true);
-
-            var value = this._getEventValue(event);
-
-            this._setValueNow = this.tapValueMove ? this._setValuesWithCurrentDiff : this.setValues;
+            this._setValueNow = function(valueMin,valueMax) {
+                return this.tapValueMove ? this._setValuesWithCurrentDiff(valueMin,valueMax,true) : this.setValues(valueMin,valueMax);
+            }
             
+            var value = this._getEventValue(event);
             if(value > this.valueMin && value < this.valueMax) {
                 if(this.tapValueReduce) {
                     var isLow = value < (this.valueMin + (this.valueMax - this.valueMin)/2);
@@ -687,12 +686,6 @@ See README.md for further details.
                 if(value < this.valueMin) this._setValueNow(value,null);
                 if(value > this.valueMax) this._setValueNow(null,value);
             }
-
-            var this_ = this;
-            setTimeout(function() {
-                this_.$.sliderMin._setTransiting(false);
-                this_.$.sliderMax._setTransiting(false);
-            }, 1000);
 
             return;
         },
