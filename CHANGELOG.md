@@ -3,7 +3,7 @@
 <!-- ## Master (09/10/2016) -->
 ## paper-range-slider 0.2.2 (10/10/2016)
 
-- Added the `tapValueMove` property (set to `true` by default). If set, tapping the slider will update the selected range, while keeping the same difference between valueMin and valueMax. If set, `tapValueMove` supersedes the `tapValueExtend` and `tapValueReduce` properties.
+- Added the `tapValueMove` property (set to `false` by default). If set, tapping the slider will update the selected range, while keeping the same difference between valueMin and valueMax. If set, `tapValueMove` supersedes the `tapValueExtend` and `tapValueReduce` properties.
 
 - Fixed bug with disabled mode.
 
