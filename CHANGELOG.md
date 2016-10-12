@@ -1,6 +1,7 @@
 # Changelog
 
-## Master (12/10/2016)
+<!-- ## Master (12/10/2016) -->
+## paper-range-slider 0.2.3 (12/10/2016)
 
 - Fixed bug with local DOM access of internal elements.
 

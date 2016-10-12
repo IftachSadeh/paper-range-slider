@@ -343,9 +343,9 @@ See README.md for further details.
             // it may take a little time for polymer to decide to render the paper-slider elements,
             // we therefore wait until they're ready before we proceed with the initialization
             var sliderContainer = this.$$("#sliderMax").$$('#sliderContainer');
-            if(_hasVar(sliderContainer)) { sliderContainer = (sliderContainer.offsetWidth > 0);                       }
+            if(_hasVar(sliderContainer)) { sliderContainer = (sliderContainer.offsetWidth > 0);            }
             if(_hasVar(sliderContainer)) { sliderContainer = this.$$("#sliderMin").$$('#sliderContainer'); }
-            if(_hasVar(sliderContainer)) { sliderContainer = (sliderContainer.offsetWidth > 0);                       }
+            if(_hasVar(sliderContainer)) { sliderContainer = (sliderContainer.offsetWidth > 0);            }
             // finally, may go through with the initialization
             if(_hasVar(sliderContainer)) {
                 this._renderedReady();
