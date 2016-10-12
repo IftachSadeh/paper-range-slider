@@ -299,7 +299,7 @@ See README.md for further details.
              */
             transDuration: {
                 type: Number,
-                value: 200,
+                value: 250,
             },
 
             /**
@@ -336,18 +336,21 @@ See README.md for further details.
 
         // initialization
         ready: function() {
-            if(!this._nInitTries) this._nInitTries = 0;
+            function _hasVar(varIn) { return (varIn != undefined && varIn != null); }
+
+            if(!_hasVar(this._nInitTries)) this._nInitTries = 0;
 
             // it may take a little time for polymer to decide to render the paper-slider elements,
             // we therefore wait until they're ready before we proceed with the initialization
-            var sliderContainer = this.$.sliderMax.querySelector('#sliderContainer');
-            if(sliderContainer) { sliderContainer = (sliderContainer.offsetWidth > 0);                  }
-            if(sliderContainer) { sliderContainer = this.$.sliderMin.querySelector('#sliderContainer'); }
-            if(sliderContainer) { sliderContainer = (sliderContainer.offsetWidth > 0);                  }
+            var sliderContainer = this.$$("#sliderMax").querySelector('#sliderContainer');
+            if(_hasVar(sliderContainer)) { sliderContainer = (sliderContainer.offsetWidth > 0);                       }
+            if(_hasVar(sliderContainer)) { sliderContainer = this.$$("#sliderMin").querySelector('#sliderContainer'); }
+            if(_hasVar(sliderContainer)) { sliderContainer = (sliderContainer.offsetWidth > 0);                       }
             // finally, may go through with the initialization
-            if(sliderContainer) {
+            if(_hasVar(sliderContainer)) {
                 this._renderedReady();
             }
+            // if not, try again in a few msec
             else {
                 if(this._nInitTries < 1000) {
                     var this_ = this;
@@ -373,19 +376,19 @@ See README.md for further details.
             // setup listeners for updating everything whenever a knob is affected 
             var this_ = this;
 
-            this.$.sliderMin.addEventListener('immediate-value-change', function(customEvent) {
+            this.$$("#sliderMin").addEventListener('immediate-value-change', function(customEvent) {
                 this_._setValueMinMax(this_._getValuesMinMax(this.immediateValue,null));
 
                 this_.$.sliderMin._expandKnob();
                 this_.$.sliderMax._expandKnob();
             });
             
-            this.$.sliderMax.addEventListener('immediate-value-change', function(customEvent) {
+            this.$$("#sliderMax").addEventListener('immediate-value-change', function(customEvent) {
                 // console.log('immed-change..',this.immediateValue,this_.valueMax)
                 this_._setValueMinMax(this_._getValuesMinMax(null,this.immediateValue));
             });
 
-            this.$.sliderMin.addEventListener('change', function(customEvent) {
+            this.$$("#sliderMin").addEventListener('change', function(customEvent) {
                 this_._setValueMinMax(this_._getValuesMinMax(this.immediateValue,null));
 
                 if(this_.alwaysShowPin) {
@@ -393,7 +396,7 @@ See README.md for further details.
                 }
             });
         
-            this.$.sliderMax.addEventListener('change', function(customEvent) {
+            this.$$("#sliderMax").addEventListener('change', function(customEvent) {
                 // console.log('final-change..',this.immediateValue,this_.valueMax)
                 this_._setValueMinMax(this_._getValuesMinMax(null,this.immediateValue));
 
@@ -481,7 +484,7 @@ See README.md for further details.
         // set the value of the low edge of the selected range
         _setValueMin: function(value) {
             value = Math.max(value, this.min);
-            this.$.sliderMin.value = value;
+            this.$$("#sliderMin").value = value;
             this.valueMin          = value;
 
             return;
@@ -490,7 +493,7 @@ See README.md for further details.
         // set the value of the high edge of the selected range
         _setValueMax: function(value) {
             value = Math.min(value, this.max);
-            this.$.sliderMax.value = value;
+            this.$$("#sliderMax").value = value;
             this.valueMax          = value;
 
             return;
@@ -532,14 +535,14 @@ See README.md for further details.
 
         // update the position of the overlay divs for the min/max knobs
         _updateSliderKnobMinMax: function() {
-            var width    = this.$.sliderMax.querySelector('#sliderContainer').offsetWidth;
+            var width    = this.$$("#sliderMax").querySelector('#sliderContainer').offsetWidth;
             var leftMin  = width*(this.valueMin - this.min)/(this.max - this.min)
-                         + 0.5 * this.$.sliderKnobMin.offsetWidth;
+                         + 0.5 * this.$$("#sliderKnobMin").offsetWidth;
             var leftMax  = width*(this.valueMax - this.min)/(this.max - this.min)
-                         + 0.5 * this.$.sliderKnobMax.offsetWidth;
+                         + 0.5 * this.$$("#sliderKnobMax").offsetWidth;
 
-            this.$.sliderKnobMin.style.left = leftMin+'px';
-            this.$.sliderKnobMax.style.left = leftMax+'px';
+            this.$$("#sliderKnobMin").style.left = leftMin+'px';
+            this.$$("#sliderKnobMax").style.left = leftMax+'px';
             // console.log('_updateSliderKnobMinMax',leftMin,leftMax)
 
             return;
@@ -572,10 +575,10 @@ See README.md for further details.
         // div which spans the distance in between
         _backDivTrackDuring: function(e) {
             this._x1_Min = this._x0_Min + e.detail.dx;
-            var immediateValueMin = this._calcStep(this._getRatioPos(this.$.sliderMin, this._x1_Min/this._xWidth));
+            var immediateValueMin = this._calcStep(this._getRatioPos(this.$$("#sliderMin"), this._x1_Min/this._xWidth));
 
             this._x1_Max = this._x0_Max + e.detail.dx;
-            var immediateValueMax = this._calcStep(this._getRatioPos(this.$.sliderMax, this._x1_Max/this._xWidth));
+            var immediateValueMax = this._calcStep(this._getRatioPos(this.$$("#sliderMax"), this._x1_Max/this._xWidth));
 
             if(immediateValueMin >= this.min && immediateValueMax <= this.max) {
                 // console.log(immediateValueMin,immediateValueMax)
@@ -609,7 +612,7 @@ See README.md for further details.
         _sliderKnobMinOnTrack: function(e) {
             this._x1_Min = this._x0_Min + e.detail.dx;
 
-            var value = this._calcStep(this._getRatioPos(this.$.sliderMin, this._x1_Min/this._xWidth));
+            var value = this._calcStep(this._getRatioPos(this.$$("#sliderMin"), this._x1_Min/this._xWidth));
             this._setValues(value,null);
             return;
         },
@@ -617,7 +620,7 @@ See README.md for further details.
         _sliderKnobMaxOnTrack: function(e) {
             this._x1_Max = this._x0_Max + e.detail.dx;
 
-            var value = this._calcStep(this._getRatioPos(this.$.sliderMax, this._x1_Max/this._xWidth));
+            var value = this._calcStep(this._getRatioPos(this.$$("#sliderMax"), this._x1_Max/this._xWidth));
             this._setValues(null,value);
             return;
         },
@@ -625,14 +628,14 @@ See README.md for further details.
         // _sliderMinDown, _sliderMaxDown, _sliderMinUp, _sliderMaxUp
         //      show/hide pins (if defined) for one knob, when the other knob is pressed
         _sliderMinDown: function() {
-            this.$.sliderMax._expandKnob();
+            this.$$("#sliderMax")._expandKnob();
             
             return;
         },
 
         _sliderMaxDown: function(event) {
             if(!this.singleSlider) {
-                this.$.sliderMin._expandKnob();
+                this.$$("#sliderMin")._expandKnob();
             }
             else {
                 this._setValues(null,this._getEventValue(event));
@@ -642,17 +645,17 @@ See README.md for further details.
         },
 
         _sliderMinUp: function() {
-            if(this.alwaysShowPin) this.$.sliderMin._expandKnob();
-            else                   this.$.sliderMax._resetKnob();
+            if(this.alwaysShowPin) this.$$("#sliderMin")._expandKnob();
+            else                   this.$$("#sliderMax")._resetKnob();
             
             return;
         },
 
         _sliderMaxUp: function() {
-            if(this.alwaysShowPin) this.$.sliderMax._expandKnob();
+            if(this.alwaysShowPin) this.$$("#sliderMax")._expandKnob();
             else {
-                this.$.sliderMin._resetKnob();
-                if(this.singleSlider) this.$.sliderMax._resetKnob();
+                this.$$("#sliderMin")._resetKnob();
+                if(this.singleSlider) this.$$("#sliderMax")._resetKnob();
             }
             
             return;
@@ -660,8 +663,8 @@ See README.md for further details.
 
         // function to calculate the value from an event
         _getEventValue: function(event) {
-            var width = this.$.sliderMax.querySelector('#sliderContainer').offsetWidth;
-            var rect  = this.$.sliderMax.querySelector('#sliderContainer').getBoundingClientRect();
+            var width = this.$$("#sliderMax").querySelector('#sliderContainer').offsetWidth;
+            var rect  = this.$$("#sliderMax").querySelector('#sliderContainer').getBoundingClientRect();
             var ratio = (event.detail.x - rect.left) / width;
             var value = this.min + ratio * (this.max - this.min);
 
@@ -700,9 +703,9 @@ See README.md for further details.
             this._sliderMaxDown();
 
             // get the initial positions of knobs before dragging starts
-            this._xWidth = this.$.sliderMin.querySelector('#sliderBar').offsetWidth;
-            this._x0_Min = this.$.sliderMin.ratio * this._xWidth;
-            this._x0_Max = this.$.sliderMax.ratio * this._xWidth;
+            this._xWidth = this.$$("#sliderMin").querySelector('#sliderBar').offsetWidth;
+            this._x0_Min = this.$$("#sliderMin").ratio * this._xWidth;
+            this._x0_Max = this.$$("#sliderMax").ratio * this._xWidth;
             
             return;
         },
@@ -742,22 +745,22 @@ See README.md for further details.
             // some basic properties
             if(this.alwaysShowPin) { this.pin = true; }
 
-            this.$.sliderMin.pin   = this.pin;
-            this.$.sliderMax.pin   = this.pin;
-            this.$.sliderMin.snaps = this.snaps;
-            this.$.sliderMax.snaps = this.snaps;
+            this.$$("#sliderMin").pin   = this.pin;
+            this.$$("#sliderMax").pin   = this.pin;
+            this.$$("#sliderMin").snaps = this.snaps;
+            this.$$("#sliderMax").snaps = this.snaps;
 
-            // this.$.sliderMin.style.width      = this.sliderWidth
-            // this.$.sliderMax.style.width      = this.sliderWidth
-            // this.$.sliderMin.style.marginLeft = ("-"+this.sliderWidth)
+            // this.$$("#sliderMin").style.width      = this.sliderWidth
+            // this.$$("#sliderMax").style.width      = this.sliderWidth
+            // this.$$("#sliderMin").style.marginLeft = ("-"+this.sliderWidth)
             if(this.sliderWidth != "") {
                 this.customStyle['--paper-range-slider-width'] = this.sliderWidth;
-                // this.$.sliderOuterDiv_0.style.width = this.sliderWidth;
+                // this.$$("#sliderOuterDiv_0").style.width = this.sliderWidth;
                 this.updateStyles();
             }
 
             // since the two single sliders are overlaid, we need to remove foreground color
-            this.$.sliderMin.querySelector('#sliderBar').querySelector('#progressContainer').style.background = "transparent";
+            this.$$("#sliderMin").querySelector('#sliderBar').querySelector('#progressContainer').style.background = "transparent";
 
             // internal variable to prevent unneeded fire on updates
             this._prevUpdateValues = [this.min, this.max]
@@ -770,8 +773,8 @@ See README.md for further details.
 
             // activate the pins, and never hide
             if(this.alwaysShowPin) {
-                this.$.sliderMin._expandKnob();
-                this.$.sliderMax._expandKnob();
+                this.$$("#sliderMin")._expandKnob();
+                this.$$("#sliderMax")._expandKnob();
             }
 
             return;
@@ -784,8 +787,8 @@ See README.md for further details.
          * @method setValues
          */
         setValues: function(valueMin,valueMax) {
-            this.$.sliderMin._setTransiting(true);
-            this.$.sliderMax._setTransiting(true);
+            this.$$("#sliderMin")._setTransiting(true);
+            this.$$("#sliderMax")._setTransiting(true);
 
             this._setValues(valueMin,valueMax);
 
@@ -914,11 +917,11 @@ See README.md for further details.
             this.disabled = isDisabled;
             var pointEvt  = isDisabled ? "none" : "auto";
 
-            this.$.sliderMax.querySelector('#sliderKnobInner').style.pointerEvents = pointEvt;
-            this.$.sliderMin.querySelector('#sliderKnobInner').style.pointerEvents = pointEvt;
-            this.$.sliderOuterDiv_1.style.pointerEvents                            = pointEvt;
-            this.$.sliderKnobMin.style.pointerEvents                               = pointEvt;
-            this.$.sliderKnobMax.style.pointerEvents                               = pointEvt;
+            this.$$("#sliderMax").querySelector('#sliderKnobInner').style.pointerEvents = pointEvt;
+            this.$$("#sliderMin").querySelector('#sliderKnobInner').style.pointerEvents = pointEvt;
+            this.$$("#sliderOuterDiv_1").style.pointerEvents                            = pointEvt;
+            this.$$("#sliderKnobMin").style.pointerEvents                               = pointEvt;
+            this.$$("#sliderKnobMax").style.pointerEvents                               = pointEvt;
 
             return;
         },
@@ -931,26 +934,26 @@ See README.md for further details.
             this.singleSlider = isSingle;
 
             if(isSingle) {
-                this.$.backDiv.style.display             = 'none';
-                this.$.sliderMax.style.pointerEvents     = 'auto';
-                this.$.sliderMax.style.display           = '';
-                this.$.sliderMin.style.display           = 'none';
-                this.$.sliderKnobMin.style.pointerEvents = 'none';
-                this.$.sliderKnobMax.style.pointerEvents = 'none';
+                this.$$("#backDiv").style.display             = 'none';
+                this.$$("#sliderMax").style.pointerEvents     = 'auto';
+                this.$$("#sliderMax").style.display           = '';
+                this.$$("#sliderMin").style.display           = 'none';
+                this.$$("#sliderKnobMin").style.pointerEvents = 'none';
+                this.$$("#sliderKnobMax").style.pointerEvents = 'none';
             }
             else {
-                this.$.backDiv.style.display             = 'block';
-                this.$.sliderMax.style.pointerEvents     = 'none';
-                this.$.sliderMax.style.display           = '';
-                this.$.sliderMin.style.display           = '';
-                this.$.sliderKnobMin.style.pointerEvents = 'auto';
-                this.$.sliderKnobMax.style.pointerEvents = 'auto';
+                this.$$("#backDiv").style.display             = 'block';
+                this.$$("#sliderMax").style.pointerEvents     = 'none';
+                this.$$("#sliderMax").style.display           = '';
+                this.$$("#sliderMin").style.display           = '';
+                this.$$("#sliderKnobMin").style.pointerEvents = 'auto';
+                this.$$("#sliderKnobMax").style.pointerEvents = 'auto';
             }
 
             // disable some of the interface of the two single sliders,
             // but keep the knobs active if not disabled
-            this.$.sliderMax.querySelector('#sliderContainer').style.pointerEvents = this.singleSlider ? "auto" : "none";
-            this.$.sliderMin.querySelector('#sliderContainer').style.pointerEvents = "none";
+            this.$$("#sliderMax").querySelector('#sliderContainer').style.pointerEvents = this.singleSlider ? "auto" : "none";
+            this.$$("#sliderMin").querySelector('#sliderContainer').style.pointerEvents = "none";
 
             return;
         }

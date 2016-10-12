@@ -1,6 +1,9 @@
 # Changelog
 
-<!-- ## Master (09/10/2016) -->
+## Master (12/10/2016)
+
+- Fixed bug with local DOM access of internal elements.
+
 ## paper-range-slider 0.2.2 (10/10/2016)
 
 - Added the `tapValueMove` property (set to `false` by default). If set, tapping the slider will update the selected range, while keeping the same difference between valueMin and valueMax. If set, `tapValueMove` supersedes the `tapValueExtend` and `tapValueReduce` properties.
