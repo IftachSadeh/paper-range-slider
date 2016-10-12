@@ -10,20 +10,15 @@ See the file LICENSE.txt for further details.
 
 <!--
 # paper-range-slider
-
 `paper-range-slider` allows user to select a range of values within a given
 (possibly wider) range, by moving the position of two knobs, or by moving the
 position of the distance spanned between the two knobs.
-
 ## Examples:
-
 Basic use:
 ```html
 <paper-range-slider></paper-range-slider>
 ```
-
 See README.md for further details.
-
 @element paper-range-slider
 @demo demo/index.html
 -->
@@ -36,11 +31,9 @@ See README.md for further details.
               --paper-range-slider-width: 200px;
               /*width: var(--paper-range-slider-width);*/
               /*display: inline-block;*/
-
               @apply(--layout);
               @apply(--layout-justified);
               @apply(--layout-center);
-
               --paper-range-slider-lower-color:             var(--paper-grey-400);
               --paper-range-slider-active-color:            var(--primary-color);
               --paper-range-slider-higher-color:            var(--paper-grey-400);
@@ -50,12 +43,10 @@ See README.md for further details.
               --paper-range-slider-knob-start-color:        transparent;
               --paper-range-slider-knob-start-border-color: var(--paper-grey-400);
             }
-
             #sliderOuterDiv_0 {
               display: inline-block;
               width: var(--paper-range-slider-width);
             }
-
             #sliderOuterDiv_1 {
               position: relative;
               height: calc(30px + var(--paper-slider-height, 2px));
@@ -64,7 +55,6 @@ See README.md for further details.
               margin-top: 0;
               margin-bottom: 0;
             }
-
             /* mimic the size of the #sliderKnob of paper-slider */
             .sliderKnobMinMax {
               position: absolute;
@@ -75,14 +65,12 @@ See README.md for further details.
               height: calc(30px + var(--paper-slider-height, 2px));
               /*background: #2196F3; opacity: 0.3;*/
             }
-
             .divSpanWidth {
                 position:absolute;
                 width:100%;
                 display:block;
                 top:0px;
             }
-
             #sliderMax {
                 --paper-slider-bar-color:               transparent;
                 --paper-slider-knob-color:              var(--paper-range-slider-knob-color);
@@ -143,11 +131,9 @@ See README.md for further details.
     <script>
       Polymer({
         is: 'paper-range-slider',
-
         behaviors: [
           Polymer.IronRangeBehavior,
         ],
-
         properties: {
             /**
              * the width of the element in pixels.
@@ -158,7 +144,6 @@ See README.md for further details.
                 notify: true,
                 reflectToAttribute: true
             },
-
             /**
              * the style attribute of the element.
              */
@@ -168,7 +153,6 @@ See README.md for further details.
                 notify: true,
                 reflectToAttribute: true
             },
-
             /**
              * the minimal value (lower range) of the slider.
              */
@@ -178,7 +162,6 @@ See README.md for further details.
                 notify: true,
                 reflectToAttribute: true
             },
-
             /**
              * the maximal value (upper range) of the slider.
              */
@@ -188,7 +171,6 @@ See README.md for further details.
                 notify: true,
                 reflectToAttribute: true
             },
-
             /**
              * the current value of the lower range of the slider.
              */
@@ -198,7 +180,6 @@ See README.md for further details.
                 notify: true,
                 reflectToAttribute: true
             },
-
             /**
              * the current value of the upper range of the slider.
              */
@@ -208,7 +189,6 @@ See README.md for further details.
                 notify: true,
                 reflectToAttribute: true
             },
-
             /**
              * the minimal step-change of a knob on the slider
              */
@@ -218,7 +198,6 @@ See README.md for further details.
                 notify: true,
                 reflectToAttribute: true
             },
-
             /**
              * optional minimal value for the difference between valueMin and valueMax
              * by default this is negative (valueDiffMin is ignored)
@@ -229,7 +208,6 @@ See README.md for further details.
                 notify: true,
                 reflectToAttribute: true
             },
-
             /**
              * optional maximal value for the difference between valueMin and valueMax
              * by default this is negative (valueDiffMax is ignored)
@@ -240,7 +218,6 @@ See README.md for further details.
                 notify: true,
                 reflectToAttribute: true
             },
-
             /**
              * if true, pins with numeric value label are shown when the slider thumb
              * is pressed. Use for settings for which users need to know the exact
@@ -251,7 +228,6 @@ See README.md for further details.
               value: false,
               notify: true
             },
-
             /**
              * if true, pins with numeric value label are shown when the slider thumb
              * is pressed. Use for settings for which users need to know the exact
@@ -262,7 +238,6 @@ See README.md for further details.
               value: false,
               notify: true
             },
-
             /**
              * if true, the slider thumb snaps to tick marks evenly spaced based
              * on the `step` property value.
@@ -272,7 +247,6 @@ See README.md for further details.
               value: false,
               notify: true
             },
-
             /**
              * if true, the slider is disabled.
              */
@@ -281,7 +255,6 @@ See README.md for further details.
               value: false,
               notify: true
             },
-
             /**
              * an option to "revert" from the paper-range-slider to a single paper-slider.
              */
@@ -290,7 +263,6 @@ See README.md for further details.
                 value: false,
                 notify: true
             },
-
             /**
              * time-window (in msec) to keep the slider._setTransiting(true) for the
              * two paper-slider elements, when using the setValues() method to change the
@@ -301,7 +273,6 @@ See README.md for further details.
                 type: Number,
                 value: 250,
             },
-
             /**
              * if set to true, tapping the slider below or above the selected range
              * will update the selected range.
@@ -311,7 +282,6 @@ See README.md for further details.
                 value: true,
                 notify: true
             },
-
             /**
              * if set to true, tapping the slider inside the selected range
              * will update the selected range.
@@ -321,7 +291,6 @@ See README.md for further details.
                 value: false,
                 notify: true
             },
-
             /**
              * if set to true, tapping the slider will update the selected range,
              * while keeping the same difference between valueMin and valueMax.
@@ -333,18 +302,15 @@ See README.md for further details.
                 notify: true
             },
         },
-
         // initialization
         ready: function() {
             function _hasVar(varIn) { return (varIn != undefined && varIn != null); }
-
             if(!_hasVar(this._nInitTries)) this._nInitTries = 0;
-
             // it may take a little time for polymer to decide to render the paper-slider elements,
             // we therefore wait until they're ready before we proceed with the initialization
-            var sliderContainer = this.$$("#sliderMax").querySelector('#sliderContainer');
+            var sliderContainer = this.$$("#sliderMax").$.sliderContainer;
             if(_hasVar(sliderContainer)) { sliderContainer = (sliderContainer.offsetWidth > 0);                       }
-            if(_hasVar(sliderContainer)) { sliderContainer = this.$$("#sliderMin").querySelector('#sliderContainer'); }
+            if(_hasVar(sliderContainer)) { sliderContainer = this.$$("#sliderMin").$.sliderContainer; }
             if(_hasVar(sliderContainer)) { sliderContainer = (sliderContainer.offsetWidth > 0);                       }
             // finally, may go through with the initialization
             if(_hasVar(sliderContainer)) {
@@ -361,24 +327,18 @@ See README.md for further details.
                 }
                 this._nInitTries++;
             }
-
             return;
         },
-
         // initialization once the paper-slider elements have been rendered
         _renderedReady: function() {
             // some initializations
             this.init();
-
             // set the padding for the parent container
             this._setPadding();
-
             // setup listeners for updating everything whenever a knob is affected 
             var this_ = this;
-
             this.$$("#sliderMin").addEventListener('immediate-value-change', function(customEvent) {
                 this_._setValueMinMax(this_._getValuesMinMax(this.immediateValue,null));
-
                 this_.$.sliderMin._expandKnob();
                 this_.$.sliderMax._expandKnob();
             });
@@ -387,10 +347,8 @@ See README.md for further details.
                 // console.log('immed-change..',this.immediateValue,this_.valueMax)
                 this_._setValueMinMax(this_._getValuesMinMax(null,this.immediateValue));
             });
-
             this.$$("#sliderMin").addEventListener('change', function(customEvent) {
                 this_._setValueMinMax(this_._getValuesMinMax(this.immediateValue,null));
-
                 if(this_.alwaysShowPin) {
                     this_.$.sliderMin._expandKnob();
                 }
@@ -399,15 +357,12 @@ See README.md for further details.
             this.$$("#sliderMax").addEventListener('change', function(customEvent) {
                 // console.log('final-change..',this.immediateValue,this_.valueMax)
                 this_._setValueMinMax(this_._getValuesMinMax(null,this.immediateValue));
-
                 if(this_.alwaysShowPin) {
                     this_.$.sliderMax._expandKnob();
                 }
             });
-
             return;
         },
-
         // set padding for the element
         _setPadding: function() {
             // the creation of the element can never be trusted to derive the offsetHeight
@@ -418,39 +373,29 @@ See README.md for further details.
             beforeEle.innerHTML = "invisibleText"; // must have some content
             document.body.insertBefore(beforeEle, document.body.children[0]);
             var height = beforeEle.offsetHeight / 2;  //console.log( 'qqq',beforeEle.offsetHeight)
-
             this.style.paddingTop    = height+"px"
             this.style.paddingBottom = height+"px"
-
             beforeEle.parentNode.removeChild(beforeEle);
             return;
         },
-
         // internal variables for minimal/maximal difference between this.valueMin, this.valueMax
         // each one is between zero and the maximal difference available in the range, and
         // the this._valueDiffMin can not be larger than this._valueDiffMax
         _setValueDiff: function() {
             this._valueDiffMax = Math.max(this.valueDiffMax, 0);
             this._valueDiffMin = Math.max(this.valueDiffMin, 0);
-
             return;
         },
-
         // get a new set of min/max values, following predefined rules for overlap of the two
         _getValuesMinMax: function(valueMin,valueMax) {
             var hasMin = (valueMin != null && valueMin >= this.min && valueMin <= this.max);
             var hasMax = (valueMax != null && valueMax >= this.min && valueMax <= this.max);
-
             if(!hasMin && !hasMax) { return [this.valueMin,this.valueMax]; }
-
             var valueNowMin = hasMin ? valueMin : this.valueMin;
             var valueNowMax = hasMax ? valueMax : this.valueMax;
-
             valueNowMin = Math.min(Math.max(valueNowMin, this.min), this.max)
             valueNowMax = Math.min(Math.max(valueNowMax, this.min), this.max)
-
             var diffNow  = valueNowMax - valueNowMin;
-
             // the anchor is the valueMin if it is explicitly provided
             if(hasMin) {
                 if(diffNow < this._valueDiffMin) {
@@ -477,42 +422,32 @@ See README.md for further details.
                     valueNowMin = valueNowMax - this._valueDiffMax;
                 }
             }
-
             return [valueNowMin, valueNowMax];
         },
-
         // set the value of the low edge of the selected range
         _setValueMin: function(value) {
             value = Math.max(value, this.min);
             this.$$("#sliderMin").value = value;
             this.valueMin          = value;
-
             return;
         },
-
         // set the value of the high edge of the selected range
         _setValueMax: function(value) {
             value = Math.min(value, this.max);
             this.$$("#sliderMax").value = value;
             this.valueMax          = value;
-
             return;
         },
-
         // set the values of the low/high edges of the selected range and broadcast the change
         _setValueMinMax: function(valuesMinMax) {
             this._setValueMin(valuesMinMax[0]);
             this._setValueMax(valuesMinMax[1]);
-
             // update the position of the overlay divs for the min/max knobs
             this._updateSliderKnobMinMax();
-
             // fire to indicate an update of this.valueMin and/or this.valueMax
             this.updateValues();
-
             return;
         },
-
         // set this.valueMin and/or this.valueMax (can input null values or out-of-range
         // values in order to set only one of the two)
         _setValues: function(valueMin,valueMax) {
@@ -526,28 +461,22 @@ See README.md for further details.
             if(valueMin != null && valueMax != null) {
                 valueMin = Math.min(valueMin,valueMax);
             }
-
             // now update the values
             this._setValueMinMax(this._getValuesMinMax(valueMin,valueMax));
-
             return;
         },
-
         // update the position of the overlay divs for the min/max knobs
         _updateSliderKnobMinMax: function() {
-            var width    = this.$$("#sliderMax").querySelector('#sliderContainer').offsetWidth;
+            var width    = this.$$("#sliderMax").$.sliderContainer.offsetWidth;
             var leftMin  = width*(this.valueMin - this.min)/(this.max - this.min)
                          + 0.5 * this.$$("#sliderKnobMin").offsetWidth;
             var leftMax  = width*(this.valueMax - this.min)/(this.max - this.min)
                          + 0.5 * this.$$("#sliderKnobMax").offsetWidth;
-
             this.$$("#sliderKnobMin").style.left = leftMin+'px';
             this.$$("#sliderKnobMax").style.left = leftMax+'px';
             // console.log('_updateSliderKnobMinMax',leftMin,leftMax)
-
             return;
         },
-
         // interface for functions to control the draggable invisible div which
         // spans the distance between the knobs
         _backDivOnTrack: function(event) {
@@ -564,67 +493,51 @@ See README.md for further details.
               this._backDivTrackEnd();
               break;
           }
-
           return;
         },
-
         // place-holder function for possible later implementation
         _backDivTrackStart: function(event) { return; },
-
         // function to enable dragging both knobs by using the invisible
         // div which spans the distance in between
         _backDivTrackDuring: function(e) {
             this._x1_Min = this._x0_Min + e.detail.dx;
             var immediateValueMin = this._calcStep(this._getRatioPos(this.$$("#sliderMin"), this._x1_Min/this._xWidth));
-
             this._x1_Max = this._x0_Max + e.detail.dx;
             var immediateValueMax = this._calcStep(this._getRatioPos(this.$$("#sliderMax"), this._x1_Max/this._xWidth));
-
             if(immediateValueMin >= this.min && immediateValueMax <= this.max) {
                 // console.log(immediateValueMin,immediateValueMax)
                 this._setValuesWithCurrentDiff(immediateValueMin, immediateValueMax, false);
             }
-
             return;
         },
-
         _setValuesWithCurrentDiff: function(valueMin, valueMax, useTrans) {
             var diffMin = this._valueDiffMin;
             var diffMax = this._valueDiffMax;
-
             this._valueDiffMin = this.valueMax - this.valueMin;
             this._valueDiffMax = this.valueMax - this.valueMin;
-
             if(useTrans) this.setValues(valueMin, valueMax);
             else         this._setValues(valueMin, valueMax);
-
             this._valueDiffMin = diffMin;
             this._valueDiffMax = diffMax;
-
             return;
         },
         
         // place-holder function for at the end of the dragging event, so the following
         _backDivTrackEnd: function() { return; },
-
         // functions to enable dragging each knob by using the invisible
         // div which are overlaid on the respective knobs
         _sliderKnobMinOnTrack: function(e) {
             this._x1_Min = this._x0_Min + e.detail.dx;
-
             var value = this._calcStep(this._getRatioPos(this.$$("#sliderMin"), this._x1_Min/this._xWidth));
             this._setValues(value,null);
             return;
         },
-
         _sliderKnobMaxOnTrack: function(e) {
             this._x1_Max = this._x0_Max + e.detail.dx;
-
             var value = this._calcStep(this._getRatioPos(this.$$("#sliderMax"), this._x1_Max/this._xWidth));
             this._setValues(null,value);
             return;
         },
-
         // _sliderMinDown, _sliderMaxDown, _sliderMinUp, _sliderMaxUp
         //      show/hide pins (if defined) for one knob, when the other knob is pressed
         _sliderMinDown: function() {
@@ -632,7 +545,6 @@ See README.md for further details.
             
             return;
         },
-
         _sliderMaxDown: function(event) {
             if(!this.singleSlider) {
                 this.$$("#sliderMin")._expandKnob();
@@ -640,17 +552,14 @@ See README.md for further details.
             else {
                 this._setValues(null,this._getEventValue(event));
             }
-
             return;
         },
-
         _sliderMinUp: function() {
             if(this.alwaysShowPin) this.$$("#sliderMin")._expandKnob();
             else                   this.$$("#sliderMax")._resetKnob();
             
             return;
         },
-
         _sliderMaxUp: function() {
             if(this.alwaysShowPin) this.$$("#sliderMax")._expandKnob();
             else {
@@ -660,17 +569,14 @@ See README.md for further details.
             
             return;
         },
-
         // function to calculate the value from an event
         _getEventValue: function(event) {
-            var width = this.$$("#sliderMax").querySelector('#sliderContainer').offsetWidth;
-            var rect  = this.$$("#sliderMax").querySelector('#sliderContainer').getBoundingClientRect();
+            var width = this.$$("#sliderMax").$.sliderContainer.offsetWidth;
+            var rect  = this.$$("#sliderMax").$.sliderContainer.getBoundingClientRect();
             var ratio = (event.detail.x - rect.left) / width;
             var value = this.min + ratio * (this.max - this.min);
-
             return value;
         },
-
         // set the value if tapping the slider below or above the selected range
         _backDivTap: function(event) {
             this._setValueNow = function(valueMin,valueMax) {
@@ -691,48 +597,39 @@ See README.md for further details.
                 if(value < this.valueMin) { this._setValueNow(value,null); }
                 if(value > this.valueMax) { this._setValueNow(null,value); }
             }
-
             return;
         },
-
         // initialization before starting the dragging of the invisible
         // div which spans the distance in between
         _backDivDown: function(event) {
             // show pins if defined
             this._sliderMinDown();
             this._sliderMaxDown();
-
             // get the initial positions of knobs before dragging starts
-            this._xWidth = this.$$("#sliderMin").querySelector('#sliderBar').offsetWidth;
+            this._xWidth = this.$$("#sliderMin").$.sliderBar.offsetWidth.offsetWidth;
             this._x0_Min = this.$$("#sliderMin").ratio * this._xWidth;
             this._x0_Max = this.$$("#sliderMax").ratio * this._xWidth;
             
             return;
         },
-
         // finalization after ending the dragging of the invisible
         // div which spans the distance in between
         _backDivUp: function() {
             // hide pins if defined
             this._sliderMinUp();
             this._sliderMaxUp();
-
             return;
         },
-
         // place-holder function for possible later implementation
         _backDivTransEnd: function(event) { return; },
-
         // // the current position of the knob for a given single slider
         // _getPos: function(sliderIn) {
         //     return (sliderIn.ratio) * Number(sliderIn.style.width.replace('px',''));
         // },
-
         // the position of the knob for a given single slider, for a given ratio
         _getRatioPos: function(slider, ratio) {
             return Math.max(slider.min, Math.min(slider.max, (slider.max - slider.min) * ratio + slider.min));
         },
-
         /**
          * initialize basic properties
          * @method init
@@ -741,15 +638,12 @@ See README.md for further details.
             // 
             this.setSingleSlider(this.singleSlider);
             this.setDisabled(this.disabled);
-
             // some basic properties
             if(this.alwaysShowPin) { this.pin = true; }
-
             this.$$("#sliderMin").pin   = this.pin;
             this.$$("#sliderMax").pin   = this.pin;
             this.$$("#sliderMin").snaps = this.snaps;
             this.$$("#sliderMax").snaps = this.snaps;
-
             // this.$$("#sliderMin").style.width      = this.sliderWidth
             // this.$$("#sliderMax").style.width      = this.sliderWidth
             // this.$$("#sliderMin").style.marginLeft = ("-"+this.sliderWidth)
@@ -758,28 +652,21 @@ See README.md for further details.
                 // this.$$("#sliderOuterDiv_0").style.width = this.sliderWidth;
                 this.updateStyles();
             }
-
             // since the two single sliders are overlaid, we need to remove foreground color
-            this.$$("#sliderMin").querySelector('#sliderBar').querySelector('#progressContainer').style.background = "transparent";
-
+            this.$$("#sliderMin").$.sliderBar.$.progressContainer.style.background = "transparent";
             // internal variable to prevent unneeded fire on updates
             this._prevUpdateValues = [this.min, this.max]
-
             // set internal variables to control the minimal and maximal difference between selected values
             this._setValueDiff();
-
             // initial setting after verifying this._valueDiffMin, this._valueDiffMax
             this._setValueMinMax(this._getValuesMinMax(this.valueMin, this.valueMax));
-
             // activate the pins, and never hide
             if(this.alwaysShowPin) {
                 this.$$("#sliderMin")._expandKnob();
                 this.$$("#sliderMax")._expandKnob();
             }
-
             return;
         },
-
         /**
          * set this.valueMin and/or this.valueMax (can input null values or out-of-range
          * values in order to set only one of the two) - this is just a public
@@ -789,32 +676,29 @@ See README.md for further details.
         setValues: function(valueMin,valueMax) {
             this.$$("#sliderMin")._setTransiting(true);
             this.$$("#sliderMax")._setTransiting(true);
-
             this._setValues(valueMin,valueMax);
-
             var this_ = this;
             setTimeout(function() {
                 this_.$.sliderMin._setTransiting(false);
                 this_.$.sliderMax._setTransiting(false);
             }, this_.transDuration);
-
             return;
         },
-
         /**
          * fire whenever this.valueMin or this.valueMax are changed
          * @method updateValues
          */
         updateValues: function() {
-            if(this._prevUpdateValues[0] != this.valueMin || this._prevUpdateValues[1] != this.valueMax) {
-                this._prevUpdateValues = [this.valueMin, this.valueMax];
-
-                // fire the event
-                this.async(function() { this.fire('updateValues'); });
+          console.log(this._prevUpdateValues);
+            if(this._prevUpdateValues){
+              if(this._prevUpdateValues[0] != this.valueMin || this._prevUpdateValues[1] != this.valueMax) {
+                  this._prevUpdateValues = [this.valueMin, this.valueMax];
+                  // fire the event
+                  this.async(function() { this.fire('updateValues'); });
+              }
             }
             return;
         },        
-
         /**
          * set the minimal value (lower range) of the slider
          * @method setMin
@@ -823,18 +707,14 @@ See README.md for further details.
             // paper-slider needs a safety check that the min value we are going to set is
             // not larger than the max value which is already set
             if(this.max < minIn) this.max = minIn;
-
             this.min = minIn;
             this._prevUpdateValues = [this.min, this.max];
-
             // update the selected value if it is now outside of the lower bound,
             // or just update the position of the overlay divs for the min/max knobs
             if(this.valueMin < this.min) this._setValues(this.min,null);
             else                         this._updateSliderKnobMinMax();
-
             return;
         },
-
         /**
          * set the maximal value (upper range) of the slider
          * @method setMax
@@ -843,18 +723,14 @@ See README.md for further details.
             // paper-slider needs a safety chek that the min value we are going to set is
             // not larger than the max value whic is already sey
             if(this.min > maxIn) this.min = maxIn;
-
             this.max = maxIn;
             this._prevUpdateValues = [this.min, this.max];
-
             // update the selected value if it is now outside of the upper bound,
             // or just update the position of the overlay divs for the min/max knobs
             if(this.valueMax > this.max) this._setValues(null,this.max);
             else                         this._updateSliderKnobMinMax();
-
             return;
         },
-
         /**
          * set the minimal step-change of a knob on the slider
          * @method setMax
@@ -863,7 +739,6 @@ See README.md for further details.
             this.step = stepIn;
             return;
         },
-
         /**
          * set the minimal difference between selected values
          * @method setValueDiffMin
@@ -872,7 +747,6 @@ See README.md for further details.
             this._valueDiffMin = valueDiffMin;
             return;
         },
-
         /**
          * set the maximal difference between selected values
          * @method setValueDiffMax
@@ -881,7 +755,6 @@ See README.md for further details.
             this._valueDiffMax = valueDiffMax;
             return;
         },
-
         /**
          * set the tapValueExtend property
          * @method setValueDiffMax
@@ -890,7 +763,6 @@ See README.md for further details.
             this.tapValueExtend = isTapValueExtend;
             return;
         },
-
         /**
          * set the tapValueReduce property
          * @method setValueDiffMax
@@ -899,7 +771,6 @@ See README.md for further details.
             this.tapValueReduce = isTapValueReduce;
             return;
         },
-
         /**
          * set the tapValueMove property
          * @method setValueDiffMax
@@ -908,7 +779,6 @@ See README.md for further details.
             this.tapValueMove = isTapValueMove;
             return;
         },
-
         /**
          * set the disabled parameter
          * @method setValueDiffMax
@@ -916,23 +786,19 @@ See README.md for further details.
         setDisabled: function(isDisabled) {
             this.disabled = isDisabled;
             var pointEvt  = isDisabled ? "none" : "auto";
-
-            this.$$("#sliderMax").querySelector('#sliderKnobInner').style.pointerEvents = pointEvt;
-            this.$$("#sliderMin").querySelector('#sliderKnobInner').style.pointerEvents = pointEvt;
+            this.$$("#sliderMax").$.sliderKnobInner.style.pointerEvents = pointEvt;
+            this.$$("#sliderMin").$.sliderKnobInner.style.pointerEvents = pointEvt;
             this.$$("#sliderOuterDiv_1").style.pointerEvents                            = pointEvt;
             this.$$("#sliderKnobMin").style.pointerEvents                               = pointEvt;
             this.$$("#sliderKnobMax").style.pointerEvents                               = pointEvt;
-
             return;
         },
-
         /**
          * change the slider between the default paper-range-slider and a paper-slider
          * @method setValueDiffMax
          */
         setSingleSlider: function(isSingle) {
             this.singleSlider = isSingle;
-
             if(isSingle) {
                 this.$$("#backDiv").style.display             = 'none';
                 this.$$("#sliderMax").style.pointerEvents     = 'auto';
@@ -949,16 +815,12 @@ See README.md for further details.
                 this.$$("#sliderKnobMin").style.pointerEvents = 'auto';
                 this.$$("#sliderKnobMax").style.pointerEvents = 'auto';
             }
-
             // disable some of the interface of the two single sliders,
             // but keep the knobs active if not disabled
-            this.$$("#sliderMax").querySelector('#sliderContainer').style.pointerEvents = this.singleSlider ? "auto" : "none";
-            this.$$("#sliderMin").querySelector('#sliderContainer').style.pointerEvents = "none";
-
+            this.$$("#sliderMax").$.sliderContainer.style.pointerEvents = this.singleSlider ? "auto" : "none";
+            this.$$("#sliderMin").$.sliderContainer.style.pointerEvents = "none";
             return;
         }
-
       });
     </script>
 </dom-module>
-
