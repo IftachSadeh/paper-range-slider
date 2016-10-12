@@ -3,7 +3,7 @@
 <!-- ## Master (12/10/2016) -->
 ## paper-range-slider 0.2.3 (12/10/2016)
 
-- Fixed bug with local DOM access of internal elements.
+- Fixed bug with local DOM access of internal elements (related to issue #5 and issue #6).
 
 ## paper-range-slider 0.2.2 (10/10/2016)
 
