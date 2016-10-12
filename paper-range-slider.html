@@ -342,9 +342,9 @@ See README.md for further details.
 
             // it may take a little time for polymer to decide to render the paper-slider elements,
             // we therefore wait until they're ready before we proceed with the initialization
-            var sliderContainer = this.$$("#sliderMax").querySelector('#sliderContainer');
+            var sliderContainer = this.$$("#sliderMax").$$('#sliderContainer');
             if(_hasVar(sliderContainer)) { sliderContainer = (sliderContainer.offsetWidth > 0);                       }
-            if(_hasVar(sliderContainer)) { sliderContainer = this.$$("#sliderMin").querySelector('#sliderContainer'); }
+            if(_hasVar(sliderContainer)) { sliderContainer = this.$$("#sliderMin").$$('#sliderContainer'); }
             if(_hasVar(sliderContainer)) { sliderContainer = (sliderContainer.offsetWidth > 0);                       }
             // finally, may go through with the initialization
             if(_hasVar(sliderContainer)) {
@@ -535,7 +535,7 @@ See README.md for further details.
 
         // update the position of the overlay divs for the min/max knobs
         _updateSliderKnobMinMax: function() {
-            var width    = this.$$("#sliderMax").querySelector('#sliderContainer').offsetWidth;
+            var width    = this.$$("#sliderMax").$$('#sliderContainer').offsetWidth;
             var leftMin  = width*(this.valueMin - this.min)/(this.max - this.min)
                          + 0.5 * this.$$("#sliderKnobMin").offsetWidth;
             var leftMax  = width*(this.valueMax - this.min)/(this.max - this.min)
@@ -663,8 +663,8 @@ See README.md for further details.
 
         // function to calculate the value from an event
         _getEventValue: function(event) {
-            var width = this.$$("#sliderMax").querySelector('#sliderContainer').offsetWidth;
-            var rect  = this.$$("#sliderMax").querySelector('#sliderContainer').getBoundingClientRect();
+            var width = this.$$("#sliderMax").$$('#sliderContainer').offsetWidth;
+            var rect  = this.$$("#sliderMax").$$('#sliderContainer').getBoundingClientRect();
             var ratio = (event.detail.x - rect.left) / width;
             var value = this.min + ratio * (this.max - this.min);
 
@@ -703,7 +703,7 @@ See README.md for further details.
             this._sliderMaxDown();
 
             // get the initial positions of knobs before dragging starts
-            this._xWidth = this.$$("#sliderMin").querySelector('#sliderBar').offsetWidth;
+            this._xWidth = this.$$("#sliderMin").$$('#sliderBar').offsetWidth;
             this._x0_Min = this.$$("#sliderMin").ratio * this._xWidth;
             this._x0_Max = this.$$("#sliderMax").ratio * this._xWidth;
             
@@ -760,7 +760,7 @@ See README.md for further details.
             }
 
             // since the two single sliders are overlaid, we need to remove foreground color
-            this.$$("#sliderMin").querySelector('#sliderBar').querySelector('#progressContainer').style.background = "transparent";
+            this.$$("#sliderMin").$$('#sliderBar').$$('#progressContainer').style.background = "transparent";
 
             // internal variable to prevent unneeded fire on updates
             this._prevUpdateValues = [this.min, this.max]
@@ -917,8 +917,8 @@ See README.md for further details.
             this.disabled = isDisabled;
             var pointEvt  = isDisabled ? "none" : "auto";
 
-            this.$$("#sliderMax").querySelector('#sliderKnobInner').style.pointerEvents = pointEvt;
-            this.$$("#sliderMin").querySelector('#sliderKnobInner').style.pointerEvents = pointEvt;
+            this.$$("#sliderMax").$$('#sliderKnobInner').style.pointerEvents            = pointEvt;
+            this.$$("#sliderMin").$$('#sliderKnobInner').style.pointerEvents            = pointEvt;
             this.$$("#sliderOuterDiv_1").style.pointerEvents                            = pointEvt;
             this.$$("#sliderKnobMin").style.pointerEvents                               = pointEvt;
             this.$$("#sliderKnobMax").style.pointerEvents                               = pointEvt;
@@ -952,8 +952,8 @@ See README.md for further details.
 
             // disable some of the interface of the two single sliders,
             // but keep the knobs active if not disabled
-            this.$$("#sliderMax").querySelector('#sliderContainer').style.pointerEvents = this.singleSlider ? "auto" : "none";
-            this.$$("#sliderMin").querySelector('#sliderContainer').style.pointerEvents = "none";
+            this.$$("#sliderMax").$$('#sliderContainer').style.pointerEvents = this.singleSlider ? "auto" : "none";
+            this.$$("#sliderMin").$$('#sliderContainer').style.pointerEvents = "none";
 
             return;
         }
