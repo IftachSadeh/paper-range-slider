@@ -917,8 +917,8 @@ See README.md for further details.
             this.disabled = isDisabled;
             var pointEvt  = isDisabled ? "none" : "auto";
 
-            this.$$("#sliderMax").$$('#sliderKnobInner').style.pointerEvents            = pointEvt;
-            this.$$("#sliderMin").$$('#sliderKnobInner').style.pointerEvents            = pointEvt;
+            this.$$("#sliderMax").disabled = isDisabled;
+            this.$$("#sliderMin").disabled = isDisabled;
             this.$$("#sliderOuterDiv_1").style.pointerEvents                            = pointEvt;
             this.$$("#sliderKnobMin").style.pointerEvents                               = pointEvt;
             this.$$("#sliderKnobMax").style.pointerEvents                               = pointEvt;
