@@ -1,6 +1,10 @@
 # Changelog
 
 <!-- ## Master (12/10/2016) -->
+## paper-range-slider 0.2.4 (22/10/2016)
+
+- As a temporary fix for `paper-slider` version compatibility issues, removed the `paper-slider` dependency by defining a secondary internal `dom-module`.
+
 ## paper-range-slider 0.2.3 (12/10/2016)
 
 - Fixed bug with local DOM access of internal elements (related to issue #5 and issue #6).
