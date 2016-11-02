@@ -1,6 +1,9 @@
 # Changelog
 
-<!-- ## Master (12/10/2016) -->
+## Master (02/11/2016)
+
+- Removed extraneous comma from `bower.json`.
+
 ## paper-range-slider 0.2.4 (22/10/2016)
 
 - As a temporary fix for `paper-slider` version compatibility issues, removed the `paper-slider` dependency by defining a secondary internal `dom-module`.
