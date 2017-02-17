@@ -1,3 +1,5 @@
+[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/IftachSadeh/paper-range-slider)
+
 # paper-range-slider - v0.2.4
 
 `paper-range-slider` allows the user to select a range of values within a given (possibly wider) range. values are selected by moving the position of two knobs, or by dragging the selected range of values within the allowed limits. [A demo is provided here](http://IftachSadeh.github.io/paper-range-slider/components/paper-range-slider/demo/). The code was developed using Polymer v1.6.x.
@@ -17,6 +19,15 @@ or add the following to your `bower.json`:
 ## Examples:
 
 ### Basic use:
+<!--
+```
+<custom-element-demo>
+  <template>
+    <paper-range-slider></paper-range-slider>
+  </template>
+</custom-element-demo>
+```
+-->
 ```html
 <paper-range-slider></paper-range-slider>
 ```
@@ -28,6 +39,15 @@ or add the following to your `bower.json`:
 - Use `value-diff-min` and `value-diff-max` to set the minimal and maximal allowed difference between the lower and upper selected values.
 - Use `always-show-pin` to never hide the pins.
 - The following options apply, as for paper-slider: `snaps`, `pin`, `step`, `disabled`.
+<!--
+```
+<custom-element-demo>
+  <template>
+    <paper-range-slider snaps pin step='1' min='0' max='100' value-diff-min="10" value-diff-max="50" value-min='30' value-max='60'></paper-range-slider>
+  </template>
+</custom-element-demo>
+```
+-->
 ```html
 <paper-range-slider snaps pin step='1' min='0' max='100' value-diff-min="10" value-diff-max="50" value-min='30' value-max='60'></paper-range-slider>
 ```
