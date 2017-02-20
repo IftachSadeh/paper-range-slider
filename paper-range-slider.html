@@ -818,6 +818,7 @@ See README.md for further details.
 
                 // fire the event
                 this.async(function() { this.fire('updateValues'); });
+                this.async(function() { this.fire('update-values', this); });
             }
             return;
         },        
