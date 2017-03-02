@@ -1,8 +1,14 @@
 # Changelog
 
-## Master (02/11/2016)
+## paper-range-slider 0.2.5 (01/03/2017)
 
 - Removed extraneous comma from `bower.json`.
+
+- Updated to `paper-slider`, version `1.0.13`.
+
+- Fix for issue #12.
+
+- Other minor changes.
 
 ## paper-range-slider 0.2.4 (22/10/2016)
 
@@ -104,4 +110,3 @@ or (kept for backward compatibility),
 ## paper-range-slider 0.0.1 (11/04/2016)
 
 - Initial version of `paper-range-slider`
-

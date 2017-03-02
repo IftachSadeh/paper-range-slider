@@ -91,6 +91,7 @@ See README.md for further details.
             }
 
             #sliderMax {
+                line-height: normal;
                 --paper-single-range-slider-bar-color:               transparent;
                 --paper-single-range-slider-knob-color:              var(--paper-range-slider-knob-color);
                 --paper-single-range-slider-pin-color:               var(--paper-range-slider-pin-color);
@@ -101,6 +102,7 @@ See README.md for further details.
                 --paper-single-range-slider-knob-start-border-color: var(--paper-range-slider-knob-start-border-color);
             }
             #sliderMin {
+                line-height: normal;
                 --paper-single-range-slider-active-color:            var(--paper-range-slider-lower-color);
                 --paper-single-range-slider-secondary-color:         transparent;
                 --paper-single-range-slider-knob-color:              var(--paper-range-slider-knob-color);
@@ -349,9 +351,9 @@ See README.md for further details.
 
             // it may take a little time for polymer to decide to render the paper-single-range-slider elements,
             // we therefore wait until they're ready before we proceed with the initialization
-            var sliderContainer = this.$$("#sliderMax").$$('#sliderContainer');
+            var sliderContainer = this.$$("#sliderMax").getEle('#sliderContainer');
             if(_hasVar(sliderContainer)) { sliderContainer = (sliderContainer.offsetWidth > 0);            }
-            if(_hasVar(sliderContainer)) { sliderContainer = this.$$("#sliderMin").$$('#sliderContainer'); }
+            if(_hasVar(sliderContainer)) { sliderContainer = this.$$("#sliderMin").getEle('#sliderContainer'); }
             if(_hasVar(sliderContainer)) { sliderContainer = (sliderContainer.offsetWidth > 0);            }
             // finally, may go through with the initialization
             if(_hasVar(sliderContainer)) {
@@ -492,7 +494,7 @@ See README.md for further details.
         _setValueMin: function(value) {
             value = Math.max(value, this.min);
             this.$$("#sliderMin").value = value;
-            this.valueMin          = value;
+            this.valueMin               = value;
 
             return;
         },
@@ -501,7 +503,7 @@ See README.md for further details.
         _setValueMax: function(value) {
             value = Math.min(value, this.max);
             this.$$("#sliderMax").value = value;
-            this.valueMax          = value;
+            this.valueMax               = value;
 
             return;
         },
@@ -542,7 +544,7 @@ See README.md for further details.
 
         // update the position of the overlay divs for the min/max knobs
         _updateSliderKnobMinMax: function() {
-            var width    = this.$$("#sliderMax").$$('#sliderContainer').offsetWidth;
+            var width    = this.$$("#sliderMax").getEle('#sliderContainer').offsetWidth;
             var leftMin  = width*(this.valueMin - this.min)/(this.max - this.min)
                          + 0.5 * this.$$("#sliderKnobMin").offsetWidth;
             var leftMax  = width*(this.valueMax - this.min)/(this.max - this.min)
@@ -670,8 +672,8 @@ See README.md for further details.
 
         // function to calculate the value from an event
         _getEventValue: function(event) {
-            var width = this.$$("#sliderMax").$$('#sliderContainer').offsetWidth;
-            var rect  = this.$$("#sliderMax").$$('#sliderContainer').getBoundingClientRect();
+            var width = this.$$("#sliderMax").getEle('#sliderContainer').offsetWidth;
+            var rect  = this.$$("#sliderMax").getEle('#sliderContainer').getBoundingClientRect();
             var ratio = (event.detail.x - rect.left) / width;
             var value = this.min + ratio * (this.max - this.min);
 
@@ -710,7 +712,7 @@ See README.md for further details.
             this._sliderMaxDown();
 
             // get the initial positions of knobs before dragging starts
-            this._xWidth = this.$$("#sliderMin").$$('#sliderBar').offsetWidth;
+            this._xWidth = this.$$("#sliderMin").getEle('#sliderBar').offsetWidth;
             this._x0_Min = this.$$("#sliderMin").ratio * this._xWidth;
             this._x0_Max = this.$$("#sliderMax").ratio * this._xWidth;
             
@@ -757,17 +759,17 @@ See README.md for further details.
             this.$$("#sliderMin").snaps = this.snaps;
             this.$$("#sliderMax").snaps = this.snaps;
 
-            // this.$$("#sliderMin").style.width      = this.sliderWidth
-            // this.$$("#sliderMax").style.width      = this.sliderWidth
-            // this.$$("#sliderMin").style.marginLeft = ("-"+this.sliderWidth)
             if(this.sliderWidth != "") {
                 this.customStyle['--paper-range-slider-width'] = this.sliderWidth;
-                // this.$$("#sliderOuterDiv_0").style.width = this.sliderWidth;
                 this.updateStyles();
             }
 
             // since the two single sliders are overlaid, we need to remove foreground color
-            this.$$("#sliderMin").$$('#sliderBar').$$('#progressContainer').style.background = "transparent";
+            var sliderBar = this.$$("#sliderMin").getEle('#sliderBar');
+            if(sliderBar) {
+              var progressContainer = sliderBar.$$('#progressContainer');
+              if(progressContainer) progressContainer.style.background = "transparent";
+            }
 
             // internal variable to prevent unneeded fire on updates
             this._prevUpdateValues = [this.min, this.max]
@@ -924,11 +926,11 @@ See README.md for further details.
             this.disabled = isDisabled;
             var pointEvt  = isDisabled ? "none" : "auto";
 
-            this.$$("#sliderMax").$$('#sliderKnobInner').style.pointerEvents            = pointEvt;
-            this.$$("#sliderMin").$$('#sliderKnobInner').style.pointerEvents            = pointEvt;
-            this.$$("#sliderOuterDiv_1").style.pointerEvents                            = pointEvt;
-            this.$$("#sliderKnobMin").style.pointerEvents                               = pointEvt;
-            this.$$("#sliderKnobMax").style.pointerEvents                               = pointEvt;
+            this.$$("#sliderMax").getEle('#sliderKnob').style.pointerEvents = pointEvt;
+            this.$$("#sliderMin").getEle('#sliderKnob').style.pointerEvents = pointEvt;
+            this.$$("#sliderOuterDiv_1").style.pointerEvents                = pointEvt;
+            this.$$("#sliderKnobMin").style.pointerEvents                   = pointEvt;
+            this.$$("#sliderKnobMax").style.pointerEvents                   = pointEvt;
 
             return;
         },
@@ -959,8 +961,8 @@ See README.md for further details.
 
             // disable some of the interface of the two single sliders,
             // but keep the knobs active if not disabled
-            this.$$("#sliderMax").$$('#sliderContainer').style.pointerEvents = this.singleSlider ? "auto" : "none";
-            this.$$("#sliderMin").$$('#sliderContainer').style.pointerEvents = "none";
+            this.$$("#sliderMax").getEle('#sliderContainer').style.pointerEvents = this.singleSlider ? "auto" : "none";
+            this.$$("#sliderMin").getEle('#sliderContainer').style.pointerEvents = "none";
 
             return;
         }
@@ -971,7 +973,7 @@ See README.md for further details.
 
 
 
-
+<!-- paper-single-range-slider is a modified version of [paper-slider, v1.0.13] -->
 <dom-module id="paper-single-range-slider">
   <template strip-whitespace>
     <style>
@@ -990,6 +992,7 @@ See README.md for further details.
         --paper-progress-secondary-color: var(--paper-single-range-slider-secondary-color, --google-blue-300);
         --paper-progress-disabled-active-color: var(--paper-single-range-slider-disabled-active-color, --paper-grey-400);
         --paper-progress-disabled-secondary-color: var(--paper-single-range-slider-disabled-secondary-color, --paper-grey-400);
+        --calculated-paper-single-range-slider-height: var(--paper-single-range-slider-height, 2px);
       }
 
       /* focus shows the ripple */
@@ -1000,9 +1003,9 @@ See README.md for further details.
       #sliderContainer {
         position: relative;
         width: 100%;
-        height: calc(30px + var(--paper-single-range-slider-height, 2px));
-        margin-left: calc(15px + var(--paper-single-range-slider-height, 2px)/2);
-        margin-right: calc(15px + var(--paper-single-range-slider-height, 2px)/2);
+        height: calc(30px + var(--calculated-paper-single-range-slider-height));
+        margin-left: calc(15px + var(--calculated-paper-single-range-slider-height)/2);
+        margin-right: calc(15px + var(--calculated-paper-single-range-slider-height)/2);
       }
 
       #sliderContainer:focus {
@@ -1024,7 +1027,7 @@ See README.md for further details.
       }
 
       .ring > .bar-container {
-        left: calc(5px + var(--paper-single-range-slider-height, 2px)/2);
+        left: calc(5px + var(--calculated-paper-single-range-slider-height)/2);
         transition: left 0.18s ease;
       }
 
@@ -1033,7 +1036,7 @@ See README.md for further details.
       }
 
       .ring.expand:not(.pin) > .bar-container {
-        left: calc(8px + var(--paper-single-range-slider-height, 2px)/2);
+        left: calc(8px + var(--calculated-paper-single-range-slider-height)/2);
       }
 
       #sliderBar {
@@ -1041,13 +1044,13 @@ See README.md for further details.
         width: 100%;
         background-color: var(--paper-single-range-slider-bar-color, transparent);
         --paper-progress-container-color: var(--paper-single-range-slider-container-color, --paper-grey-400);
-        --paper-progress-height: var(--paper-single-range-slider-height, 2px);
+        --paper-progress-height: var(--calculated-paper-single-range-slider-height);
       }
 
       .slider-markers {
         position: absolute;
         top: calc(14px + var(--paper-single-range-slider-height,2px)/2);
-        height: var(--paper-single-range-slider-height, 2px);
+        height: var(--calculated-paper-single-range-slider-height);
         left: 0;
         right: -1px;
         box-sizing: border-box;
@@ -1064,48 +1067,44 @@ See README.md for further details.
         display: block;
         margin-left: -1px;
         width: 2px;
-        height: 2px;
+        height: var(--calculated-paper-single-range-slider-height);
         border-radius: 50%;
-        background-color: black;
+        background-color: var(--paper-single-range-slider-markers-color, #000);
       }
 
-      #sliderKnob {
+      .slider-knob {
         position: absolute;
         left: 0;
         top: 0;
-        margin-left: calc(-15px - var(--paper-single-range-slider-height, 2px)/2);
-        width: calc(30px + var(--paper-single-range-slider-height, 2px));
-        height: calc(30px + var(--paper-single-range-slider-height, 2px));
-
-        /*background: #2196F3;*/
-        
+        margin-left: calc(-15px - var(--calculated-paper-single-range-slider-height)/2);
+        width: calc(30px + var(--calculated-paper-single-range-slider-height));
+        height: calc(30px + var(--calculated-paper-single-range-slider-height));
       }
 
-      .transiting > #sliderKnob {
+      .transiting > .slider-knob {
         transition: left 0.08s ease;
       }
 
-      #sliderKnob:focus {
+      .slider-knob:focus {
         outline: none;
       }
 
-      #sliderKnob.dragging {
+      .slider-knob.dragging {
         transition: none;
       }
 
-      .snaps > #sliderKnob.dragging {
+      .snaps > .slider-knob.dragging {
         transition: -webkit-transform 0.08s ease;
         transition: transform 0.08s ease;
       }
 
-      #sliderKnobInner {
+      .slider-knob-inner {
         margin: 10px;
         width: calc(100% - 20px);
         height: calc(100% - 20px);
         background-color: var(--paper-single-range-slider-knob-color, --google-blue-700);
         border: 2px solid var(--paper-single-range-slider-knob-color, --google-blue-700);
         border-radius: 50%;
-        /*opacity:.1;*/
 
         -moz-box-sizing: border-box;
         box-sizing: border-box;
@@ -1116,21 +1115,21 @@ See README.md for further details.
         transition-timing-function: ease;
       }
 
-      .expand:not(.pin) > #sliderKnob > #sliderKnobInner {
+      .expand:not(.pin) > .slider-knob > .slider-knob-inner {
         -webkit-transform: scale(1.5);
         transform: scale(1.5);
       }
 
-      .ring > #sliderKnob > #sliderKnobInner {
+      .ring > .slider-knob > .slider-knob-inner {
         background-color: var(--paper-single-range-slider-knob-start-color, transparent);
         border: 2px solid var(--paper-single-range-slider-knob-start-border-color, --paper-grey-400);
       }
 
-      #sliderKnobInner::before {
+      .slider-knob-inner::before {
         background-color: var(--paper-single-range-slider-pin-color, --google-blue-700);
       }
 
-      .pin > #sliderKnob > #sliderKnobInner::before {
+      .pin > .slider-knob > .slider-knob-inner::before {
         content: "";
         position: absolute;
         top: 0;
@@ -1144,22 +1143,22 @@ See README.md for further details.
         transform: rotate(-45deg) scale(0) translate(0);
       }
 
-      #sliderKnobInner::before,
-      #sliderKnobInner::after {
+      .slider-knob-inner::before,
+      .slider-knob-inner::after {
         transition: -webkit-transform .18s ease, background-color .18s ease;
         transition: transform .18s ease, background-color .18s ease;
       }
 
-      .pin.ring > #sliderKnob > #sliderKnobInner::before {
+      .pin.ring > .slider-knob > .slider-knob-inner::before {
         background-color: var(--paper-single-range-slider-pin-start-color, --paper-grey-400);
       }
 
-      .pin.expand > #sliderKnob > #sliderKnobInner::before {
+      .pin.expand > .slider-knob > .slider-knob-inner::before {
         -webkit-transform: rotate(-45deg) scale(1) translate(17px, -17px);
         transform: rotate(-45deg) scale(1) translate(17px, -17px);
       }
 
-      .pin > #sliderKnob > #sliderKnobInner::after {
+      .pin > .slider-knob > .slider-knob-inner::after {
         content: attr(value);
         position: absolute;
         top: 0;
@@ -1175,7 +1174,7 @@ See README.md for further details.
         transform: scale(0) translate(0);
       }
 
-      .pin.expand > #sliderKnob > #sliderKnobInner::after {
+      .pin.expand > .slider-knob > .slider-knob-inner::after {
         -webkit-transform: scale(1) translate(0, -17px);
         transform: scale(1) translate(0, -17px);
       }
@@ -1195,14 +1194,14 @@ See README.md for further details.
         pointer-events: none;
       }
 
-      .disabled > #sliderKnob > #sliderKnobInner {
+      .disabled > .slider-knob > .slider-knob-inner {
         background-color: var(--paper-single-range-slider-disabled-knob-color, --paper-grey-400);
         border: 2px solid var(--paper-single-range-slider-disabled-knob-color, --paper-grey-400);
         -webkit-transform: scale3d(0.75, 0.75, 1);
         transform: scale3d(0.75, 0.75, 1);
       }
 
-      .disabled.ring > #sliderKnob > #sliderKnobInner {
+      .disabled.ring > .slider-knob > .slider-knob-inner {
         background-color: var(--paper-single-range-slider-knob-start-color, transparent);
         border: 2px solid var(--paper-single-range-slider-knob-start-border-color, --paper-grey-400);
       }
@@ -1239,11 +1238,12 @@ See README.md for further details.
       </template>
 
       <div id="sliderKnob"
+        class="slider-knob"
         on-down="_knobdown"
         on-up="_resetKnob"
         on-track="_onTrack"
         on-transitionend="_knobTransitionEnd">
-          <div id="sliderKnobInner" value$="[[immediateValue]]"></div>
+          <div class="slider-knob-inner" value$="[[immediateValue]]"></div>
       </div>
     </div>
 
@@ -1362,7 +1362,9 @@ See README.md for further details.
         markers: {
           type: Array,
           readOnly: true,
-          value: []
+          value: function() {
+              return [];
+          }
         },
       },
 
@@ -1473,12 +1475,12 @@ See README.md for further details.
         this._setDragging(true);
       },
 
-      _trackX: function(e) {
+      _trackX: function(event) {
         if (!this.dragging) {
-          this._trackStart(e);
+          this._trackStart(event);
         }
 
-        var dx = Math.min(this._maxx, Math.max(this._minx, e.detail.dx));
+        var dx = Math.min(this._maxx, Math.max(this._minx, event.detail.dx));
         this._x = this._startx + dx;
 
         var immediateValue = this._calcStep(this._calcKnobPosition(this._x / this._w));
@@ -1588,6 +1590,7 @@ See README.md for further details.
             this.increment();
           }
           this.fire('change');
+          event.preventDefault();
         }
       },
 
@@ -1599,6 +1602,7 @@ See README.md for further details.
             this.decrement();
           }
           this.fire('change');
+          event.preventDefault();
         }
       },
 
@@ -1633,7 +1637,10 @@ See README.md for further details.
           }
           this._ripple.holdDown = receivedFocusFromKeyboard;
         }
-      }
+      },
+
+      getEle: function(tag) { return this.$$(tag); },
+
     });
 
     /**
@@ -1646,7 +1653,7 @@ See README.md for further details.
      * Fired when the slider's immediateValue changes. Only occurs while the
      * user is dragging.
      *
-     * To detect changes to immediateValue that happen for any input (i.e.                                                          
+     * To detect changes to immediateValue that happen for any input (i.e.
      * dragging, tapping, clicking, etc.) listen for immediate-value-changed
      * instead.
      *
