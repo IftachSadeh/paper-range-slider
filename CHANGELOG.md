@@ -6,7 +6,7 @@
 
 - Updated to `paper-slider`, version `1.0.13`.
 
-- Fix for issue #12 .
+- Fix for [issue #12](#12).
 
 - Other minor changes.
 
