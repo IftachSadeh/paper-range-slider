@@ -47,6 +47,7 @@ or add the following to your `bower.json`:
   <template>
     <script src="../webcomponentsjs/webcomponents-lite.js"></script>
     <link rel="import" href="paper-range-slider.html">
+    <br>
     <paper-range-slider snaps pin step='1' min='0' max='100' value-diff-min="10" value-diff-max="50" value-min='30' value-max='60'></paper-range-slider>
   </template>
 </custom-element-demo>
@@ -111,13 +112,13 @@ document.querySelector("#myPaperRangeSliderId").setDisabled(isDisabled);
   <template>
     <script src="../webcomponentsjs/webcomponents-lite.js"></script>
     <link rel="import" href="paper-range-slider.html">
-    <paper-range-slider tap-value-reduce></paper-range-slider>
+    <paper-range-slider tap-value-reduce step='1' value-min='20' value-max='70' max='100' min='0'></paper-range-slider>    
   </template>
 </custom-element-demo>
 ```
 -->
 ```html
-<paper-range-slider tap-value-reduce></paper-range-slider>
+<paper-range-slider tap-value-reduce step='1' value-min='20' value-max='70' max='100' min='0'></paper-range-slider>    
 ```
 or pragmatically with
 ```javascript
