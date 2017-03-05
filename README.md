@@ -45,6 +45,8 @@ or add the following to your `bower.json`:
 ```
 <custom-element-demo>
   <template>
+    <script src="../webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="paper-range-slider.html">
     <paper-range-slider snaps pin step='1' min='0' max='100' value-diff-min="10" value-diff-max="50" value-min='30' value-max='60'></paper-range-slider>
   </template>
 </custom-element-demo>
@@ -55,6 +57,22 @@ or add the following to your `bower.json`:
 ```
 
 - The current position of the knobs (selected range of values) may be accessed by setting up a listener to the `updateValues` event:
+<!--
+```
+<custom-element-demo>
+  <template>
+    <script src="../webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="paper-range-slider.html">
+    <paper-range-slider id='myPaperRangeSliderId'></paper-range-slider>
+    <script>
+        document.querySelector("#myPaperRangeSliderId").addEventListener('updateValues', function (customEvent) {
+        console.log(' - current min/max values: ',this.valueMin,this.valueMax)
+        });
+    </script>
+  </template>
+</custom-element-demo>
+```
+-->
 ```html
 <paper-range-slider id='myPaperRangeSliderId'></paper-range-slider>
 <script>
@@ -87,6 +105,17 @@ document.querySelector("#myPaperRangeSliderId").setDisabled(isDisabled);
 ```
 
 - The `tapValueExtend`, `tapValueReduce` and `tapValueMove` properties control what happens when a user taps the slider (not e.g., relevant for when the user drags the selected range). The `tapValueExtend` property (`true` by default) allows to modify the selected range of values, by tapping on the slider below or above the selected range. On the other hand, `tapValueReduce` (`false` by default) allows to modify the selected range of values, by tapping on the slider within the selected range. Finally `tapValueMove` supersedes the `tapValueExtend` and `tapValueReduce` properties if set (it is `false` by default). If `tapValueMove` is enabled, tapping the slider will update the selected range, while keeping the same difference between valueMin and valueMax. One may set these properties by e.g.,
+<!--
+```
+<custom-element-demo>
+  <template>
+    <script src="../webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="paper-range-slider.html">
+    <paper-range-slider tap-value-reduce></paper-range-slider>
+  </template>
+</custom-element-demo>
+```
+-->
 ```html
 <paper-range-slider tap-value-reduce></paper-range-slider>
 ```
@@ -104,6 +133,17 @@ document.querySelector("#myPaperRangeSliderId").init();
 ```
 
 - It is possible to "revert" the `paper-range-slider` into a `paper-slider` (and back again) by
+<!--
+```
+<custom-element-demo>
+  <template>
+    <script src="../webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="paper-range-slider.html">
+    <paper-range-slider single-slider></paper-range-slider>
+  </template>
+</custom-element-demo>
+```
+-->
 ```html
 <paper-range-slider single-slider></paper-range-slider>
 ```
@@ -135,7 +175,6 @@ Custom property | Description | Default
 `--paper-range-slider-pin-start-color` | The color of the pin at the far left | `--paper-grey-400`
 `--paper-range-slider-knob-start-color` | The fill color of the knob at the far left | `transparent`
 `--paper-range-slider-knob-start-border-color` | The border color of the knob at the far left | `--paper-grey-400`
-
 
 
 ---
