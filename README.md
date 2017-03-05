@@ -87,16 +87,16 @@ or add the following to your `bower.json`:
   ```
 
 - One can programmatically set the selected range by e.g., 
-```javascript
-window.addEventListener('WebComponentsReady', function(e) {
-    var myMin = 10, myMax = 90;
-    document.querySelector("#myPaperRangeSliderId").setValues(myMin,myMax);
-});
-```
-It is allowed to set `myMin` and/or `myMax` to `null` or to a value outside of the allowed range, in order to ignore them, e.g., use the following to only change the lower value:
-```javascript
-document.querySelector("#myPaperRangeSliderId").setValues(10,null);
-```
+  ```javascript
+  window.addEventListener('WebComponentsReady', function(e) {
+      var myMin = 10, myMax = 90;
+      document.querySelector("#myPaperRangeSliderId").setValues(myMin,myMax);
+  });
+  ```
+  It is allowed to set `myMin` and/or `myMax` to `null` or to a value outside of the allowed range, in order to ignore them, e.g., use the following to only change the lower value:
+  ```javascript
+  document.querySelector("#myPaperRangeSliderId").setValues(10,null);
+  ```
 
 - Likewise, one can set the minimal and maximal values of the slider (the lower and upper bounds), the step-size, the minimal and maximal difference between selected values, and the disabled state. These correspond respectively to the following:
 ```javascript
