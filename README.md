@@ -23,7 +23,8 @@ or add the following to your `bower.json`:
 ```
 <custom-element-demo>
   <template>
-    <link rel="import" href="../paper-range-slider.html">
+    <script src="../webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="paper-range-slider.html">
     <paper-range-slider></paper-range-slider>
   </template>
 </custom-element-demo>
