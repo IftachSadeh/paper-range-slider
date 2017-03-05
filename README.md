@@ -99,14 +99,14 @@ or add the following to your `bower.json`:
   ```
 
 - Likewise, one can set the minimal and maximal values of the slider (the lower and upper bounds), the step-size, the minimal and maximal difference between selected values, and the disabled state. These correspond respectively to the following:
-```javascript
-document.querySelector("#myPaperRangeSliderId").setMin(myMin);
-document.querySelector("#myPaperRangeSliderId").setMax(myMax);
-document.querySelector("#myPaperRangeSliderId").setStep(myStep);
-document.querySelector("#myPaperRangeSliderId").setValueDiffMin(myValueDiffMin);
-document.querySelector("#myPaperRangeSliderId").setValueDiffMax(myValueDiffMax);
-document.querySelector("#myPaperRangeSliderId").setDisabled(isDisabled);
-```
+  ```javascript
+  document.querySelector("#myPaperRangeSliderId").setMin(myMin);
+  document.querySelector("#myPaperRangeSliderId").setMax(myMax);
+  document.querySelector("#myPaperRangeSliderId").setStep(myStep);
+  document.querySelector("#myPaperRangeSliderId").setValueDiffMin(myValueDiffMin);
+  document.querySelector("#myPaperRangeSliderId").setValueDiffMax(myValueDiffMax);
+  document.querySelector("#myPaperRangeSliderId").setDisabled(isDisabled);
+  ```
 
 - The `tapValueExtend`, `tapValueReduce` and `tapValueMove` properties control what happens when a user taps the slider (not e.g., relevant for when the user drags the selected range). The `tapValueExtend` property (`true` by default) allows to modify the selected range of values, by tapping on the slider below or above the selected range. On the other hand, `tapValueReduce` (`false` by default) allows to modify the selected range of values, by tapping on the slider within the selected range. Finally `tapValueMove` supersedes the `tapValueExtend` and `tapValueReduce` properties if set (it is `false` by default). If `tapValueMove` is enabled, tapping the slider will update the selected range, while keeping the same difference between valueMin and valueMax. One may set these properties by e.g.,
   
@@ -132,10 +132,10 @@ document.querySelector("#myPaperRangeSliderId").setDisabled(isDisabled);
   ```
 
 - The above properties which do not have an explicit method, may be reset directly. In order for the changes to take effect properly, use the `init()` method. For instance, to change the `alwaysShowPin` option of an already-defined slider, do:
-```javascript
-document.querySelector("#myPaperRangeSliderId").alwaysShowPin = true;
-document.querySelector("#myPaperRangeSliderId").init();
-```
+  ```javascript
+  document.querySelector("#myPaperRangeSliderId").alwaysShowPin = true;
+  document.querySelector("#myPaperRangeSliderId").init();
+  ```
 
 - It is possible to "revert" the `paper-range-slider` into a `paper-slider` (and back again) by
   
