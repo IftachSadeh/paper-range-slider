@@ -1,5 +1,9 @@
 # Changelog
 
+## paper-range-slider 0.2.6 (19/04/2017)
+
+- Changed cursor style.
+
 ## paper-range-slider 0.2.5 (01/03/2017)
 
 - Removed extraneous comma from `bower.json`.

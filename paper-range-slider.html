@@ -117,7 +117,7 @@ See README.md for further details.
             <div id="sliderOuterDiv_1">
                 <!-- for debugging, add: to style the following: "border: 1px solid red" -->
               <div id='backDiv' class="divSpanWidth" on-down="_backDivDown" on-tap="_backDivTap"
-                   on-up="_backDivUp" on-track="_backDivOnTrack" on-transitionend="_backDivTransEnd">
+                   on-up="_backDivUp" on-track="_backDivOnTrack" on-transitionend="_backDivTransEnd" style="cursor: ew-resize;">
                    <!-- background: #2196F3; opacity:0.2; -->
                   <!-- must have this in order to force width/height -->
                   <div id='backDivInner_0' style="line-height:200%;"><br></div>
@@ -125,9 +125,9 @@ See README.md for further details.
 
               <!-- add a couple of invisible overlay divs, to improve the the toggle of slider knobs -->
               <div id='sliderKnobMin' class="sliderKnobMinMax" on-down="_backDivDown"
-                   on-up="_backDivUp" on-track="_sliderKnobMinOnTrack"></div>
+                   on-up="_backDivUp" on-track="_sliderKnobMinOnTrack" style="cursor: col-resize;"></div>
               <div id='sliderKnobMax' class="sliderKnobMinMax" on-down="_backDivDown"
-                   on-up="_backDivUp" on-track="_sliderKnobMaxOnTrack"></div>
+                   on-up="_backDivUp" on-track="_sliderKnobMaxOnTrack" style="cursor: col-resize;"></div>
 
               <div class="divSpanWidth" style="pointer-events: none;">
                 <paper-single-range-slider id='sliderMax' disabled$="[[disabled]]" on-down="_sliderMaxDown"
@@ -544,16 +544,30 @@ See README.md for further details.
 
         // update the position of the overlay divs for the min/max knobs
         _updateSliderKnobMinMax: function() {
-            var width    = this.$$("#sliderMax").getEle('#sliderContainer').offsetWidth;
-            var leftMin  = width*(this.valueMin - this.min)/(this.max - this.min)
-                         + 0.5 * this.$$("#sliderKnobMin").offsetWidth;
-            var leftMax  = width*(this.valueMax - this.min)/(this.max - this.min)
-                         + 0.5 * this.$$("#sliderKnobMax").offsetWidth;
+            var _this = this;
+            var nTries = 0;
+            
+            function try_updateSliderKnobMinMax() {
+                var width = _this.$$("#sliderMax").getEle('#sliderContainer').offsetWidth;
+                if(width < 0.0001) {
+                    if(nTries < 100) {
+                        nTries++;
+                        setTimeout(function() { try_updateSliderKnobMinMax(); }, 10);
+                    }
+                    return;
+                }
 
-            this.$$("#sliderKnobMin").style.left = leftMin+'px';
-            this.$$("#sliderKnobMax").style.left = leftMax+'px';
-            // console.log('_updateSliderKnobMinMax',leftMin,leftMax)
+                var leftMin  = width*(_this.valueMin - _this.min)/(_this.max - _this.min)
+                             + 0.5 * _this.$$("#sliderKnobMin").offsetWidth;
+                var leftMax  = width*(_this.valueMax - _this.min)/(_this.max - _this.min)
+                             + 0.5 * _this.$$("#sliderKnobMax").offsetWidth;
 
+                _this.$$("#sliderKnobMin").style.left = leftMin+'px';
+                _this.$$("#sliderKnobMax").style.left = leftMax+'px';
+                return;
+            }
+            try_updateSliderKnobMinMax();
+            
             return;
         },
 
@@ -1079,6 +1093,7 @@ See README.md for further details.
         margin-left: calc(-15px - var(--calculated-paper-single-range-slider-height)/2);
         width: calc(30px + var(--calculated-paper-single-range-slider-height));
         height: calc(30px + var(--calculated-paper-single-range-slider-height));
+        cursor: col-resize;
       }
 
       .transiting > .slider-knob {
