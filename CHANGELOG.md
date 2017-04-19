@@ -1,5 +1,9 @@
 # Changelog
 
+## paper-range-slider 0.2.7 (19/04/2017)
+
+- Fixed cursor style for `single-slider` option.
+
 ## paper-range-slider 0.2.6 (19/04/2017)
 
 - Changed cursor style.

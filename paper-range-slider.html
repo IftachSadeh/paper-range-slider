@@ -117,7 +117,7 @@ See README.md for further details.
             <div id="sliderOuterDiv_1">
                 <!-- for debugging, add: to style the following: "border: 1px solid red" -->
               <div id='backDiv' class="divSpanWidth" on-down="_backDivDown" on-tap="_backDivTap"
-                   on-up="_backDivUp" on-track="_backDivOnTrack" on-transitionend="_backDivTransEnd" style="cursor: ew-resize;">
+                   on-up="_backDivUp" on-track="_backDivOnTrack" on-transitionend="_backDivTransEnd">
                    <!-- background: #2196F3; opacity:0.2; -->
                   <!-- must have this in order to force width/height -->
                   <div id='backDivInner_0' style="line-height:200%;"><br></div>
@@ -125,9 +125,9 @@ See README.md for further details.
 
               <!-- add a couple of invisible overlay divs, to improve the the toggle of slider knobs -->
               <div id='sliderKnobMin' class="sliderKnobMinMax" on-down="_backDivDown"
-                   on-up="_backDivUp" on-track="_sliderKnobMinOnTrack" style="cursor: col-resize;"></div>
+                   on-up="_backDivUp" on-track="_sliderKnobMinOnTrack"></div>
               <div id='sliderKnobMax' class="sliderKnobMinMax" on-down="_backDivDown"
-                   on-up="_backDivUp" on-track="_sliderKnobMaxOnTrack" style="cursor: col-resize;"></div>
+                   on-up="_backDivUp" on-track="_sliderKnobMaxOnTrack"></div>
 
               <div class="divSpanWidth" style="pointer-events: none;">
                 <paper-single-range-slider id='sliderMax' disabled$="[[disabled]]" on-down="_sliderMaxDown"
@@ -963,6 +963,12 @@ See README.md for further details.
                 this.$$("#sliderMin").style.display           = 'none';
                 this.$$("#sliderKnobMin").style.pointerEvents = 'none';
                 this.$$("#sliderKnobMax").style.pointerEvents = 'none';
+                
+                this.$$("#backDiv").style.cursor                         = 'default';
+                this.$$("#sliderKnobMin").style.cursor                   = 'default';
+                this.$$("#sliderKnobMax").style.cursor                   = 'default';
+                this.$$("#sliderMax").getEle('#sliderKnob').style.cursor = 'default';
+                this.$$("#sliderMin").getEle('#sliderKnob').style.cursor = 'default';
             }
             else {
                 this.$$("#backDiv").style.display             = 'block';
@@ -971,6 +977,12 @@ See README.md for further details.
                 this.$$("#sliderMin").style.display           = '';
                 this.$$("#sliderKnobMin").style.pointerEvents = 'auto';
                 this.$$("#sliderKnobMax").style.pointerEvents = 'auto';
+                
+                this.$$("#backDiv").style.cursor                         = 'ew-resize';
+                this.$$("#sliderKnobMin").style.cursor                   = 'col-resize';
+                this.$$("#sliderKnobMax").style.cursor                   = 'col-resize';
+                this.$$("#sliderMax").getEle('#sliderKnob').style.cursor = 'col-resize';
+                this.$$("#sliderMin").getEle('#sliderKnob').style.cursor = 'col-resize';
             }
 
             // disable some of the interface of the two single sliders,
@@ -996,7 +1008,7 @@ See README.md for further details.
         @apply(--layout-justified);
         @apply(--layout-center);
         width: 200px;
-        cursor: ew-resize;
+        cursor: default;
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
@@ -1093,7 +1105,6 @@ See README.md for further details.
         margin-left: calc(-15px - var(--calculated-paper-single-range-slider-height)/2);
         width: calc(30px + var(--calculated-paper-single-range-slider-height));
         height: calc(30px + var(--calculated-paper-single-range-slider-height));
-        cursor: col-resize;
       }
 
       .transiting > .slider-knob {
