@@ -32,5 +32,8 @@
   },
   "resolutions": {
     "webcomponentsjs": "^1.0.8"
-  }
+  },
+  "demos": {
+      "Demo": "demo/index.html"
+  },
 }
