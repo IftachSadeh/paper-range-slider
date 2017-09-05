@@ -31,6 +31,6 @@
     "iron-form-element-behavior": "PolymerElements/iron-form-element-behavior#1 - 2"
   },
   "resolutions": {
-    "webcomponentsjs": "^1.0.0"
+    "webcomponentsjs": "^1.0.8"
   }
 }
