@@ -26,7 +26,7 @@ or add the following to your `bower.json`:
   <template>
     <script src="../webcomponentsjs/webcomponents-lite.js"></script>
     <link rel="import" href="paper-range-slider.html">
-    <paper-range-slider></paper-range-slider>
+    <next-code-block></next-code-block>
   </template>
 </custom-element-demo>
 ```
@@ -49,8 +49,7 @@ or add the following to your `bower.json`:
   <template>
     <script src="../webcomponentsjs/webcomponents-lite.js"></script>
     <link rel="import" href="paper-range-slider.html">
-    <br>
-    <paper-range-slider snaps pin step='1' min='0' max='100' value-diff-min="10" value-diff-max="50" value-min='30' value-max='60'></paper-range-slider>
+    <next-code-block></next-code-block>
   </template>
 </custom-element-demo>
 ```
@@ -67,12 +66,7 @@ or add the following to your `bower.json`:
   <template>
     <script src="../webcomponentsjs/webcomponents-lite.js"></script>
     <link rel="import" href="paper-range-slider.html">
-    <paper-range-slider id='myPaperRangeSliderId'></paper-range-slider>
-    <script>
-        document.querySelector("#myPaperRangeSliderId").addEventListener('updateValues', function (customEvent) {
-        console.log(' - current min/max values: ',this.valueMin,this.valueMax)
-        });
-    </script>
+    <next-code-block></next-code-block>
   </template>
 </custom-element-demo>
 ```
@@ -116,7 +110,7 @@ or add the following to your `bower.json`:
   <template>
     <script src="../webcomponentsjs/webcomponents-lite.js"></script>
     <link rel="import" href="paper-range-slider.html">
-    <paper-range-slider tap-value-reduce step='1' value-min='20' value-max='70' max='100' min='0'></paper-range-slider>    
+    <next-code-block></next-code-block>
   </template>
 </custom-element-demo>
 ```
@@ -145,7 +139,7 @@ or add the following to your `bower.json`:
   <template>
     <script src="../webcomponentsjs/webcomponents-lite.js"></script>
     <link rel="import" href="paper-range-slider.html">
-    <paper-range-slider single-slider></paper-range-slider>
+    <next-code-block></next-code-block>
   </template>
 </custom-element-demo>
 ```
