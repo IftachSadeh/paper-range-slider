@@ -1,5 +1,9 @@
 # Changelog
 
+## paper-range-slider 1.0.1 (05/09/2017)
+
+- Upgraded demo page.
+
 ## paper-range-slider 1.0.0 (05/09/2017)
 
 - Upgraded for `Polymer 2` compatibility.
