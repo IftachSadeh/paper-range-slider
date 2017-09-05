@@ -1,5 +1,9 @@
 # Changelog
 
+## paper-range-slider 1.0.0 (05/09/2017)
+
+- Upgraded for `Polymer 2` compatibility.
+
 ## paper-range-slider 0.2.7 (19/04/2017)
 
 - Fixed cursor style for `single-slider` option.

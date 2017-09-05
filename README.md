@@ -1,8 +1,8 @@
 [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/IftachSadeh/paper-range-slider)
 
-# paper-range-slider - v0.2.7
+# paper-range-slider - v1.0.0
 
-`paper-range-slider` allows the user to select a range of values within a given (possibly wider) range. values are selected by moving the position of two knobs, or by dragging the selected range of values within the allowed limits. [A demo is provided here](http://IftachSadeh.github.io/paper-range-slider/components/paper-range-slider/demo/). The code was developed using Polymer v1.6.x.
+`paper-range-slider` allows the user to select a range of values within a given (possibly wider) range. values are selected by moving the position of two knobs, or by dragging the selected range of values within the allowed limits. [A demo is provided here](http://IftachSadeh.github.io/paper-range-slider/components/paper-range-slider/demo/). `paper-range-slider - v1.*` is compatible with `Polymer v2.*` (For `Polymer v1.*`, use `paper-range-slider - v0.2.7`.)
 
 ## Bower installation
 Do either
@@ -167,6 +167,7 @@ or add the following to your `bower.json`:
   var valNow = document.querySelector("#myPaperRangeSliderId").valueMax;
   ```
 
+  See also the examples in `test/basic-test.html`.
 
 ## Styling
 
