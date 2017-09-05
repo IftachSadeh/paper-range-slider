@@ -2,7 +2,7 @@
 
 # paper-range-slider - v1.0.0
 
-`paper-range-slider` allows the user to select a range of values within a given (possibly wider) range. values are selected by moving the position of two knobs, or by dragging the selected range of values within the allowed limits. [A demo is provided here](http://IftachSadeh.github.io/paper-range-slider/components/paper-range-slider/demo/). `paper-range-slider - v1.*` is compatible with `Polymer v2.*` (For `Polymer v1.*`, use `paper-range-slider - v0.2.7`.)
+`paper-range-slider` allows the user to select a range of values within a given (possibly wider) range. values are selected by moving the position of two knobs, or by dragging the selected range of values within the allowed limits. `paper-range-slider - v1.*` is compatible with `Polymer v2.*` (For `Polymer v1.*`, use `paper-range-slider - v0.2.7`.)
 
 ## Bower installation
 Do either
