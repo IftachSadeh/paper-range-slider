@@ -1,0 +1,47 @@
+{
+  "name": "paper-range-slider",
+  "version": "1.0.2",
+  "authors": [
+    "Iftach Sadeh <iftach.sadeh@desy.de>"
+  ],
+  "description": "A material design-style range-slider, composed of paper-slider elements",
+  "keywords": [
+    "web-component",
+    "web-components",
+    "polymer",
+    "slider"
+  ],
+  "main": "paper-range-slider.html",
+  "license": "MIT",
+  "homepage": "https://github.com/IftachSadeh/paper-range-slider/",
+  "ignore": [
+    "/.*",
+    "/test/",
+    "/demo/"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#1.9 - 2",
+    "paper-input": "PolymerElements/paper-input#1 - 2",
+    "paper-progress": "PolymerElements/paper-progress#1 - 2",
+    "iron-flex-layout": "PolymerElements/iron-flex-layout#1 - 2",
+    "paper-styles": "PolymerElements/paper-styles#1 - 2",
+    "iron-behaviors": "PolymerElements/iron-behaviors#1 - 2",
+    "paper-behaviors": "PolymerElements/paper-behaviors#1 - 2",
+    "iron-a11y-keys-behavior": "PolymerElements/iron-a11y-keys-behavior#1 - 2",
+    "iron-form-element-behavior": "PolymerElements/iron-form-element-behavior#1 - 2"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#1 - 2",
+    "iron-demo-helpers": "polymerelements/iron-demo-helpers#1 - 2",
+    "test-fixture": "PolymerElements/test-fixture#1 - 2",
+    "iron-test-helpers": "polymerelements/iron-test-helpers#1 - 2",
+    "web-component-tester": "^6.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.8"
+  },
+  "resolutions": {
+    "webcomponentsjs": "^1.0.8"
+  },
+  "demos": {
+      "Demo": "demo/index.html"
+  }
+}
