@@ -163,8 +163,8 @@ See README.md for further details.
                    * the style attribute of the element.
                    */
                   mainDivStyle: {
-                      type: String,
-                      value: "",
+                      type: Object,
+                      value: function() {return {}},
                       notify: true,
                       reflectToAttribute: true
                   },

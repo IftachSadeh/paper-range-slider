@@ -1,5 +1,10 @@
 # Changelog
 
+
+## paper-range-slider 1.0.2 (26/10/2017)
+
+ - Change type of style property to object.
+
 ## paper-range-slider 1.0.1 (05/09/2017)
 
 - Upgraded demo page.
