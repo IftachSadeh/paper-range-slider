@@ -1,5 +1,9 @@
 # Changelog
 
+## paper-range-slider 0.2.8 (26/10/2017)
+
+- Change type of style property to object.
+
 ## paper-range-slider 0.2.7 (19/04/2017)
 
 - Fixed cursor style for `single-slider` option.
