@@ -118,7 +118,7 @@ or add the following to your `bower.json`:
   ```html
   <paper-range-slider tap-value-reduce step='1' value-min='20' value-max='70' max='100' min='0'></paper-range-slider>    
   ```
-  or pragmatically with
+  or programmatically with
   ```javascript
   document.querySelector("#myPaperRangeSliderId").setTapValueExtend(isTapValueExtend);
   document.querySelector("#myPaperRangeSliderId").setTapValueReduce(isTapValueReduce);
@@ -148,7 +148,7 @@ or add the following to your `bower.json`:
   <paper-range-slider single-slider></paper-range-slider>
   ```
 
-  or programatically with
+  or programmatically with
   ```javascript
   document.querySelector("#myPaperRangeSliderId").setSingleSlider(isSingleSlider);
   ```
