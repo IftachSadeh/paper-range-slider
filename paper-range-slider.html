@@ -761,7 +761,7 @@ See README.md for further details.
                     this._prevUpdateValues = [this.valueMin, this.valueMax];
 
                     // fire the event
-                    this.dispatchEvent(new CustomEvent('updateValues', { bubbles:true, composed:true, detail:{} }));
+                    this.dispatchEvent(new CustomEvent('updateValues', { bubbles:true, composed:true, detail: this }));
                 }
                 return;
             }
