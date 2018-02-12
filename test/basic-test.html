@@ -1,0 +1,97 @@
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../paper-range-slider.html">
+
+
+<dom-module id="basic-test">
+  <template>
+    <style>
+      :host {
+      }
+
+      #mySlider0 {
+        --paper-range-slider-lower-color: red;
+        --paper-range-slider-active-color: blue;
+        --paper-range-slider-higher-color: green;
+        --paper-range-slider-knob-color: purple;
+        --paper-range-slider-pin-color: orange;
+        --paper-range-slider-pin-start-color: yellow;
+        --paper-range-slider-knob-start-color: pink;
+        --paper-range-slider-knob-start-border-color: cyan;
+      }
+    </style>
+
+    <paper-range-slider min='0' max='100' value-min='10' value-max='50'></paper-range-slider> <br>
+
+    <paper-range-slider id="mySlider0" value-min='35' value-max='65' max='100' min='0' always-show-pin></paper-range-slider> <br>
+    
+    <paper-range-slider id="mySlider1" value-min='35' value-max='65' max='100' min='0' pin></paper-range-slider> <br>
+    
+    <paper-range-slider id="mySlider2" value-min='35' value-max='65' max='100' min='0'></paper-range-slider> <br>
+    
+    <paper-range-slider id="mySlider3" value-min='35' value-max='65' max='100' min='0'></paper-range-slider> <br>
+    
+    <paper-range-slider id="mySlider4" slider-width="300px" value-min='35' value-max='65' max='100' min='0'></paper-range-slider> <br>
+    
+    <paper-range-slider value-max='40' max='60' min='-10' single-slider slider-width="350px"></paper-range-slider> <br>
+    
+    <paper-range-slider id="mySlider5" value-min='20' value-max='40' max='100' min='0' value-diff-min=10 value-diff-max=40></paper-range-slider> <br>
+
+  </template>
+
+  <script>
+    class BasicTest extends Polymer.Element {
+      static get is() { return 'basic-test' }
+
+      ready() {
+        super.ready();
+        var _this = this;
+        setTimeout(function() { _this._ready(); }.bind(this), 0);
+      }
+      
+      _ready(){
+        this.shadowRoot.querySelector("#mySlider0").setTapValueExtend(true);
+        this.shadowRoot.querySelector("#mySlider0").setTapValueReduce(true);
+        this.shadowRoot.querySelector("#mySlider0").setTapValueMove(false);
+
+        this.shadowRoot.querySelector("#mySlider1").setTapValueExtend(true);
+        this.shadowRoot.querySelector("#mySlider1").setTapValueReduce(false);
+        this.shadowRoot.querySelector("#mySlider1").setTapValueMove(false);
+        
+        this.shadowRoot.querySelector("#mySlider2").setTapValueExtend(true);
+        this.shadowRoot.querySelector("#mySlider2").setTapValueReduce(true);
+        this.shadowRoot.querySelector("#mySlider2").setTapValueMove(true);
+        
+        this.shadowRoot.querySelector("#mySlider3").setTapValueExtend(true);
+        this.shadowRoot.querySelector("#mySlider3").setTapValueReduce(false);
+        this.shadowRoot.querySelector("#mySlider3").setTapValueMove(true);
+
+        this.shadowRoot.querySelector("#mySlider3").addEventListener('updateValues', function (customEvent) {
+            console.log(' - current min/max values: ',this.valueMin,this.valueMax)
+        });
+
+        var myMin = 10, myMax = 90, myStep = 5, difMin = 10, difMax = 40;
+        this.shadowRoot.querySelector("#mySlider2").setValues(myMin,myMax);
+        this.shadowRoot.querySelector("#mySlider3").setMin(myMin);
+        this.shadowRoot.querySelector("#mySlider3").setMax(myMax);
+        this.shadowRoot.querySelector("#mySlider3").setStep(myStep);
+        this.shadowRoot.querySelector("#mySlider3").setValueDiffMin(difMin);
+        this.shadowRoot.querySelector("#mySlider3").setValueDiffMax(difMax);
+        this.shadowRoot.querySelector("#mySlider4").setDisabled(true);
+
+        var _this = this;
+        setTimeout(function() {
+            _this.shadowRoot.querySelector("#mySlider5").updateStyles({
+              '--paper-range-slider-active-color': '#C2185B'
+            });
+
+            _this.shadowRoot.querySelector("#mySlider5").alwaysShowPin = true;
+            _this.shadowRoot.querySelector("#mySlider5").sliderWidth   = "600px";
+            _this.shadowRoot.querySelector("#mySlider5").init();
+        }, 2000);
+      }
+    }
+    customElements.define(BasicTest.is, BasicTest);
+
+  </script>
+</dom-module>
+

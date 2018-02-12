@@ -1,8 +1,35 @@
 # Changelog
 
-## Master (02/11/2016)
+
+## paper-range-slider 1.0.2 (26/10/2017)
+
+ - Change type of style property to object.
+
+## paper-range-slider 1.0.1 (05/09/2017)
+
+- Upgraded demo page.
+
+## paper-range-slider 1.0.0 (05/09/2017)
+
+- Upgraded for `Polymer 2` compatibility.
+
+## paper-range-slider 0.2.7 (19/04/2017)
+
+- Fixed cursor style for `single-slider` option.
+
+## paper-range-slider 0.2.6 (19/04/2017)
+
+- Changed cursor style.
+
+## paper-range-slider 0.2.5 (01/03/2017)
 
 - Removed extraneous comma from `bower.json`.
+
+- Updated to `paper-slider`, version `1.0.13`.
+
+- Fix for [issue #12](https://github.com/IftachSadeh/paper-range-slider/issues/12).
+
+- Other minor changes.
 
 ## paper-range-slider 0.2.4 (22/10/2016)
 
@@ -104,4 +131,3 @@ or (kept for backward compatibility),
 ## paper-range-slider 0.0.1 (11/04/2016)
 
 - Initial version of `paper-range-slider`
-

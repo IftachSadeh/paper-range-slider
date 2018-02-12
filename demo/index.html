@@ -6,18 +6,17 @@
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
 
-    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
 
     <link rel="import" href="../paper-range-slider.html">
 
-    <style is="custom-style" include="demo-pages-shared-styles"></style>
+    <custom-style>
+      <style is="custom-style" include="demo-pages-shared-styles">
+      </style>
+    </custom-style>
   </head>
   <body>
-
-    <div class="vertical-section-container centered">
-        <h2><p>A few of examples of <a href="https://github.com/IftachSadeh/paper-range-slider">https://github.com/IftachSadeh/paper-range-slider</a></p></h2>
-    </div>
 
     <div class="vertical-section-container centered">
       <h3>Default paper-range-slider</h3>
@@ -71,36 +70,6 @@
       <demo-snippet>
         <template>
           <paper-range-slider tap-value-reduce step='1' value-min='20' value-max='70' max='100' min='0'></paper-range-slider>
-        </template>
-      </demo-snippet>
-    </div>
-
-    <div class="vertical-section-container centered">
-      <h3>Various combinations of tapping behaviour, set pragmatically</h3>
-      <demo-snippet>
-        <template>
-          <paper-range-slider id="mySlider0" slider-width="300px" value-min='35' value-max='65' max='100' min='0'></paper-range-slider>
-          <paper-range-slider id="mySlider1" slider-width="300px" value-min='35' value-max='65' max='100' min='0'></paper-range-slider>
-          <paper-range-slider id="mySlider2" slider-width="300px" value-min='35' value-max='65' max='100' min='0'></paper-range-slider>
-          <paper-range-slider id="mySlider3" slider-width="300px" value-min='35' value-max='65' max='100' min='0'></paper-range-slider>
-          
-          <script type="text/javascript">
-            document.querySelector("#mySlider0").setTapValueExtend(true);
-            document.querySelector("#mySlider0").setTapValueReduce(true);
-            document.querySelector("#mySlider0").setTapValueMove(false);
-
-            document.querySelector("#mySlider1").setTapValueExtend(true);
-            document.querySelector("#mySlider1").setTapValueReduce(false);
-            document.querySelector("#mySlider1").setTapValueMove(false);
-
-            document.querySelector("#mySlider2").setTapValueExtend(true);
-            document.querySelector("#mySlider2").setTapValueReduce(true);
-            document.querySelector("#mySlider2").setTapValueMove(true);
-
-            document.querySelector("#mySlider3").setTapValueExtend(true);
-            document.querySelector("#mySlider3").setTapValueReduce(false);
-            document.querySelector("#mySlider3").setTapValueMove(true);
-          </script>
         </template>
       </demo-snippet>
     </div>
