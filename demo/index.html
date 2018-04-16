@@ -1,87 +1,157 @@
 <!doctype html>
 <html>
-  <head>
-    <title>paper-range-slider demo</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
-    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+<head>
+  <title>paper-range-slider demo</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
 
-    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
-    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+  <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+  <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
 
-    <link rel="import" href="../paper-range-slider.html">
+  <link rel="import" href="../paper-range-slider.html">
 
-    <custom-style>
-      <style is="custom-style" include="demo-pages-shared-styles">
+  <custom-style>
+    <style is="custom-style" include="demo-pages-shared-styles">
+    </style>
+  </custom-style>
+</head>
+<body>
+
+<div class="vertical-section-container centered">
+  <h3>Default paper-range-slider</h3>
+  <demo-snippet>
+    <template>
+      <paper-range-slider></paper-range-slider>
+    </template>
+  </demo-snippet>
+</div>
+
+<div class="vertical-section-container centered">
+  <h3>Minimal and maximal value-difference</h3>
+  <demo-snippet>
+    <template>
+      <paper-range-slider pin value-diff-min="14" value-diff-max="28" value-max='40' max='60'
+                          min='-10'></paper-range-slider>
+    </template>
+  </demo-snippet>
+</div>
+
+<div class="vertical-section-container centered">
+  <h3>Some styling</h3>
+  <demo-snippet>
+    <template>
+      <style is="custom-style">
+        .slider1 {
+          --paper-range-slider-knob-color: #2F3238;
+          --paper-range-slider-pin-color: #2F3238;
+          --paper-range-slider-higher-color: #2F3238;
+          --paper-range-slider-lower-color: #2F3238;
+          --paper-range-slider-active-color: #F06292;
+          --paper-range-slider-knob-start-color: #2F3238;
+          --paper-range-slider-knob-start-border-color: #2F3238;
+        }
       </style>
-    </custom-style>
-  </head>
-  <body>
+      <paper-range-slider class="slider1" style="width:300px" value-min='-5' value-max='20' max='33'
+                          min='-10'></paper-range-slider>
+    </template>
+  </demo-snippet>
+</div>
 
-    <div class="vertical-section-container centered">
-      <h3>Default paper-range-slider</h3>
-      <demo-snippet>
-        <template>
-          <paper-range-slider></paper-range-slider>
-        </template>
-      </demo-snippet>
-    </div>
+<div class="vertical-section-container centered">
+  <h3>Always show pins</h3>
+  <demo-snippet>
+    <template>
+      <paper-range-slider always-show-pin step='1' value-diff-min="11" value-max='40' max='60'
+                          min='-10'></paper-range-slider>
+    </template>
+  </demo-snippet>
+</div>
 
-    <div class="vertical-section-container centered">
-      <h3>Minimal and maximal value-difference</h3>
-      <demo-snippet>
-        <template>
-          <paper-range-slider pin value-diff-min="14" value-diff-max="28" value-max='40' max='60' min='-10'></paper-range-slider>
-        </template>
-      </demo-snippet>
-    </div>
+<div class="vertical-section-container centered">
+  <h3>Allow tapping within the selected range to modify the selected range</h3>
+  <demo-snippet>
+    <template>
+      <paper-range-slider tap-value-reduce step='1' value-min='20' value-max='70' max='100'
+                          min='0'></paper-range-slider>
+    </template>
+  </demo-snippet>
+</div>
 
-    <div class="vertical-section-container centered">
-      <h3>Some styling</h3>
-      <demo-snippet>
-        <template>
-          <style is="custom-style">
-            .slider1 {
-              --paper-range-slider-knob-color:              #2F3238;
-              --paper-range-slider-pin-color:               #2F3238;
-              --paper-range-slider-higher-color:            #2F3238;
-              --paper-range-slider-lower-color:             #2F3238;
-              --paper-range-slider-active-color:            #F06292;
-              --paper-range-slider-knob-start-color:        #2F3238;
-              --paper-range-slider-knob-start-border-color: #2F3238;
+<div class="vertical-section-container centered">
+  <h3>Revert to a single slider</h3>
+  <demo-snippet>
+    <template>
+      <paper-range-slider single-slider slider-width="350px" value-max='40' max='60' min='-10'></paper-range-slider>
+    </template>
+  </demo-snippet>
+</div>
+
+<div class="vertical-section-container centered">
+  <h3>Slider with display function</h3>
+  <demo-snippet>
+    <!-- dom bind to some logic to the demo-snippet https://github.com/PolymerElements/iron-demo-helpers/issues/29 -->
+    <dom-bind>
+      <template>
+        <script>
+          window.addEventListener('WebComponentsReady', () => {
+            let slider = document.querySelector('#slider')
+            slider.displayFunction = function (value) {
+              let padNumber = (number) => {
+                if (number.toString().length === 1) {
+                  return `0${number}`
+                }
+                return `${number}`
+              }
+
+              let hour = Math.floor(value / 4)
+              let minutes = value % 4 * 15
+              return `${padNumber(hour)}:${padNumber(minutes)}`
             }
-          </style>
-          <paper-range-slider class="slider1" style="width:300px"  value-min='-5' value-max='20' max='33' min='-10'></paper-range-slider>
-        </template>
-      </demo-snippet>
-    </div>
+          })
+        </script>
+      </template>
+    </dom-bind>
 
-    <div class="vertical-section-container centered">
-      <h3>Always show pins</h3>
-      <demo-snippet>
-        <template>
-          <paper-range-slider always-show-pin step='1' value-diff-min="11" value-max='40' max='60' min='-10'></paper-range-slider>
-        </template>
-      </demo-snippet>
-    </div>
+    <template preserve-content>
+      <paper-range-slider id="slider"
+                          always-show-pin
+                          slider-width="350px"
+                          value-diff-min="12"
+                          value-min="48"
+                          value-max="64"
+                          max='96'
+                          min='0'></paper-range-slider>
+      <script>
+        window.addEventListener('WebComponentsReady', () => {
+          // get the element
+          let slider = document.querySelector('#slider')
+          // assign the display function that is called for every value
+          slider.displayFunction = function (value) {
+            // a helper function to convert 1 => 01 or 8 => 08 so that every value is exactly two characters long
+            let padNumber = (number) => {
+              if (number.toString().length === 1) {
+                return `0${number}`
+              }
+              return `${number}`
+            }
 
-    <div class="vertical-section-container centered">
-      <h3>Allow tapping within the selected range to modify the selected range</h3>
-      <demo-snippet>
-        <template>
-          <paper-range-slider tap-value-reduce step='1' value-min='20' value-max='70' max='100' min='0'></paper-range-slider>
-        </template>
-      </demo-snippet>
-    </div>
+            // calculate the hour
+            let hour = Math.floor(value / 4)
 
-    <div class="vertical-section-container centered">
-      <h3>Revert to a single slider</h3>
-      <demo-snippet>
-        <template>
-        <paper-range-slider single-slider slider-width="350px"  value-max='40' max='60' min='-10'></paper-range-slider>
-        </template>
-      </demo-snippet>
-    </div>
+            // calculate the minute
+            let minutes = value % 4 * 15
 
-  </body>
+            // format the value
+            return `${padNumber(hour)}:${padNumber(minutes)}`
+          }
+        })
+      </script>
+    </template>
+
+  </demo-snippet>
+</div>
+
+
+</body>
 </html>

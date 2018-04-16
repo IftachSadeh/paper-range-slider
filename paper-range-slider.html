@@ -121,14 +121,14 @@ See README.md for further details.
               </div>
 
               <div class="divSpanWidth" style="pointer-events: none;">
-                <paper-single-range-slider id='sliderMax' disabled$="[[disabled]]" on-down="_sliderMaxDown"
+                <paper-single-range-slider id='sliderMax' display-function="[[displayFunction]]" disabled$="[[disabled]]" on-down="_sliderMaxDown"
                               on-up="_sliderMaxUp" step="[[step]]" min="[[min]]" max="[[max]]"
                               value="[[valueMax]]" secondary-progress='[[max]]' style="width:100%;">
                 </paper-single-range-slider>
               </div>
 
               <div class="divSpanWidth" style="pointer-events: none;">
-                <paper-single-range-slider id='sliderMin' disabled$="[[disabled]]" on-down="_sliderMinDown"
+                <paper-single-range-slider id='sliderMin' display-function="[[displayFunction]]" disabled$="[[disabled]]" on-down="_sliderMinDown"
                               on-up="_sliderMinUp" noink step="[[step]]" min="[[min]]" max="[[max]]"
                               value="[[valueMin]]" style="width:100%;">
                 </paper-single-range-slider>
@@ -149,6 +149,18 @@ See README.md for further details.
             // -----------------------------------------------------------------------------------------------------------
             static get properties() {
                 return  {
+                  /**
+                   * Used to customize the displayed value of the pin. E.g. the value can be prefixed with a '$' like '$99'
+                   */
+                  displayFunction: {
+                    type: Function,
+                    value: function () {
+                      return function (value) {
+                        return value;
+                      }
+                    }
+                  },
+
                   /**
                    * the width of the element in pixels.
                    */
@@ -1217,7 +1229,7 @@ See README.md for further details.
         on-up="_resetKnob"
         on-track="_onTrack"
         on-transitionend="_knobTransitionEnd">
-          <div class="slider-knob-inner" value$="[[immediateValue]]"></div>
+          <div class="slider-knob-inner" value$="[[displayFunction(immediateValue)]]"></div>
       </div>
     </div>
 
@@ -1250,6 +1262,18 @@ See README.md for further details.
       ],
 
       properties: {
+        /**
+         * Used to customize the displayed value of the pin. E.g. the value can be prefixed with a '$' like '$99'
+         */
+        displayFunction: {
+          type: Function,
+          value: function () {
+            return function (value) {
+              return value;
+            }
+          }
+        },
+
         /**
          * If true, the slider thumb snaps to tick marks evenly spaced based
          * on the `step` property value.
