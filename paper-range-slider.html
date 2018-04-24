@@ -195,7 +195,7 @@ See README.md for further details.
                   valueMin: {
                       type: Number,
                       value: 0,
-                      notify: true,
+                      notify: false,
                       reflectToAttribute: true
                   },
 
@@ -205,7 +205,7 @@ See README.md for further details.
                   valueMax: {
                       type: Number,
                       value: 100,
-                      notify: true,
+                      notify: false,
                       reflectToAttribute: true
                   },
 
@@ -293,7 +293,7 @@ See README.md for further details.
 
                   /**
                    * time-window (in msec) to keep the slider._setTransiting(true) for the
-                   * two paper-single-range-slider elements, when using the setValues() method to change the
+                   * two paper-single-range-slider elements, when using the _setValuesTrans() method to change the
                    * selected range. This should be slightly higher than the transition time defined for the
                    * paper-single-range-slider (which, as of paper-single-range-slider-v1.0.11, is 0.08s/0.18s).
                    */
@@ -340,78 +340,61 @@ See README.md for further details.
             // initial settings
             // -----------------------------------------------------------------------------------------------------------
             ready() {
-                // this._boundListener = this._myLocationListener.bind(this);
                 super.ready();
-                var _this = this;
-                setTimeout(function() { _this._ready(); }.bind(this), 0);
-            }
+                this.inInit = true;
 
-            // initialization
-            _ready() {
-                function _hasVar(varIn) { return (varIn != undefined && varIn != null); }
+                var this_      = this;
+                var nInitTries = 0;
+                
+                var sliderMin = this.shadowRoot.querySelector("#sliderMin");
+                var sliderMax = this.shadowRoot.querySelector("#sliderMax");
 
-                if(!_hasVar(this._nInitTries)) this._nInitTries = 0;
+                // initialization once the paper-single-range-slider elements have been rendered
+                function _ready() {
+                    if(sliderMin.isReady && sliderMax.isReady) {
+                        this_.init();
 
-                // it may take a little time for polymer to decide to render the paper-single-range-slider elements,
-                // we therefore wait until they're ready before we proceed with the initialization
-                var sliderContainer = this.shadowRoot.querySelector("#sliderMax").getEle('#sliderContainer');
-                if(_hasVar(sliderContainer)) { sliderContainer = (sliderContainer.offsetWidth > 0); }
-                if(_hasVar(sliderContainer)) { sliderContainer = this.shadowRoot.querySelector("#sliderMin").getEle('#sliderContainer'); }
-                if(_hasVar(sliderContainer)) { sliderContainer = (sliderContainer.offsetWidth > 0); }
-                // finally, may go through with the initialization
-                if(_hasVar(sliderContainer)) {
-                    this._renderedReady();
-                }
-                // if not, try again in a few msec
-                else {
-                    if(this._nInitTries < 1000) {
-                        var this_ = this;
-                        setTimeout(function() { this_._ready(); }, 10);
+                        // setup listeners for updating everything whenever a knob is affected 
+                        sliderMin.addEventListener('immediate-value-change', function(customEvent) {
+                            this_._setValueMinMax(this_._getValuesMinMax(this.immediateValue,null),'immediate-value-change');
+                        });
+                        
+                        sliderMax.addEventListener('immediate-value-change', function(customEvent) {
+                            this_._setValueMinMax(this_._getValuesMinMax(null,this.immediateValue),'immediate-value-change');
+                        });
+
+                        sliderMin.addEventListener('change', function(customEvent) {
+                            this_._setValueMinMax(this_._getValuesMinMax(this.immediateValue,null),'change');
+
+                            if(this_.alwaysShowPin) {
+                                this_.$.sliderMin._expandKnob();
+                            }
+                        });
+                        
+                        sliderMax.addEventListener('change', function(customEvent) {
+                            this_._setValueMinMax(this_._getValuesMinMax(null,this.immediateValue),'change');
+
+                            if(this_.alwaysShowPin) {
+                                this_.$.sliderMax._expandKnob();
+                            }
+                        });
+
+                        this_.inInit = false;
                     }
                     else {
-                        console.error("could not properly initialize the underlying paper-single-range-slider elements ...");
+                        if(nInitTries < 1000) {
+                            setTimeout(function() { _ready(); }, 10);
+                        }
+                        else {
+                            console.error("could not properly initialize the underlying paper-single-range-slider elements ...");
+                        }
+                        nInitTries++;
                     }
-                    this._nInitTries++;
                 }
+                _ready();
 
                 return;
             }
-
-            // initialization once the paper-single-range-slider elements have been rendered
-            _renderedReady() {
-                // some initializations
-                this.init();
-
-                // setup listeners for updating everything whenever a knob is affected 
-                var this_ = this;
-
-                this.shadowRoot.querySelector("#sliderMin").addEventListener('immediate-value-change', function(customEvent) {
-                    this_._setValueMinMax(this_._getValuesMinMax(this.immediateValue,null));
-                });
-                
-                this.shadowRoot.querySelector("#sliderMax").addEventListener('immediate-value-change', function(customEvent) {
-                    this_._setValueMinMax(this_._getValuesMinMax(null,this.immediateValue));
-                });
-
-                this.shadowRoot.querySelector("#sliderMin").addEventListener('change', function(customEvent) {
-                    this_._setValueMinMax(this_._getValuesMinMax(this.immediateValue,null));
-
-                    if(this_.alwaysShowPin) {
-                        this_.$.sliderMin._expandKnob();
-                    }
-                });
-            
-                this.shadowRoot.querySelector("#sliderMax").addEventListener('change', function(customEvent) {
-                    this_._setValueMinMax(this_._getValuesMinMax(null,this.immediateValue));
-
-                    if(this_.alwaysShowPin) {
-                        this_.$.sliderMax._expandKnob();
-                    }
-                });
-
-                return;
-            }
-
 
             /**
              * initialize basic properties (can be called again by the user)
@@ -449,7 +432,7 @@ See README.md for further details.
                 this._setValueDiff();
 
                 // initial setting after verifying this._valueDiffMin, this._valueDiffMax
-                this._setValueMinMax(this._getValuesMinMax(this.valueMin, this.valueMax));
+                this._setValueMinMax(this._getValuesMinMax(this.valueMin, this.valueMax),'init');
 
                 // activate the pins, and never hide
                 if(this.alwaysShowPin) {
@@ -533,19 +516,19 @@ See README.md for further details.
             }
 
             // set the values of the low/high edges of the selected range and broadcast the change
-            _setValueMinMax(valuesMinMax) {
+            _setValueMinMax(valuesMinMax, eventName) {
                 this._setValueMin(valuesMinMax[0]);
                 this._setValueMax(valuesMinMax[1]);
 
                 // fire to indicate an update of this.valueMin and/or this.valueMax
-                this.updateValues();
+                this.updateValues(eventName);
 
                 return;
             }
 
             // set this.valueMin and/or this.valueMax (can input null values or out-of-range
             // values in order to set only one of the two)
-            _setValues(valueMin,valueMax) {
+            _setValuesNoTrans(valueMin,valueMax,eventName) {
                 // some sanity checks/changes
                 if(valueMin != null) {
                     if(valueMin < this.min || valueMin > this.max) valueMin = null;
@@ -558,7 +541,23 @@ See README.md for further details.
                 }
 
                 // now update the values
-                this._setValueMinMax(this._getValuesMinMax(valueMin,valueMax));
+                this._setValueMinMax(this._getValuesMinMax(valueMin,valueMax), eventName);
+
+                return;
+            }
+
+            // _setValuesNoTrans with a transition
+            _setValuesTrans(valueMin,valueMax,eventName) {
+                this.shadowRoot.querySelector("#sliderMin")._setTransiting(true);
+                this.shadowRoot.querySelector("#sliderMax")._setTransiting(true);
+
+                this._setValuesNoTrans(valueMin,valueMax,eventName);
+
+                var this_ = this;
+                setTimeout(function() {
+                    this_.$.sliderMin._setTransiting(false);
+                    this_.$.sliderMax._setTransiting(false);
+                }, this_.transDuration);
 
                 return;
             }
@@ -612,8 +611,8 @@ See README.md for further details.
                 this._valueDiffMin = this.valueMax - this.valueMin;
                 this._valueDiffMax = this.valueMax - this.valueMin;
 
-                if(useTrans) this.setValues(valueMin, valueMax);
-                else         this._setValues(valueMin, valueMax);
+                if(useTrans) this._setValuesTrans(valueMin, valueMax, '_setValuesWithCurrentDiff');
+                else         this._setValuesNoTrans(valueMin, valueMax, '_setValuesWithCurrentDiff');
 
                 this._valueDiffMin = diffMin;
                 this._valueDiffMax = diffMax;
@@ -637,7 +636,7 @@ See README.md for further details.
                     this.shadowRoot.querySelector("#sliderMin")._expandKnob();
                 }
                 else {
-                    this._setValues(null,this._getEventValue(event));
+                    this._setValuesNoTrans(null,this._getEventValue(event),'_sliderMaxDown');
                 }
 
                 return;
@@ -675,7 +674,7 @@ See README.md for further details.
             _backDivTap(event) {
                 this._setValueNow = function(valueMin,valueMax) {
                     if(this.tapValueMove) { this._setValuesWithCurrentDiff(valueMin,valueMax,true); }
-                    else                  { this.setValues(valueMin,valueMax);                      }
+                    else                  { this._setValuesTrans(valueMin,valueMax,'_backDivTap');  }
                     return;
                 }
                 
@@ -734,21 +733,12 @@ See README.md for further details.
             /**
              * set this.valueMin and/or this.valueMax (can input null values or out-of-range
              * values in order to set only one of the two) - this is just a public
-             * wrapper for this._setValues(), but including transition animation
-             * @method setValues
+             * wrapper for this._setValuesNoTrans(), but including transition animation
+             * @method _setValuesTrans
              */
-            setValues(valueMin,valueMax) {
-                this.shadowRoot.querySelector("#sliderMin")._setTransiting(true);
-                this.shadowRoot.querySelector("#sliderMax")._setTransiting(true);
-
-                this._setValues(valueMin,valueMax);
-
-                var this_ = this;
-                setTimeout(function() {
-                    this_.$.sliderMin._setTransiting(false);
-                    this_.$.sliderMax._setTransiting(false);
-                }, this_.transDuration);
-
+            setValues(valueMin,valueMax,eventName) {
+                var eventNameNow = eventName ? eventName : 'setValues';
+                this._setValuesTrans(valueMin,valueMax,eventNameNow);
                 return;
             }
 
@@ -756,12 +746,27 @@ See README.md for further details.
              * fire whenever this.valueMin or this.valueMax are changed
              * @method updateValues
              */
-            updateValues() {
-                if(this._prevUpdateValues[0] != this.valueMin || this._prevUpdateValues[1] != this.valueMax) {
+            updateValues(eventName) {
+                var isNewMin = (this._prevUpdateValues[0] != this.valueMin);
+                var isNewMax = (this._prevUpdateValues[1] != this.valueMax);
+                if(isNewMin || isNewMax) {
                     this._prevUpdateValues = [this.valueMin, this.valueMax];
 
-                    // fire the event
-                    this.dispatchEvent(new CustomEvent('updateValues', { bubbles:true, composed:true, detail:{} }));
+                    // fire events
+                    if(!this.inInit) {
+                        this.dispatchEvent(new CustomEvent('updateValues', { bubbles:true, composed:true, detail:{this:this, eventName:eventName} }));
+                        
+                        if(isNewMin) {
+                            this.dispatchEvent(
+                                new CustomEvent('value-min-changed', { bubbles:true, composed:true, detail:{this:this, value:this.valueMin, eventName:eventName} })
+                            );
+                        }
+                        if(isNewMax) {
+                            this.dispatchEvent(
+                                new CustomEvent('value-max-changed', { bubbles:true, composed:true, detail:{this:this, value:this.valueMax, eventName:eventName} })
+                            );
+                        }
+                    }
                 }
                 return;
             }
@@ -780,7 +785,7 @@ See README.md for further details.
 
                 // update the selected value if it is now outside of the lower bound,
                 // or just update the position of the overlay divs for the min/max knobs
-                if(this.valueMin < this.min) this._setValues(this.min,null);
+                if(this.valueMin < this.min) this._setValuesNoTrans(this.min,null,'setMin');
 
                 return;
             }
@@ -799,7 +804,7 @@ See README.md for further details.
 
                 // update the selected value if it is now outside of the upper bound,
                 // or just update the position of the overlay divs for the min/max knobs
-                if(this.valueMax > this.max) this._setValues(null,this.max);
+                if(this.valueMax > this.max) this._setValuesNoTrans(null,this.max,'setMax');
 
                 return;
             }
@@ -811,6 +816,16 @@ See README.md for further details.
             setStep(stepIn) {
                 this.step = stepIn;
                 return;
+            }
+
+            /**
+             * get tne ratio (within [0,1]) corresponding to the min/max values
+             * @method getRatio
+             */
+            getRatio() {
+                var ratioMin = this.shadowRoot.querySelector("#sliderMin").ratio / 100.;
+                var ratioMax = this.shadowRoot.querySelector("#sliderMax").ratio / 100.;
+                return [ratioMin, ratioMax];
             }
 
             /**
@@ -1359,6 +1374,11 @@ See README.md for further details.
         'right': '_rightKey',
         'down pagedown home': '_decrementKey',
         'up pageup end': '_incrementKey'
+      },
+
+      ready: function() {
+        this.isReady = true;
+        return;
       },
 
       /**

@@ -1,5 +1,15 @@
 # Changelog
 
+## paper-range-slider 1.0.3 (24/04/2018)
+
+- Added method `getRatio()` to get the ratio of the current slider values in percent (within `[0,1]`).
+
+- Improved stability of initialization.
+
+- Changed `valueMin` and `valueMax` to have `notify: false`, in order to avoid unwanted events (e.g., `on-value-min-changed` on initialization). Value change events are now explicitly fired by `updateValues()`. Each such event has a `detail.eventName` property, giving the name of the function which initiated it. This can be used to discern between different user/programmatic actions. For instance, the function `setValues()` can now be called with an explicit event-name, e.g.,:
+  ```javascript
+  document.querySelector("#myPaperRangeSliderId").setValues(10,90,'myEventName');
+  ```
 
 ## paper-range-slider 1.0.2 (26/10/2017)
 
