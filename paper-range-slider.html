@@ -364,7 +364,6 @@ See README.md for further details.
 
                 // setup listeners for updating everything whenever a knob is affected 
                 sliderMin.addEventListener('immediate-value-change', function(customEvent) {
-                    console.log('sliderMin - immediate-value-change');
                     this_._setValueMinMax(this_._getValuesMinMax(this.immediateValue,null),'immediate-value-change');
 
                     this_.$.sliderMin._expandKnob();
@@ -372,13 +371,10 @@ See README.md for further details.
                 });
                 
                 sliderMax.addEventListener('immediate-value-change', function(customEvent) {
-                    console.log('sliderMax - immediate-value-change');
-                    // console.log('immed-change..',this.immediateValue,this_.valueMax)
                     this_._setValueMinMax(this_._getValuesMinMax(null,this.immediateValue),'immediate-value-change');
                 });
 
                 sliderMin.addEventListener('change', function(customEvent) {
-                    console.log('sliderMin - change');
                     this_._setValueMinMax(this_._getValuesMinMax(this.immediateValue,null),'change');
 
                     if(this_.alwaysShowPin) {
@@ -387,8 +383,6 @@ See README.md for further details.
                 });
                 
                 sliderMax.addEventListener('change', function(customEvent) {
-                    console.log('sliderMax - change');
-                    // console.log('final-change..',this.immediateValue,this_.valueMax)
                     this_._setValueMinMax(this_._getValuesMinMax(null,this.immediateValue),'change');
 
                     if(this_.alwaysShowPin) {
@@ -421,7 +415,7 @@ See README.md for further details.
             beforeEle.setAttribute("style","position:absolute; top:0px; opacity:0;");
             beforeEle.innerHTML = "invisibleText"; // must have some content
             document.body.insertBefore(beforeEle, document.body.children[0]);
-            var height = beforeEle.offsetHeight / 2;  //console.log( 'qqq',beforeEle.offsetHeight)
+            var height = beforeEle.offsetHeight / 2;
 
             this.style.paddingTop    = height+"px"
             this.style.paddingBottom = height+"px"
@@ -615,7 +609,6 @@ See README.md for further details.
             var immediateValueMax = this._calcStep(this._getRatioPos(this.$$("#sliderMax"), this._x1_Max/this._xWidth));
 
             if(immediateValueMin >= this.min && immediateValueMax <= this.max) {
-                // console.log(immediateValueMin,immediateValueMax)
                 this._setValuesWithCurrentDiff(immediateValueMin, immediateValueMax, false);
             }
 
