@@ -1,6 +1,6 @@
 [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/IftachSadeh/paper-range-slider)
 
-# paper-range-slider - v0.2.8
+# paper-range-slider - v0.2.9
 
 `paper-range-slider` allows the user to select a range of values within a given (possibly wider) range. values are selected by moving the position of two knobs, or by dragging the selected range of values within the allowed limits. [A demo is provided here](http://IftachSadeh.github.io/paper-range-slider/components/paper-range-slider/demo/). The code was developed using Polymer v1.6.x.
 
@@ -89,10 +89,11 @@ or add the following to your `bower.json`:
 - One can programmatically set the selected range by e.g., 
   ```javascript
   window.addEventListener('WebComponentsReady', function(e) {
-      var myMin = 10, myMax = 90;
-      document.querySelector("#myPaperRangeSliderId").setValues(myMin,myMax);
+      var myMin = 10, myMax = 90, myEventName = 'setValues';
+      document.querySelector("#myPaperRangeSliderId").setValues(myMin,myMax,myEventName);
   });
   ```
+  The third argument (`myEventName`) is an optional event name, which will be propagated to e.g., `on-value-min-changed` events.
   It is allowed to set `myMin` and/or `myMax` to `null` or to a value outside of the allowed range, in order to ignore them, e.g., use the following to only change the lower value:
   ```javascript
   document.querySelector("#myPaperRangeSliderId").setValues(10,null);
@@ -106,6 +107,11 @@ or add the following to your `bower.json`:
   document.querySelector("#myPaperRangeSliderId").setValueDiffMin(myValueDiffMin);
   document.querySelector("#myPaperRangeSliderId").setValueDiffMax(myValueDiffMax);
   document.querySelector("#myPaperRangeSliderId").setDisabled(isDisabled);
+  ```
+
+- One can get the ratio of the current slider values in percent (within `[0,1]`) by e.g., 
+  ```javascript
+    var ratioMinMax = document.querySelector("#myPaperRangeSliderId").getRatio();
   ```
 
 - The `tapValueExtend`, `tapValueReduce` and `tapValueMove` properties control what happens when a user taps the slider (not e.g., relevant for when the user drags the selected range). The `tapValueExtend` property (`true` by default) allows to modify the selected range of values, by tapping on the slider below or above the selected range. On the other hand, `tapValueReduce` (`false` by default) allows to modify the selected range of values, by tapping on the slider within the selected range. Finally `tapValueMove` supersedes the `tapValueExtend` and `tapValueReduce` properties if set (it is `false` by default). If `tapValueMove` is enabled, tapping the slider will update the selected range, while keeping the same difference between valueMin and valueMax. One may set these properties by e.g.,
@@ -154,7 +160,7 @@ or add the following to your `bower.json`:
   <paper-range-slider single-slider></paper-range-slider>
   ```
 
-  or programatically with
+  or pragmatically with
   ```javascript
   document.querySelector("#myPaperRangeSliderId").setSingleSlider(isSingleSlider);
   ```
