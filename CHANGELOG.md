@@ -1,6 +1,6 @@
 # Changelog
 
-## paper-range-slider 0.2.10 (24/04/2018)
+## paper-range-slider 0.2.11 (24/04/2018)
 
 - Added method `getRatio()` to get the ratio of the current slider values in percent (within `[0,1]`).
 
