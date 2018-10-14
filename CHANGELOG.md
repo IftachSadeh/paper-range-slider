@@ -1,5 +1,11 @@
 # Changelog
 
+## paper-range-slider 3.0.0 (13/10/2018)
+
+- Converted to Polymer 3.0 style component
+
+- Changed version to match other Polymer 3.0 paper components
+
 ## paper-range-slider 1.0.3 (24/04/2018)
 
 - Added method `getRatio()` to get the ratio of the current slider values in percent (within `[0,1]`).

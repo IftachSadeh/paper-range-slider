@@ -1,18 +1,18 @@
 [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/IftachSadeh/paper-range-slider)
 
-# paper-range-slider - v1.0.3
+# paper-range-slider - v3.0.0
 
 `paper-range-slider` allows the user to select a range of values within a given (possibly wider) range. values are selected by moving the position of two knobs, or by dragging the selected range of values within the allowed limits. `paper-range-slider - v1.*` is compatible with `Polymer v2.*` (For `Polymer v1.*`, use `paper-range-slider - v0.2.7`.)
 
-## Bower installation
+## npm installation
 Do either
 ```bash
-bower install IftachSadeh/paper-range-slider
+npm i paper-range-slider
 ```
-or add the following to your `bower.json`:
+or add the following to your `package.json`:
 ```
 "dependencies": {
-  "paper-range-slider": "git://github.com/IftachSadeh/paper-range-slider"
+  "paper-range-slider": "^3.0.0"
 },
 ```
 

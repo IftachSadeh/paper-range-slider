@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>paper-range-slider test</title>
+
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+
+    <script type="module" src="../paper-range-slider.js"></script>
+  </head>
+  <body>
+
+    <test-fixture id="BasicTestFixture">
+      <template>
+        <paper-range-slider></paper-range-slider>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="ChangedPropertyTestFixture">
+      <template>
+        <paper-range-slider prop1="new-prop1"></paper-range-slider>
+      </template>
+    </test-fixture>
+
+    <script type="module">
+      suite('paper-range-slider', () => {
+
+        test('instantiating the element with default properties works', () => {
+          const element = fixture('BasicTestFixture');
+          assert.equal(element.prop1, 'paper-range-slider');
+          const elementShadowRoot = element.shadowRoot;
+          const elementHeader = elementShadowRoot.querySelector('h2');
+          assert.equal(elementHeader.innerHTML, 'Hello paper-range-slider!');
+        });
+
+        test('setting a property on the element works', () => {
+          // Create a test fixture
+          const element = fixture('ChangedPropertyTestFixture');
+          assert.equal(element.prop1, 'new-prop1');
+          const elementShadowRoot = element.shadowRoot;
+          const elementHeader = elementShadowRoot.querySelector('h2');
+          assert.equal(elementHeader.innerHTML, 'Hello new-prop1!');
+        });
+
+      });
+    </script>
+
+  </body>
+</html>
