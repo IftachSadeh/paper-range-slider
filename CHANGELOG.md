@@ -1,5 +1,9 @@
 # Changelog
 
+## paper-range-slider 1.0.4 (27/11/2018)
+
+- Fix custom CSS variables, branch out before `Polymer 3` upgrade.
+
 ## paper-range-slider 1.0.3 (24/04/2018)
 
 - Added method `getRatio()` to get the ratio of the current slider values in percent (within `[0,1]`).
