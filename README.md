@@ -4,6 +4,8 @@
 
 `paper-range-slider` allows the user to select a range of values within a given (possibly wider) range. values are selected by moving the position of two knobs, or by dragging the selected range of values within the allowed limits. `paper-range-slider - v1.*` is compatible with `Polymer v2.*` (For `Polymer v1.*`, use `paper-range-slider - v0.2.7`.)
 
+This repo is not supported for `Polymer v >= 3.*`. Please see: [cavebeavis/paper-range-slider](https://github.com/cavebeavis/paper-range-slider).
+
 ## Bower installation
 Do either
 ```bash
