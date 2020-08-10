@@ -129,7 +129,7 @@ See README.md for further details.
 
               <div class="divSpanWidth" style="pointer-events: none;">
                 <paper-single-range-slider id='sliderMin' display-function="[[displayFunction]]" disabled$="[[disabled]]" on-down="_sliderMinDown"
-                              on-up="_sliderMinUp" noink step="[[step]]" min="[[min]]" max="[[max]]"
+                              on-up="_sliderMinUp" noink step="[[step]]" min="[[min]]" max="[[max]]" max-markers="[[maxMarkers]]"
                               value="[[valueMin]]" style="width:100%;">
                 </paper-single-range-slider>
               </div>
@@ -282,6 +282,15 @@ See README.md for further details.
                   snaps: {
                       type: Boolean,
                       value: false,
+                      notify: true
+                  },
+
+                  /**
+                   * The maximum number of markers
+                   */
+                  maxMarkers: {
+                      type: Number,
+                      value: 0,
                       notify: true
                   },
 
