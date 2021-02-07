@@ -1461,7 +1461,9 @@ See README.md for further details.
 
       _resetKnob: function() {
         this.cancelDebouncer('expandKnob');
-        this._setExpand(false);
+        if(!this.expand) {
+          this._setExpand(false);
+        }
       },
 
       _setExpand(val) {
