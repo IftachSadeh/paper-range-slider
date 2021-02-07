@@ -1464,6 +1464,10 @@ See README.md for further details.
         this._setExpand(false);
       },
 
+      _setExpand(val) {
+        this.expand = val;
+      },
+
       _positionKnob: function(ratio) {
         this._setImmediateValue(this._calcStep(this._calcKnobPosition(ratio)));
         this._setRatio(this._calcRatio(this.immediateValue) * 100);
