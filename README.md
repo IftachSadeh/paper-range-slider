@@ -1,4 +1,6 @@
-[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/IftachSadeh/paper-range-slider)
+[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/IftachSadeh/paper-range-slider)  
+[![Published on Vaadin Directory](https://img.shields.io/badge/Vaadin%20Directory-published-00b4f0.svg)](https://vaadin.com/directory/component/iftachsadehpaper-range-slider)
+[![Stars on vaadin.com/directory](https://img.shields.io/vaadin-directory/star/iftachsadehpaper-range-slider.svg)](https://vaadin.com/directory/component/iftachsadehpaper-range-slider)
 
 # paper-range-slider - v1.0.4
 
