@@ -1364,7 +1364,8 @@ See README.md for further details.
          */
         expand: {
           type: Boolean,
-          value: false
+          value: false,
+          observer: "_expandChanged"
         },
 
         /**
@@ -1412,6 +1413,7 @@ See README.md for further details.
 
       ready: function() {
         this.isReady = true;
+        this._enableKnob();
         return;
       },
 
@@ -1453,6 +1455,14 @@ See README.md for further details.
 
       _secondaryProgressChanged: function() {
         this.secondaryProgress = this._clampValue(this.secondaryProgress);
+      },
+
+      _expandChanged(newVal, oldVal) {
+        this._enableKnob(newVal);
+      },
+
+      _enableKnob: function() {
+        this._setExpand(this.expand);
       },
 
       _expandKnob: function() {
