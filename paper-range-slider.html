@@ -1364,8 +1364,7 @@ See README.md for further details.
          */
         expand: {
           type: Boolean,
-          value: false,
-          readOnly: true
+          value: false
         },
 
         /**
@@ -1462,7 +1461,13 @@ See README.md for further details.
 
       _resetKnob: function() {
         this.cancelDebouncer('expandKnob');
-        this._setExpand(false);
+        if(!this.expand) {
+          this._setExpand(false);
+        }
+      },
+
+      _setExpand(val) {
+        this.expand = val;
       },
 
       _positionKnob: function(ratio) {
